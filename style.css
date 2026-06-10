@@ -52,7 +52,7 @@ button {
 
 /* ==================== Navigation Bar ==================== */
 .navbar {
-    background: linear-gradient(135deg, rgba(30, 58, 138, 0.95), rgba(220, 38, 38, 0.95));
+    background: linear-gradient(135deg, rgba(227, 228, 231, 0.95), rgba(255, 255, 255, 0.95));
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow-lg);
     position: fixed;
@@ -85,7 +85,6 @@ button {
     gap: 12px;
     font-size: 26px;
     font-weight: 800;
-    color: white;
     transition: var(--transition);
 }
 
@@ -94,8 +93,8 @@ button {
 }
 
 .logo-icon {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     animation: float 3s ease-in-out infinite;
 }
@@ -106,7 +105,7 @@ button {
 }
 
 .logo-text {
-    background: linear-gradient(135deg, #fff, #fbbf24);
+    background: linear-gradient(135deg,blue, #f59e0b);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -121,7 +120,7 @@ button {
 }
 
 .nav-link {
-    color: white;
+    color: rgb(7, 7, 7);
     font-weight: 600;
     position: relative;
     font-size: 15px;
@@ -244,6 +243,7 @@ button {
 }
 
 .nepali-text {
+    
     font-size: 380px;
     font-weight: 900;
     margin: 0;
@@ -255,7 +255,7 @@ button {
     position: relative;
     
     /* Running Picture-in-text effect */
-    background-image: url(7.jpg);
+    background-image: url(img/7.jpg);
     background-size: 200% 200%;
     background-position: center;
     background-repeat: no-repeat;
