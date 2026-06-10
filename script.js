@@ -64,6 +64,36 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// ==================== Places Category Filter ==================== //
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const placeCards = document.querySelectorAll('.place-card');
+
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const selectedCategory = this.getAttribute('data-category');
+            
+            // Update active button
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter place cards
+            placeCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (cardCategory === selectedCategory) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+
 // ==================== Scroll Animation for Cards ==================== //
 const observerOptions = {
     threshold: 0.1,
