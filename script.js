@@ -1,19 +1,17 @@
 // ==================== Nepal Text Scroll Zoom & Navbar Hiding ==================== //
 const nepaliText = document.querySelector('.nepali-text');
 const navbar = document.querySelector('.navbar');
+const maxScroll = 800;
 
 window.addEventListener('scroll', function() {
     if (!nepaliText) return;
     
     const scrollY = window.scrollY;
-    const maxScroll = 800;
-    
-    // 1. Zoom Effect
-    const scale = 1 + (Math.min(scrollY, maxScroll) / maxScroll) * 3.5;
+    // Subtle zoom effect on scroll
+    const progress = Math.min(scrollY, maxScroll) / maxScroll;
+    const scale = 1 + progress * 0.6; // up to ~1.3x
     nepaliText.style.transform = `scale(${scale})`;
-    
-    const opacity = 1 - (Math.min(scrollY, maxScroll) / maxScroll) * 0.6;
-    nepaliText.style.opacity = opacity;
+    nepaliText.style.opacity = `${1 - progress * 0.05}`;
 
     // 2. Navbar Hiding Logic
     if (scrollY > 50 && scrollY < maxScroll) {
@@ -80,14 +78,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Filter place cards
             placeCards.forEach(card => {
                 const cardCategory = card.getAttribute('data-category');
-                if (cardCategory === selectedCategory) {
-                    card.style.display = 'block';
+                const showCard = selectedCategory === 'all' || cardCategory === selectedCategory;
+
+                card.style.display = showCard ? 'block' : 'none';
+                if (showCard) {
                     setTimeout(() => {
                         card.style.opacity = '1';
                         card.style.transform = 'translateY(0)';
                     }, 10);
-                } else {
-                    card.style.display = 'none';
                 }
             });
         });
