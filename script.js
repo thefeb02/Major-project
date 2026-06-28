@@ -13,13 +13,6 @@ window.addEventListener('scroll', function() {
     nepaliText.style.transform = `scale(${scale})`;
     nepaliText.style.opacity = `${1 - progress * 0.05}`;
 
-    // 2. Navbar Hiding Logic
-    if (scrollY > 50 && scrollY < maxScroll) {
-        navbar.classList.add('navbar-hidden');
-    } else {
-        navbar.classList.remove('navbar-hidden');
-    }
-    
     if (scrollY > 100) {
         navbar.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2)';
     } else {

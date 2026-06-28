@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        $stmt = $pdo->prepare('SELECT id, name, email, password FROM users WHERE email = ?');
+        $stmt = $pdo->prepare('SELECT id, name, email, password, role FROM users WHERE email = ?');
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'id' => $user['id'],
                 'name' => $user['name'],
                 'email' => $user['email'],
+                'role' => $user['role'] ?? 'user',
             ];
             redirect('index.php');
         }

@@ -28,6 +28,7 @@ $user = getCurrentUser();
                 <li><a href="#festivals" class="nav-link">Festivals</a></li>
                 <li><a href="#plan" class="nav-link">Plan</a></li>
                 <li><a href="about.php" class="nav-link">About</a></li>
+                <li><a href="admin.php" class="nav-link admin-nav-link">Admin</a></li>
                 <?php if ($user): ?>
                     <li><a href="logout.php" class="nav-link">Logout</a></li>
                 <?php else: ?>
@@ -314,7 +315,7 @@ $user = getCurrentUser();
                 <!-- Cities and Towns Category -->
                 <div class="place-card" data-category="cities" style="display:none;">
                     <div class="place-image">
-                        <img src=" alt="Kathmandu">
+                        <img src="img/8.jpeg" alt="Kathmandu">
                         <div class="place-overlay">
                             <h3>Kathmandu</h3>
                         </div>

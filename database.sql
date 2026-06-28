@@ -7,6 +7,19 @@ CREATE TABLE IF NOT EXISTS users (
   name VARCHAR(100) NOT NULL,
   email VARCHAR(190) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
+  role ENUM('user', 'admin') NOT NULL DEFAULT 'user',
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE users
+  ADD COLUMN IF NOT EXISTS role ENUM('user', 'admin') NOT NULL DEFAULT 'user' AFTER password;
+
+INSERT INTO users (name, email, password, role)
+VALUES (
+  'Admin',
+  'admin@nepaltravel.com',
+  '$2y$10$MLhr3yy5ZXBL3bLwi0yaXOFEvYDdhgMDb73z1yFhPiaeWTPO4KwRe',
+  'admin'
+)
+ON DUPLICATE KEY UPDATE role = 'admin';

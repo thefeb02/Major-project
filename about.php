@@ -28,6 +28,7 @@ $user = getCurrentUser();
                 <li><a href="index.php#things" class="nav-link">Activities</a></li>
                 <li><a href="index.php#festivals" class="nav-link">Festivals</a></li>
                 <li><a href="about.php" class="nav-link">About</a></li>
+                <li><a href="admin.php" class="nav-link admin-nav-link">Admin</a></li>
                 <?php if ($user): ?>
                     <li><a href="logout.php" class="nav-link">Logout</a></li>
                 <?php else: ?>
