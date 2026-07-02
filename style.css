@@ -62,7 +62,11 @@ button {
     border-bottom: 1px solid rgba(15, 23, 42, 0.08);
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
-
+.navbar.scrolled{
+    padding:0;
+    background:rgba(255,255,255,.96);
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
 .navbar-hidden {
     transform: translateY(-100%);
     opacity: 0;
@@ -87,8 +91,8 @@ button {
     transition: var(--transition);
 }
 
-.logo:hover {
-    transform: translateY(-1px);
+.logo:hover{
+    transform:scale(1.05);
 }
 
 .logo-icon {
@@ -149,20 +153,21 @@ button {
     transform: translateY(-1px);
 }
 
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 0;
-    height: 3px;
-    background: var(--accent-color);
-    transition: width 0.25s ease;
-    border-radius: 999px;
+.nav-link::after{
+    content:'';
+    position:absolute;
+    left:50%;
+    bottom:-8px;
+    width:0;
+    height:3px;
+    background:var(--accent-color);
+    transition:.3s;
+    transform:translateX(-50%);
+    border-radius:10px;
 }
 
-.nav-link:hover::after {
-    width: 100%;
+.nav-link:hover::after{
+    width:100%;
 }
 
 .admin-nav-link {
@@ -221,21 +226,55 @@ button {
 }
 
 /* ==================== Hero Section ==================== */
-.hero {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    padding: 90px 20px 60px;
-    background: #ffffff;
-    color: #333;
-    min-height: 100vh;
-    position: relative;
-    overflow: hidden;
-    text-align: center;
+.hero{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    padding:90px 20px 60px;
+    min-height:100vh;
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+
+    background:
+        linear-gradient(135deg,#eef6ff 0%,#ffffff 50%,#f3fdf7 100%);
+        
+}
+.hero::before{
+    content:"";
+    position:absolute;
+    width:450px;
+    height:450px;
+    border-radius:50%;
+    background:rgba(37,99,235,.08);
+    top:-150px;
+    left:-120px;
+    filter:blur(30px);
 }
 
+.hero::after{
+    content:"";
+    position:absolute;
+    width:380px;
+    height:380px;
+    border-radius:50%;
+    background:rgba(16,185,129,.08);
+    bottom:-120px;
+    right:-100px;
+    filter:blur(30px);
+}
+.hero::before,
+.hero::after{
+    z-index:0;
+}
+
+.hero-content,
+.nepali-text-container{
+    position:relative;
+    z-index:2;
+}
 .hero-content {
     position: relative;
     z-index: 2;
@@ -252,7 +291,38 @@ button {
     color: #1e3a8a;
     animation: slideInUp 0.8s ease-out 0.2s both;
 }
+.stat-item{
+    text-align:center;
+    padding:30px 20px;
+    background:white;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.35s ease;
+    border-top:5px solid var(--primary-color);
+}
 
+.stat-item:hover{
+    transform:translateY(-12px);
+    box-shadow:0 18px 35px rgba(0,0,0,.15);
+}
+
+.stat-number{
+    font-size:42px;
+    font-weight:800;
+    color:var(--primary-color);
+}
+
+.stat-label{
+    margin-top:10px;
+    color:#666;
+    font-size:15px;
+    font-weight:600;
+}
+.stat-item i{
+    font-size:35px;
+    color:var(--accent-color);
+    margin-bottom:15px;
+}
 /* Massive Nepal Word Styling */
 .nepali-text-container {
     padding-top: 20px;
@@ -293,7 +363,8 @@ button {
     transition: transform 0.25s ease-out, opacity 0.3s ease;
     will-change: transform;
     z-index: 5;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.12));
+   filter:
+drop-shadow(0 15px 30px rgba(0,0,0,.18));
 }
 
 @keyframes runningBackground {
@@ -353,7 +424,13 @@ button {
     position: relative;
     overflow: hidden;
 }
+.cta-button{
+    transition:.35s ease;
+}
 
+.cta-button:hover{
+    transform:translateY(-5px) scale(1.03);
+}
 .cta-button:hover {
     background-color: #d97706;
     transform: translateY(-4px);

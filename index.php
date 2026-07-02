@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__ . '/config/database.php';
 $user = getCurrentUser();
@@ -50,12 +51,37 @@ $user = getCurrentUser();
             <div class="nepali-text">NEPAL</div>
         </div>
         <div class="hero-content">
-            <h1>Discover the Magic of Nepal</h1>
-            <p>Experience breathtaking landscapes, rich culture, and unforgettable adventures in the heart of the Himalayas.</p>
-            <div class="hero-buttons">
-                <a href="#places" class="cta-button">Explore Now</a>
-                <a href="about.php" class="cta-button cta-button-secondary">Learn More</a>
-            </div>
+            <div class="hero-content">
+
+    <div class="hero-badge">
+      <h2><b> ⭐⭐⭐⭐⭐ Trusted by 5,000+ Travelers</b></h2>
+    </div>
+
+    <h1>Discover the Magic of Nepal</h1>
+
+    <p>
+        Explore breathtaking mountains, ancient temples,
+        vibrant festivals and unforgettable adventures
+        across the Himalayas.
+    </p>
+
+    <div class="hero-buttons">
+        <a href="#places" class="cta-button">
+            Explore Destinations
+        </a>
+
+        <a href="#plan" class="cta-button cta-button-secondary">
+            Plan Your Trip
+        </a>
+    </div>
+
+    <div class="hero-features">
+        <span>✔ Local Guides</span>
+        <span>✔ Best Price</span>
+        <span>✔ Safe Travel</span>
+    </div>
+
+</div>
         </div>
     </section>
     <!-- Simplified landing: hero-only -->
@@ -66,17 +92,20 @@ $user = getCurrentUser();
     <div class="container">
         <div class="stats-bar">
             <div class="stat-item">
-                <div class="stat-number">1+</div>
-                <div class="stat-label">Destinations</div>
-            </div>
+    <i class="fas fa-map-marked-alt"></i>
+    <div class="stat-number">75+</div>
+    <div class="stat-label">Tour Destinations</div>
+</div>
             <div class="stat-item">
-                <div class="stat-number">1+</div>
-                <div class="stat-label">Annual Visitors</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">1+</div>
-                <div class="stat-label">Hotels & Resorts</div>
-            </div>
+    <i class="fas fa-users"></i>
+    <div class="stat-number">5K+</div>
+    <div class="stat-label">Happy Travelers</div>
+</div>
+           <div class="stat-item">
+    <i class="fas fa-hotel"></i>
+    <div class="stat-number">150+</div>
+    <div class="stat-label">Hotels & Resorts</div>
+</div>
         </div>
     </div>
 
