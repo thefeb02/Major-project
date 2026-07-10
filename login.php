@@ -8,6 +8,12 @@ if (isLoggedIn()) {
 $errors = [];
 $email = '';
 
+// show flash message (if any)
+if (!empty($_SESSION['flash_message'])) {
+    $errors[] = $_SESSION['flash_message'];
+    unset($_SESSION['flash_message']);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';

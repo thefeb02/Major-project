@@ -6,13 +6,14 @@ session_start();
 
 // Database credentials
 define('DB_HOST', 'localhost');
+define('DB_PORT', '3307');
 define('DB_NAME', 'tour_travel_db');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_USER', 'tour_user');
+define('DB_PASS', 'tour_pass_2026');
 
 try {
     $pdo = new PDO(
-        'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+        'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4',
         DB_USER,
         DB_PASS,
         [
@@ -40,4 +41,22 @@ function isLoggedIn()
 function getCurrentUser()
 {
     return $_SESSION['user'] ?? null;
+}
+
+function isAdmin()
+{
+    $user = getCurrentUser();
+    if (empty($user)) {
+        return false;
+    }
+
+    if (!empty($user['role']) && $user['role'] === 'admin') {
+        return true;
+    }
+
+    if (!empty($user['email']) && strtolower($user['email']) === 'admin@nepaltravel.com') {
+        return true;
+    }
+
+    return false;
 }

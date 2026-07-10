@@ -28,8 +28,9 @@ $user = getCurrentUser();
                 <li><a href="#things" class="nav-link">Activities</a></li>
                 <li><a href="#festivals" class="nav-link">Festivals</a></li>
                 <li><a href="#plan" class="nav-link">Plan</a></li>
+                <li><a href="travel_plan.php" class="nav-link">Travel Plans</a></li>
                 <li><a href="about.php" class="nav-link">About</a></li>
-                <li><a href="admin.php" class="nav-link admin-nav-link">Admin</a></li>
+                <li><a href="admin_login.php" class="nav-link admin-nav-link">Admin</a></li>
                 <?php if ($user): ?>
                     <li><a href="logout.php" class="nav-link">Logout</a></li>
                 <?php else: ?>
@@ -71,7 +72,7 @@ $user = getCurrentUser();
         </a>
 
         <a href="#plan" class="cta-button cta-button-secondary">
-            Plan Your Trip
+            Create Travel Plan
         </a>
     </div>
 
@@ -181,7 +182,8 @@ $user = getCurrentUser();
                         <img src="img/8.jpeg" alt="Kathmandu">
                     </div>
                     <div class="place-info">
-                        <h3>Kathmandu Valley</h3>
+                        <h3>Kathmandu valley
+                        </h3>
                         <p>The cultural heart of Nepal with ancient temples, vibrant markets, and spiritual energy.</p>
                         <span class="place-tag">Cultural</span>
                     </div>
@@ -622,28 +624,58 @@ $user = getCurrentUser();
         </div>
     </section>
 
+    <!-- Destination Information Section -->
+    <section class="destination-info" id="destination-info">
+        <div class="container">
+            <h2 class="section-title">Destination Information</h2>
+            <p class="section-subtitle"><b>Every image above represents a real travel experience. Click any card to read helpful details before planning your trip.</b></p>
+            <div class="destination-info-grid">
+                <div class="destination-info-card" data-title="Cultural Destinations" data-desc="Kathmandu Valley, Bhaktapur, Patan, Boudhanath and Pashupatinath are best for travelers who love temples, history, local markets, museums, architecture and traditional Newari culture. These places are ideal for short trips, family visits and first-time Nepal tours.">
+                    <h3>Cultural Destinations</h3>
+                    <p>Temples, old palaces, local markets and heritage walks in Kathmandu Valley.</p>
+                    <span>Best for: culture, history, photography</span>
+                </div>
+                <div class="destination-info-card" data-title="Nature and Wildlife" data-desc="Chitwan, Bardia, Rara, Langtang and Shey Phoksundo are perfect for jungle safaris, lake visits, forest walks, bird watching and peaceful nature travel. These destinations are good for travelers who want fresh air, wildlife and quiet landscapes.">
+                    <h3>Nature and Wildlife</h3>
+                    <p>National parks, lakes, forests, wildlife safaris and peaceful nature escapes.</p>
+                    <span>Best for: safari, nature, family trips</span>
+                </div>
+                <div class="destination-info-card" data-title="Mountain and Trekking" data-desc="Everest, Annapurna, Langtang, Dhaulagiri, Makalu and other mountain areas are made for trekking, viewpoint hikes, sunrise views and high-Himalayan adventure. These trips need proper duration, warm clothing, permits and local guide support.">
+                    <h3>Mountain and Trekking</h3>
+                    <p>High peaks, trekking routes, viewpoints and Himalayan adventure journeys.</p>
+                    <span>Best for: trekking, adventure, mountain views</span>
+                </div>
+                <div class="destination-info-card" data-title="Pilgrimage and Spiritual Sites" data-desc="Lumbini, Muktinath, Janakpur, Namo Buddha, Boudhanath and Pashupatinath are important spiritual destinations. They are suitable for worship, meditation, peaceful travel, religious tours and learning about Nepal's sacred traditions.">
+                    <h3>Pilgrimage and Spiritual Sites</h3>
+                    <p>Sacred temples, monasteries, meditation places and religious routes.</p>
+                    <span>Best for: worship, peace, spiritual travel</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Plan Your Trip Section -->
     <section class="plan-trip" id="plan">
         <div class="container">
             <h2 class="section-title">Plan Your Trip</h2>
             <p class="section-subtitle"><B>Simple steps to organize your perfect Nepal adventure</B></p>
             <div class="trip-planning">
-                <div class="planning-step">
+                <div class="planning-step" data-topic="destination">
                     <div class="step-number">1</div>
                     <h3>Choose Your Destination</h3>
                     <p>Browse through our curated list of destinations and attractions that match your interests.</p>
                 </div>
-                <div class="planning-step">
+                <div class="planning-step" data-topic="duration">
                     <div class="step-number">2</div>
                     <h3>Select Duration</h3>
                     <p>Plan your trip based on available time and the experiences you want to have.</p>
                 </div>
-                <div class="planning-step">
+                <div class="planning-step" data-topic="accommodation">
                     <div class="step-number">3</div>
                     <h3>Book Accommodations</h3>
                     <p>Find and reserve hotels, resorts, and lodges that suit your budget and preferences.</p>
                 </div>
-                <div class="planning-step">
+                <div class="planning-step" data-topic="transport">
                     <div class="step-number">4</div>
                     <h3>Arrange Transport</h3>
                     <p>Book flights, buses, or hire local guides and vehicles for seamless travel.</p>
@@ -690,5 +722,173 @@ $user = getCurrentUser();
 
     <button id="scrollToTop" class="scroll-to-top" style="display:none;"><i class="fa-solid fa-chevron-up"></i></button>
     <script src="script.js"></script>
+    <!-- Image modal for clickable images -->
+    <style>
+    .media-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:1200}
+    .media-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.6)}
+    .media-modal-content{position:relative;background:#fff;max-width:900px;width:94%;max-height:90vh;overflow:auto;border-radius:8px;padding:18px;box-shadow:0 10px 40px rgba(0,0,0,0.35);z-index:2}
+    .media-modal-content img{width:100%;height:auto;border-radius:6px;margin-bottom:12px}
+    .media-modal-close{position:absolute;right:10px;top:8px;background:#f5f5f5;border:0;border-radius:4px;padding:6px 10px;font-size:18px;cursor:pointer}
+    .media-modal h3{margin:6px 0 8px}
+    .media-modal p{color:#444}
+    </style>
+    <div id="mediaModal" class="media-modal" role="dialog" aria-modal="true">
+        <div class="media-modal-backdrop" data-close="true"></div>
+        <div class="media-modal-content">
+            <button class="media-modal-close" aria-label="Close">×</button>
+            <img id="modalImg" src="" alt="">
+            <h3 id="modalTitle"></h3>
+            <p id="modalDesc"></p>
+            <div id="modalExtra" class="modal-extra"></div>
+        </div>
+    </div>
+    <script>
+    (function(){
+        const modal = document.getElementById('mediaModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const closeBtn = modal.querySelector('.media-modal-close');
+
+        function openModal(title, desc, src, alt, extraHtml){
+            modalImg.src = src || '';
+            modalImg.alt = alt || title || '';
+            modalImg.style.display = src ? 'block' : 'none';
+            modalTitle.textContent = title || '';
+            modalDesc.textContent = desc || '';
+            document.getElementById('modalExtra').innerHTML = extraHtml || '';
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Open a full detail page with image-based information
+        function goToDetailPage(title, desc, src, alt, topic){
+            const params = new URLSearchParams();
+            if (title) params.set('title', title);
+            if (desc) params.set('desc', desc);
+            if (src) params.set('img', src);
+            if (alt) params.set('alt', alt);
+            if (topic) params.set('topic', topic);
+            window.location.href = 'media_detail.php?' + params.toString();
+        }
+
+        function closeModal(){
+            modal.style.display = 'none';
+            modalImg.src = '';
+            document.body.style.overflow = '';
+        }
+
+        // Clicks on backdrop or close button
+        modal.addEventListener('click', function(e){
+            if (e.target.dataset && e.target.dataset.close === 'true') closeModal();
+        });
+        closeBtn.addEventListener('click', closeModal);
+        document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+
+        function attachClickable(selector){
+            document.querySelectorAll(selector).forEach(function(img){
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', function(e){
+                    const card = img.closest('.story-card, .place-card');
+                    let title = '';
+                    let desc = '';
+                    let extra = '';
+                    if (card) {
+                        const h = card.querySelector('h3');
+                        const p = card.querySelector('p');
+                        title = h ? h.innerText.trim() : img.alt || '';
+                        if (!title) {
+                            const overlayH = card.querySelector('.place-overlay h3');
+                            if (overlayH) title = overlayH.innerText.trim();
+                        }
+                        desc = p ? p.innerText.trim() : '';
+                        if (card.classList.contains('place-card')) {
+                            const tag = card.querySelector('.place-tag');
+                            extra = card.dataset.category || '';
+                        }
+                    }
+                    goToDetailPage(title, desc, img.src, img.alt || title, extra);
+                });
+            });
+        }
+
+        // Attach to story images only; place cards use full-card click handling
+        attachClickable('.story-card .story-image-wrapper img');
+
+        // Attach place-card clicks to open modal detail previews
+        document.querySelectorAll('.place-card').forEach(function(card){
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', function(){
+                const h3 = card.querySelector('h3');
+                const overlayH3 = card.querySelector('.place-overlay h3');
+                const img = card.querySelector('img');
+                const title = h3 ? h3.innerText.trim() : overlayH3 ? overlayH3.innerText.trim() : (img ? img.alt : 'Nepal Destination');
+                const descNode = card.querySelector('p');
+                const desc = descNode ? descNode.innerText.trim() : `Discover more about ${title}, a beautiful destination in Nepal worth visiting.`;
+                const category = card.dataset.category ? card.dataset.category.replace(/\b\w/g, c => c.toUpperCase()) : 'Destination';
+                const tag = card.querySelector('.place-tag') ? card.querySelector('.place-tag').innerText.trim() : category;
+                goToDetailPage(title, desc, img ? img.src : '', img ? img.alt : title, card.dataset.category || category);
+            });
+        });
+
+        // Attach activity cards (these use emoji/icons instead of images) — open detail page
+        document.querySelectorAll('.activity-card').forEach(function(card){
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', function(){
+                const title = card.querySelector('h3') ? card.querySelector('h3').innerText.trim() : '';
+                const desc = card.querySelector('p') ? card.querySelector('p').innerText.trim() : '';
+                const icon = card.querySelector('.activity-icon') ? card.querySelector('.activity-icon').innerText.trim() : '';
+                const fullDesc = icon ? icon + '\n\n' + desc : desc;
+                goToDetailPage(title, fullDesc, '', '', 'activity');
+            });
+        });
+
+        // Attach festival cards
+        document.querySelectorAll('.festival-card').forEach(function(card){
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', function(){
+                const title = card.querySelector('h3') ? card.querySelector('h3').innerText.trim() : '';
+                const desc = card.querySelector('p') ? card.querySelector('p').innerText.trim() : '';
+                goToDetailPage(title, desc, '', '', 'festival');
+            });
+        });
+
+        // Attach destination information cards
+        document.querySelectorAll('.destination-info-card').forEach(function(card){
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', function(){
+                const title = card.dataset.title || (card.querySelector('h3') ? card.querySelector('h3').innerText.trim() : '');
+                const desc = card.dataset.desc || (card.querySelector('p') ? card.querySelector('p').innerText.trim() : '');
+                const extra = 'destination-info';
+                goToDetailPage(title, desc, '', '', extra);
+            });
+        });
+
+        // Attach planning steps (topic-aware)
+        document.querySelectorAll('.planning-step').forEach(function(card){
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', function(){
+                const title = card.querySelector('h3') ? card.querySelector('h3').innerText.trim() : '';
+                const desc = card.querySelector('p') ? card.querySelector('p').innerText.trim() : '';
+                const topic = card.dataset.topic || '';
+                // include topic param so media_detail can render specific guidance
+                goToDetailPage(title, desc, '', '', topic);
+            });
+        });
+
+        // Navigate to detail page when clicking "Read More" links inside story cards
+        document.querySelectorAll('.story-card .read-more').forEach(function(a){
+            a.addEventListener('click', function(e){
+                e.preventDefault();
+                const card = a.closest('.story-card');
+                if (!card) return;
+                const img = card.querySelector('.story-image-wrapper img');
+                const title = card.querySelector('h3') ? card.querySelector('h3').innerText.trim() : '';
+                const desc = card.querySelector('p') ? card.querySelector('p').innerText.trim() : '';
+                goToDetailPage(title, desc, img ? img.src : '', img ? img.alt : '');
+            });
+        });
+    })();
+    </script>
 </body>
 </html>
