@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../Backend/database.php';
 
 $title = trim($_GET['title'] ?? '');
 $desc = trim($_GET['desc'] ?? '');

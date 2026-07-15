@@ -1,6 +1,6 @@
 
 <?php
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../Backend/database.php';
 $user = getCurrentUser();
 ?>
 <!DOCTYPE html>
@@ -18,7 +18,7 @@ $user = getCurrentUser();
     <nav class="navbar">
         <div class="nav-container">
            <a href="index.php" class="logo">
-                <img src="img/logo.png?v=2" alt="Logo" class="logo-icon">
+                <img src="../img/logo.png?v=2" alt="Logo" class="logo-icon">
                 <span class="logo-text">
                     Nepal
                     <span class="logo-subtitle">Tour & Travel</span>

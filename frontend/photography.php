@@ -1,44 +1,45 @@
 
 <?php
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../Backend/database.php';
 $user = getCurrentUser();
-?> 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nepal Paragliding Packages</title>
-    <link rel="stylesheet" href="paragliding.css">
+    <title>Nepal Photography Tours</title>
+    <link rel="stylesheet" href="trekking.css">
 </head>
 
 <body>
-   <!-- Navigation -->
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
            <a href="index.php" class="logo">
-                <img src="img/logo.png" alt="Logo" class="logo-icon">
+                <img src="../img/logo.png?v=2" alt="Logo" class="logo-icon">
                 <span class="logo-text">
                     Nepal
                     <span class="logo-subtitle">Tour & Travel</span>
                 </span>
             </a>
             <div class="nav-links">
-                <a href="Major-project/paragliding.php">Packages</a>
+                <a href="photography.php">Packages</a>
 
                 <button class="btn-book">Book Now</button>
             </div>
         </div>
     </nav>
+
     <!-- Main Content -->
     <div id="app">
         <!-- Packages Page -->
         <div id="packagesPage" class="page active">
             <section class="packages-section">
                 <div class="container">
-                    <h2 class="section-title">Our Paragliding Packages</h2>
-                    <p class="section-subtitle">Soar above the Himalayas and experience Nepal from the sky</p>
+                    <h2 class="section-title">Our Photography Packages</h2>
+                    <p class="section-subtitle">Capture the soul of the Himalayas through your lens</p>
 
                     <div class="packages-grid" id="packagesGrid">
                         <!-- Packages will be inserted here by JavaScript -->
@@ -60,7 +61,7 @@ $user = getCurrentUser();
             </section>
         </div>
     </div>
-    <script src="paragliding.js"></script>
+    <script src="photography.js"></script>
 </body>
 
 </html>

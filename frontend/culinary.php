@@ -1,6 +1,5 @@
-
 <?php
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../Backend/database.php';
 $user = getCurrentUser();
 ?>
 <!DOCTYPE html>
@@ -9,7 +8,7 @@ $user = getCurrentUser();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nepal Photography Tours</title>
+    <title>Nepal Culinary Tours</title>
     <link rel="stylesheet" href="trekking.css">
 </head>
 
@@ -18,14 +17,14 @@ $user = getCurrentUser();
     <nav class="navbar">
         <div class="nav-container">
            <a href="index.php" class="logo">
-                <img src="img/logo.png?v=2" alt="Logo" class="logo-icon">
+                <img src="../img/logo.png?v=2" alt="Logo" class="logo-icon">
                 <span class="logo-text">
                     Nepal
                     <span class="logo-subtitle">Tour & Travel</span>
                 </span>
             </a>
             <div class="nav-links">
-                <a href="photography.php">Packages</a>
+                <a href="Major-project/culinary.php">Packages</a>
 
                 <button class="btn-book">Book Now</button>
             </div>
@@ -38,8 +37,8 @@ $user = getCurrentUser();
         <div id="packagesPage" class="page active">
             <section class="packages-section">
                 <div class="container">
-                    <h2 class="section-title">Our Photography Packages</h2>
-                    <p class="section-subtitle">Capture the soul of the Himalayas through your lens</p>
+                    <h2 class="section-title">Our Culinary Packages</h2>
+                    <p class="section-subtitle">Discover the authentic flavors of the Himalayas</p>
 
                     <div class="packages-grid" id="packagesGrid">
                         <!-- Packages will be inserted here by JavaScript -->
@@ -61,7 +60,7 @@ $user = getCurrentUser();
             </section>
         </div>
     </div>
-    <script src="photography.js"></script>
+    <script src="culinary.js"></script>
 </body>
 
 </html>
