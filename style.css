@@ -1446,63 +1446,114 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
 /* ==================== Professional Footer ==================== */
 
 .footer {
-    background: #0f172a;
+    position: relative;
+    overflow: hidden;
     color: #e5e7eb;
-    padding: 70px 0 20px;
+    padding: 88px 0 26px;
+    background:
+        radial-gradient(circle at top left, rgba(59, 130, 246, 0.22), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.18), transparent 34%),
+        linear-gradient(180deg, #08111f 0%, #0f172a 55%, #07101b 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer .container {
     max-width: 1200px;
     margin: auto;
     padding: 0 20px;
+    position: relative;
+    z-index: 1;
 }
 
 /* Logo & Description */
 
 .footer-top {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 48px;
 }
 
-.footer-logo {
+.footer-brand {
     display: inline-flex;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
+    padding: 14px 18px;
+    border-radius: 22px;
     text-decoration: none;
     color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(14px);
 }
 
-.footer-logo img {
-    width: 120px;
-    height: 90px;
+.footer-brand img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
     filter: brightness(0) invert(1);
 }
 
-.footer-logo h3 {
+.footer-brand h3 {
     font-size: 30px;
-    font-weight: 700;
+    font-weight: 800;
+    line-height: 1.05;
+    margin: 0;
+}
+
+.footer-brand span {
+    display: block;
+    margin-top: 4px;
+    color: #93c5fd;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .footer-description {
     margin: 18px auto 0;
-    max-width: 650px;
+    max-width: 760px;
     color: #cbd5e1;
-    line-height: 1.8;
+    line-height: 1.9;
     font-size: 16px;
+}
+
+.footer-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.footer-badges span {
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    color: #e2e8f0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
 }
 
 /* Three Columns */
 
 .footer-content {
     display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 50px;
+    grid-template-columns: 1.1fr 1fr 1fr;
+    gap: 34px;
     margin-top: 40px;
+    padding: 34px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 28px 65px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(12px);
 }
 
 .footer-section h4 {
     color: #fff;
-    font-size: 22px;
+    font-size: 20px;
     margin-bottom: 20px;
     position: relative;
 }
@@ -1531,11 +1582,11 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
 .footer-section ul li a {
     color: #d1d5db;
     text-decoration: none;
-    transition: .3s;
+    transition: .25s ease;
 }
 
 .footer-section ul li a:hover {
-    color: var(--accent-color);
+    color: #60a5fa;
     padding-left: 8px;
 }
 
@@ -1548,9 +1599,15 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
 }
 
 .footer-section p i {
-    color: var(--accent-color);
+    color: #60a5fa;
     margin-right: 10px;
     width: 18px;
+}
+
+.footer-copy {
+    color: #cbd5e1;
+    line-height: 1.8;
+    margin-bottom: 20px;
 }
 
 /* Social Icons */
@@ -1570,21 +1627,22 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
     align-items: center;
     color: white;
     font-size: 18px;
-    transition: .3s;
+    transition: .25s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .social-links a:hover {
-    background: var(--accent-color);
+    background: linear-gradient(135deg, #38bdf8, #22c55e);
     color: white;
-    transform: translateY(-6px);
+    transform: translateY(-6px) scale(1.04);
 }
 
 /* Bottom */
 
 .footer-bottom {
-    margin-top: 50px;
+    margin-top: 30px;
     border-top: 1px solid rgba(255,255,255,.1);
-    padding-top: 20px;
+    padding-top: 18px;
     text-align: center;
 }
 
@@ -1594,6 +1652,14 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
     font-size: 14px;
 }
 
+.footer-bottom a {
+    color: #e2e8f0;
+}
+
+.footer-bottom a:hover {
+    color: #60a5fa;
+}
+
 /* Responsive */
 
 @media(max-width:900px){
@@ -1601,16 +1667,38 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
     .footer-content{
         grid-template-columns:1fr;
         text-align:center;
+        padding: 28px 20px;
     }
 
     .social-links{
         justify-content:center;
     }
 
-    .footer-logo{
+    .footer-brand{
         flex-direction:column;
+        text-align:center;
     }
 
+}
+
+@media(max-width:600px){
+    .footer {
+        padding: 72px 0 22px;
+    }
+
+    .footer-brand h3 {
+        font-size: 24px;
+    }
+
+    .footer-brand img {
+        width: 64px;
+        height: 64px;
+    }
+
+    .footer-content {
+        margin-top: 28px;
+        border-radius: 22px;
+    }
 }
 /* ==================== Scroll to Top Button ==================== */
 .scroll-to-top {

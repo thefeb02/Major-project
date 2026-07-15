@@ -12,7 +12,7 @@ $user = getCurrentUser();
     <title>Nepal Tour and Travel - Discover the Magic of Nepal</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
     <nav class="navbar">
@@ -587,73 +587,68 @@ $user = getCurrentUser();
     </section>
 
     <!-- Footer -->
-     <footer class="footer">
-    <div class="container">
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <a href="index.php" class="footer-brand">
+                    <img src="img/logo.png?v=3" alt="Nepal Tour & Travel Logo">
+                    <div>
+                        <h3>Nepal Tour & Travel</h3>
+                        <span>Discover Nepal with comfort and confidence</span>
+                    </div>
+                </a>
 
-        <!-- Footer Top -->
-        <div class="footer-top">
-            <a href="index.php" class="footer-logo">
-                <img src="img/logo.png" alt="Nepal Tour & Travel Logo">
-                <h3>Nepal Tour & Travel</h3>
-            </a>
+                <p class="footer-description">
+                    Curated tours, mountain adventures, cultural escapes, and trusted local guidance for an unforgettable Nepal experience.
+                </p>
 
-            <p class="footer-description">
-                Explore the beauty, culture, and adventure of Nepal with us.
-                Discover breathtaking destinations and create unforgettable memories.
-            </p>
-        </div>
-
-        <!-- Footer Content -->
-        <div class="footer-content">
-
-            <!-- Quick Links -->
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="index.php#places">Places</a></li>
-                    <li><a href="index.php#things">Activities</a></li>
-                    <li><a href="index.php#festivals">Festivals</a></li>
-                    <li><a href="about.php">About Us</a></li>
-                </ul>
-            </div>
-
-            <!-- Follow Us -->
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-
-                <div class="social-links">
-                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                <div class="footer-badges" aria-label="Highlights">
+                    <span>24/7 Support</span>
+                    <span>Local Experts</span>
+                    <span>Trusted Guides</span>
                 </div>
             </div>
 
-            <!-- Contact -->
-            <div class="footer-section">
-                <h4>Contact Us</h4>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="index.php#places">Places</a></li>
+                        <li><a href="index.php#things">Activities</a></li>
+                        <li><a href="about.php">About Us</a></li>
+                    </ul>
+                </div>
 
-                <p><i class="fas fa-envelope"></i> info@nepalitourtravel.com</p>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <p class="footer-copy">
+                        Stay connected for travel inspiration, updates, and destination highlights.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
 
-                <p><i class="fas fa-phone"></i> +977 9763658085</p>
-
-                <p><i class="fas fa-map-marker-alt"></i> Butwal, Nepal</p>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-envelope"></i> info@nepalitourtravel.com</p>
+                    <p><i class="fas fa-phone"></i> +977 9763658085</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Butwal, Nepal</p>
+                </div>
             </div>
 
+            <div class="footer-bottom">
+                <p>&copy; 2026 Nepal Tour and Travel. All rights reserved.</p>
+                <p><a href="#">Privacy Policy</a> <span>•</span> <a href="#">Terms of Service</a></p>
+            </div>
         </div>
-
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-             <p>&copy; 2026 Nepal Tour and Travel. All rights reserved. | Privacy Policy | Terms of Service</p>
-            
-        </div>
-
-    </div>
-</footer>
+    </footer>
 
     <button id="scrollToTop" class="scroll-to-top" style="display:none;"><i class="fa-solid fa-chevron-up"></i></button>
     <script src="script.js"></script>
 </body>
 </html>
->>>>>>> b37926ae0c40094ec704d3581e73c64fa76fa14a:index.html
