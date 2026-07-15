@@ -1,8 +1,5 @@
 -- Database schema for Nepal Tour and Travel login system
-<<<<<<< HEAD
-=======
 -- Default admin: admin@nepaltravel.com / Admin@123
->>>>>>> 027836d59ed73f5f913fac73ae5c60eee70b9549
 CREATE DATABASE IF NOT EXISTS tour_travel_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE tour_travel_db;
 
@@ -73,11 +70,7 @@ INSERT INTO users (name, email, password, role)
 VALUES (
   'Admin',
   'admin@nepaltravel.com',
-<<<<<<< HEAD
-  '1234',
-=======
   '$2y$10$2r2YKxW2EgKQUOLlrjpmY.p9.dW3B8M3Qy0xoKCbZsdMPUf1.teG2',
->>>>>>> 027836d59ed73f5f913fac73ae5c60eee70b9549
   'admin'
 )
 ON DUPLICATE KEY UPDATE password = VALUES(password), role = 'admin', admin_status = 'active';
