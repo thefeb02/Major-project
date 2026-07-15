@@ -815,7 +815,7 @@ button {
 }
 .hero::before,
 .hero::after{
-    z-index:0;stat-bar
+    z-index: 0;
 }
 
 .hero-content,
