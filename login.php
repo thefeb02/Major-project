@@ -20,17 +20,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        $stmt = $pdo->prepare('SELECT id, name, email, password, role FROM users WHERE email = ?');
+        $stmt = $pdo->prepare('SELECT id, name, email, password FROM users WHERE email = ?');
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
+            $role = 'user';
+            if (isset($user['role'])) {
+                $role = $user['role'];
+            } elseif (strtolower($user['email'] ?? '') === 'admin@nepaltravel.com') {
+                $role = 'admin';
+            }
+
             session_regenerate_id(true);
             $_SESSION['user'] = [
                 'id' => $user['id'],
                 'name' => $user['name'],
                 'email' => $user['email'],
-                'role' => $user['role'] ?? 'user',
+                'role' => $role,
             ];
             redirect('index.php');
         }

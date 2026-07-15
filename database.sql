@@ -19,7 +19,7 @@ INSERT INTO users (name, email, password, role)
 VALUES (
   'Admin',
   'admin@nepaltravel.com',
-  '$2y$10$MLhr3yy5ZXBL3bLwi0yaXOFEvYDdhgMDb73z1yFhPiaeWTPO4KwRe',
+  '1234',
   'admin'
 )
 ON DUPLICATE KEY UPDATE role = 'admin';

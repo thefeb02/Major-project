@@ -41,3 +41,17 @@ function getCurrentUser()
 {
     return $_SESSION['user'] ?? null;
 }
+
+function isAdmin()
+{
+    $user = getCurrentUser();
+    if (!$user) {
+        return false;
+    }
+
+    if (!empty($user['role']) && strtolower($user['role']) === 'admin') {
+        return true;
+    }
+
+    return strtolower($user['email'] ?? '') === 'admin@nepaltravel.com';
+}
