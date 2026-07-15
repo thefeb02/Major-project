@@ -8,6 +8,12 @@ if (isLoggedIn()) {
 $errors = [];
 $email = '';
 
+// show flash message (if any)
+if (!empty($_SESSION['flash_message'])) {
+    $errors[] = $_SESSION['flash_message'];
+    unset($_SESSION['flash_message']);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -20,7 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
+<<<<<<< HEAD
         $stmt = $pdo->prepare('SELECT id, name, email, password FROM users WHERE email = ?');
+=======
+        $stmt = $pdo->prepare('SELECT id, name, email, password, role FROM users WHERE email = ?');
+>>>>>>> 027836d59ed73f5f913fac73ae5c60eee70b9549
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
@@ -37,7 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'id' => $user['id'],
                 'name' => $user['name'],
                 'email' => $user['email'],
+<<<<<<< HEAD
                 'role' => $role,
+=======
+                'role' => $user['role'] ?? 'user',
+>>>>>>> 027836d59ed73f5f913fac73ae5c60eee70b9549
             ];
             redirect('index.php');
         }

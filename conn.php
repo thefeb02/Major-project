@@ -3,8 +3,8 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $servername = "localhost";
 $port = 3307;
-$username = "root";
-$password = "";
+$username = "tour_user";
+$password = "tour_pass_2026";
 $database = "tour_travel_db";
 
 $conn = null;
