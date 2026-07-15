@@ -6,24 +6,37 @@ session_start();
 
 // Database credentials
 define('DB_HOST', 'localhost');
-define('DB_PORT', '3307');
+define('DB_PORTS', [3307, 3306]);
 define('DB_NAME', 'tour_travel_db');
 define('DB_USER', 'tour_user');
 define('DB_PASS', 'tour_pass_2026');
 
-try {
-    $pdo = new PDO(
-        'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4',
-        DB_USER,
-        DB_PASS,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]
-    );
-} catch (PDOException $e) {
+$pdo = null;
+$lastDatabaseError = null;
+
+foreach (DB_PORTS as $port) {
+    try {
+        $pdo = new PDO(
+            'mysql:host=' . DB_HOST . ';port=' . $port . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+            DB_USER,
+            DB_PASS,
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ]
+        );
+        break;
+    } catch (PDOException $e) {
+        $lastDatabaseError = $e;
+    }
+}
+
+if (!$pdo) {
     http_response_code(500);
-    echo 'Database connection failed: ' . htmlspecialchars($e->getMessage());
+    echo 'Database connection failed. Tried MySQL ports: ' . htmlspecialchars(implode(', ', DB_PORTS));
+    if ($lastDatabaseError) {
+        echo '<br>Error: ' . htmlspecialchars($lastDatabaseError->getMessage());
+    }
     exit;
 }
 
