@@ -46,7 +46,6 @@ function getCurrentUser()
 function isAdmin()
 {
     $user = getCurrentUser();
-<<<<<<< HEAD
     if (!$user) {
         return false;
     }
@@ -56,19 +55,4 @@ function isAdmin()
     }
 
     return strtolower($user['email'] ?? '') === 'admin@nepaltravel.com';
-=======
-    if (empty($user)) {
-        return false;
-    }
-
-    if (!empty($user['role']) && $user['role'] === 'admin') {
-        return true;
-    }
-
-    if (!empty($user['email']) && strtolower($user['email']) === 'admin@nepaltravel.com') {
-        return true;
-    }
-
-    return false;
->>>>>>> 027836d59ed73f5f913fac73ae5c60eee70b9549
 }
