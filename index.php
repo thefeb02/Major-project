@@ -350,12 +350,7 @@ $user = getCurrentUser();
                         </div>
                     </div>
                 </div>
-                <div class="place-card" data-category="cities" >
-                    <div class="place-image">
-                        <img src="https://i.ytimg.com/vi/qCEkb339yWw/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGFAgYShlMA8=&rs=AOn4CLBLcIWKOHLDPkg_uVPxndpATxuLow" alt="Nepalgunj">
-                        <div class="place-overlay">
-                            <h3>Nepalgunj</h3>
-                        </div>
+            
                     </div>
                 </div>
                 <div class="place-card" data-category="cities" style="display:none;">
