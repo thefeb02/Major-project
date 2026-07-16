@@ -436,9 +436,9 @@
       "province_id": "bagmati",
       "district": "Kathmandu",
       "description": "Shivapuri National Park lies on the northern rim of the Kathmandu Valley, serving as a primary water source and offering popular hiking trails through oak and pine forests.",
-      "heroImage": "https://images.unsplash.com/photo-1508193638397-1c4234db14d8?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1508193638397-1c4234db14d8?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "September to May",
       "duration": "1 Day",
@@ -520,10 +520,9 @@
       "province_id": "sudurpashchim",
       "district": "Kanchanpur",
       "description": "Shuklaphanta National Park is a vast grassland reserve in far-western Nepal, hosting the world's largest herd of endangered swamp deer (Barasingha).",
-      "heroImage": "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1591824438708-ce405f36ba3d?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1591824438708-ce405f36ba3d?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "November to April",
       "duration": "3 Days",
@@ -563,9 +562,9 @@
       "province_id": "koshi",
       "district": "Sankhuwasabha",
       "description": "Makalu Barun National Park protects the wilderness surrounding Mount Makalu. It is the only conservation area in the world with an elevation gain of 8,000m, hosting tropical forests to alpine peaks.",
-      "heroImage": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "September to November, March to May",
       "duration": "14 Days",
@@ -605,10 +604,9 @@
       "province_id": "bagmati",
       "district": "Kathmandu",
       "description": "Kathmandu, the capital of Nepal, is a vibrant city full of history. Known as the City of Temples, it blends ancient wooden shrines, bustling modern markets, and rich festivals.",
-      "heroImage": "../img/8.jpeg",
+      "heroImage": "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "../img/8.jpeg",
-        "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "September to May",
       "duration": "2 Days",
@@ -860,9 +858,9 @@
       "province_id": "lumbini",
       "district": "Rupandehi",
       "description": "Butwal is a fast-growing city at the intersection of East-West and Siddharth highways. It features the historic Jitgadi Fort and serves as a gateway to Lumbini and Palpa.",
-      "heroImage": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "October to March",
       "duration": "1 Day",
@@ -902,9 +900,9 @@
       "province_id": "lumbini",
       "district": "Palpa",
       "description": "Tansen is a charming hill town known for its cobbled streets, Newari architecture, Palpali Dhaka fabric, and the massive Ranighat Palace on the banks of the Kali Gandaki River.",
-      "heroImage": "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1562016600-ece13e8ba570?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1562016600-ece13e8ba570?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "September to May",
       "duration": "2 Days",
@@ -1028,10 +1026,9 @@
       "province_id": "koshi",
       "district": "Solukhumbu",
       "description": "Mount Everest (Sagarmatha) is the world's highest peak at 8,848.86m. Nestled in the Himalayas, it is the ultimate symbol of adventure, challenge, and majestic natural scale.",
-      "heroImage": "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1585016495481-91613a3ab1bc?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80",
-        "https://media.tacdn.com/media/attractions-splice-spp-674x446/0b/39/79/12.jpg"
+        "https://images.unsplash.com/photo-1585016495481-91613a3ab1bc?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "April to May, October to November",
       "duration": "14 Days",
@@ -1281,9 +1278,9 @@
       "province_id": "gandaki",
       "district": "Gorkha",
       "description": "Mount Manaslu (8,163m) is the eighth-highest mountain in the world, set in a protected conservation area that displays pristine Tibetan-style villages and a challenging pass (Larkya La).",
-      "heroImage": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "March to May, September to November",
       "duration": "14 Days",
@@ -1493,9 +1490,9 @@
       "province_id": "gandaki",
       "district": "Gorkha",
       "description": "Manakamana Temple is a highly popular Hindu shrine dedicated to Goddess Bhagwati, believed to fulfill the wishes of her devotees. It is reached by a scenic cable car ride rising over the Trishuli River.",
-      "heroImage": "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "All year round",
       "duration": "1 Day",
@@ -1535,9 +1532,9 @@
       "province_id": "koshi",
       "district": "Taplejung",
       "description": "Pathibhara Devi Temple is a sacred hilltop shrine located at 3,794m in eastern Nepal, offering spiritual peace and spectacular views of the Kanchenjunga range.",
-      "heroImage": "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1578345218746-50a229b3d0f8?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1578345218746-50a229b3d0f8?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "September to November, March to May",
       "duration": "4 Days",
@@ -1577,9 +1574,9 @@
       "province_id": "bagmati",
       "district": "Rasuwa",
       "description": "Gosaikunda is a holy alpine lake located at 4,380m in Langtang National Park. Revered by Hindus as the creation of Lord Shiva, it features pristine blue waters surrounded by snow peaks.",
-      "heroImage": "https://images.unsplash.com/photo-1551829142-d9b812de432c?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1551829142-d9b812de432c?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "May to November",
       "duration": "5 Days",
@@ -1619,9 +1616,9 @@
       "province_id": "koshi",
       "district": "Khotang",
       "description": "Halesi Mahadev is a famous cave temple situated in eastern Nepal. Revered as the 'Pashupatinath of the East' by Hindus and as Maratika Cave by Buddhists, it is a site of deep meditation and spirituality.",
-      "heroImage": "https://images.unsplash.com/photo-1590073844006-33379778ae09?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1609137144814-7e3e4883fc51?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1590073844006-33379778ae09?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1609137144814-7e3e4883fc51?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "October to May",
       "duration": "3 Days",
@@ -1871,9 +1868,9 @@
       "province_id": "gandaki",
       "district": "Lamjung",
       "description": "Besisahar is the gateway town to the famous Annapurna Circuit trek, situated in a valley along the Marsyangdi River, surrounded by green hills and waterfalls.",
-      "heroImage": "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1598324422718-47fbab064df7?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1598324422718-47fbab064df7?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "September to May",
       "duration": "1 Day",
@@ -1913,9 +1910,9 @@
       "province_id": "bagmati",
       "district": "Bhaktapur",
       "description": "Changu Narayan Temple is an ancient Hindu temple located on a high hilltop in Bhaktapur district. It is considered one of the oldest Hindu temples in Nepal, featuring beautiful stone, wood, and metal crafts from the Lichhavi era.",
-      "heroImage": "https://i.pinimg.com/736x/88/5f/84/885f848be422c549303d8dff73270bd17.jpg",
+      "heroImage": "https://images.unsplash.com/photo-1618083707368-b3823daa2726?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://i.pinimg.com/736x/88/5f/84/885f848be422c549303d8dff73270bd17.jpg"
+        "https://images.unsplash.com/photo-1618083707368-b3823daa2726?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "September to May",
       "duration": "1 Day",
@@ -1955,9 +1952,9 @@
       "province_id": "sudurpashchim",
       "district": "Bajhang",
       "description": "Khaptad National Park is a hidden gem of western Nepal, known for rolling green meadows, rich oak and pine forests, and spiritual heritage associated with the Khaptad Baba hermitage.",
-      "heroImage": "https://i.pinimg.com/736x/fc/a6/50/fca6504a3e9ccecf7418f03d29c9e3137.jpg",
+      "heroImage": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80",
       "galleryImages": [
-        "https://i.pinimg.com/736x/fc/a6/50/fca6504a3e9ccecf7418f03d29c9e3137.jpg"
+        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "March to May, October to November",
       "duration": "5 Days",
