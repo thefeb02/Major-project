@@ -13,15 +13,18 @@ window.addEventListener('scroll', function() {
     nepaliText.style.transform = `scale(${scale})`;
     nepaliText.style.opacity = `${1 - progress * 0.05}`;
 
-    if (scrollY > 100) {
-        navbar.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2)';
-    } else {
-        navbar.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+    if (navbar) {
+        if (scrollY > 100) {
+            navbar.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2)';
+        } else {
+            navbar.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+        }
     }
 });
 // ==================== Navbar Scroll Effect ==================== //
 window.addEventListener("scroll", function () {
     const navbar = document.querySelector(".navbar");
+    if (!navbar) return;
 
     if(window.scrollY > 50){
         navbar.classList.add("scrolled");
@@ -44,12 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+            if (hamburger) hamburger.classList.remove('active');
+            if (navMenu) navMenu.classList.remove('active');
         });
     });
 });
-
 // ==================== Smooth Scrolling ==================== //
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
@@ -61,36 +63,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 block: 'start'
             });
         }
-    });
-});
-
-// ==================== Places Category Filter ==================== //
-document.addEventListener('DOMContentLoaded', function() {
-    const categoryBtns = document.querySelectorAll('.category-btn');
-    const placeCards = document.querySelectorAll('.place-card');
-
-    categoryBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const selectedCategory = this.getAttribute('data-category');
-            
-            // Update active button
-            categoryBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Filter place cards
-            placeCards.forEach(card => {
-                const cardCategory = card.getAttribute('data-category');
-                const showCard = selectedCategory === 'all' || cardCategory === selectedCategory;
-
-                card.style.display = showCard ? 'block' : 'none';
-                if (showCard) {
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 10);
-                }
-            });
-        });
     });
 });
 
@@ -120,19 +92,138 @@ document.querySelectorAll('.story-card, .place-card, .activity-card, .festival-c
 // ==================== Scroll to Top Button ==================== //
 const scrollToTopBtn = document.getElementById('scrollToTop');
 
-window.addEventListener('scroll', function() {
-    if (window.pageYOffset > 300) {
-        scrollToTopBtn.classList.add('show');
-    } else {
-        scrollToTopBtn.classList.remove('show');
-    }
-});
-
-scrollToTopBtn?.addEventListener('click', function() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+if (scrollToTopBtn) {
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            scrollToTopBtn.classList.add('show');
+        } else {
+            scrollToTopBtn.classList.remove('show');
+        }
     });
+
+    scrollToTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// ==================== Places Category Filter (Dynamic JSON) ==================== //
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const placesGrid = document.getElementById('places-grid');
+    const viewAllBtn = document.getElementById('places-view-all-btn');
+    
+    if (!placesGrid) return;
+
+    // Determine script directory dynamically to resolve relative assets and links cleanly
+    const scriptTag = document.querySelector('script[src*="script.js"]');
+    const scriptDir = scriptTag ? scriptTag.src.substring(0, scriptTag.src.lastIndexOf('/') + 1) : '';
+
+    let destinationsCached = null;
+
+    // Cache the static province cards from DOM
+    const staticProvinceCards = Array.from(placesGrid.querySelectorAll('.place-card[data-category="provinces"]'));
+
+    // Fetch destinations data once
+    async function loadDestinations() {
+        if (destinationsCached) return destinationsCached;
+        try {
+            const response = await fetch(scriptDir + 'destinations.json');
+            const data = await response.json();
+            destinationsCached = data.destinations;
+            return destinationsCached;
+        } catch (error) {
+            console.error('Failed to load destinations:', error);
+            return [];
+        }
+    }
+
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', async function() {
+            const selectedCategory = this.getAttribute('data-category');
+            
+            // Update active button
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            // 1. Hide active elements with smooth transition
+            const activeCards = placesGrid.querySelectorAll('.place-card, .destination-card');
+            activeCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(15px)';
+            });
+
+            // Wait for fade-out animation (300ms)
+            setTimeout(async () => {
+                // Remove previous dynamic cards
+                placesGrid.querySelectorAll('.place-card.dynamic-card').forEach(c => c.remove());
+
+                if (selectedCategory === 'provinces') {
+                    // Restore static province cards
+                    staticProvinceCards.forEach(card => {
+                        card.style.display = 'block';
+                        // Trigger reflow
+                        card.offsetHeight;
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    });
+                    if (viewAllBtn) viewAllBtn.style.display = 'block';
+                } else {
+                    // Hide static province cards
+                    staticProvinceCards.forEach(card => {
+                        card.style.display = 'none';
+                    });
+                    if (viewAllBtn) viewAllBtn.style.display = 'none';
+
+                    // Load & filter destinations data
+                    const list = await loadDestinations();
+                    const filtered = list.filter(dest => {
+                        const categories = dest.category.toLowerCase().split(',').map(s => s.trim());
+                        return categories.includes(selectedCategory.toLowerCase());
+                    });
+
+                    // Build and append cards matching province section layout
+                    filtered.forEach(dest => {
+                        const card = document.createElement('a');
+                        card.className = 'place-card dynamic-card';
+                        card.href = `${scriptDir}places/${dest.province_id}/${dest.slug}`;
+                        card.setAttribute('data-category', selectedCategory);
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(15px)';
+                        card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+
+                        // Resolve relative hero image dynamically using the script location base
+                        const resolvedHeroImage = new URL(dest.heroImage, scriptDir).href;
+
+                        card.innerHTML = `
+                            <div class="place-image">
+                                <img src="${resolvedHeroImage}" alt="${dest.name}" loading="lazy">
+                                <div class="place-overlay">
+                                    <h3>${dest.name}</h3>
+                                </div>
+                            </div>
+                        `;
+
+                        placesGrid.appendChild(card);
+
+                        // Trigger smooth fade-in
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    });
+                }
+            }, 300);
+        });
+    });
+
+    // Automatically trigger filtering for the category tab marked as active in HTML
+    const activeBtn = document.querySelector('.category-btn.active');
+    if (activeBtn) {
+        activeBtn.click();
+    }
 });
 
 // ==================== Services Page Interactions ==================== //

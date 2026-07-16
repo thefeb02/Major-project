@@ -117,9 +117,9 @@ button {
 
 .logo {
     display: flex;
-    align-items: center;
+   
     gap: 12px;
-    padding: 6px 14px;
+  
     transition: var(--transition);
 }
 
@@ -128,8 +128,8 @@ button {
 }
 
 .logo-icon {
-    width: 72px;
-    height: 72px;
+    width: 92px;
+    height: 92px;
     object-fit: contain;
 }
 
@@ -172,12 +172,13 @@ button {
 .nav-link {
     color: #111827;
     font-weight: 600;
-    position: relative;
+   
     font-size: 15.25px;
     text-transform: none;
     letter-spacing: 0.06em;
     padding: 10px 0;
     transition: var(--transition);
+    align-items: center;
 }
 
 .nav-link:hover {
@@ -896,7 +897,7 @@ button {
     font-size: clamp(200px, 26vw, 340px);
 
     /* Picture-in-text effect */
-    background-image: url(img/7.png);
+    background-image: url(../img/7.png);
     background-size: 180% 180%;
     background-position: 0% 50%;
     background-repeat: no-repeat;

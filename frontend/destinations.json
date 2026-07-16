@@ -1,0 +1,2118 @@
+{
+  "provinces": {
+    "koshi": {
+      "id": "koshi",
+      "name": "Koshi Province",
+      "shortDescription": "Home to Mount Everest, lush tea gardens, pristine rivers, and diverse wildlife reserves.",
+      "featuredImage": "https://i.pinimg.com/736x/38/7a/21/387a21d7763974798937d09cecf7418f.jpg"
+    },
+    "madhesh": {
+      "id": "madhesh",
+      "name": "Madhesh Province",
+      "shortDescription": "The cultural and spiritual heart of Mithila civilization, adorned with historic temples and rich plains.",
+      "featuredImage": "https://chinarinepal.com/wp-content/uploads/2022/03/JANAKI-MANDIR-1024x386.png"
+    },
+    "bagmati": {
+      "id": "bagmati",
+      "name": "Bagmati Province",
+      "shortDescription": "The political and cultural capital of Nepal, hosting UNESCO heritage sites and mountain viewing points.",
+      "featuredImage": "https://i.pinimg.com/1200x/be/a3/e5/bea3e57e5abd2abb4d3ada67e7c200dc.jpg"
+    },
+    "gandaki": {
+      "id": "gandaki",
+      "name": "Gandaki Province",
+      "shortDescription": "The adventure capital of Nepal, featuring Pokhara, Phewa Lake, and the majestic Annapurna mountains.",
+      "featuredImage": "https://i.pinimg.com/736x/56/3e/91/563e9142137cad48487a45b9bba77d62.jpg"
+    },
+    "lumbini": {
+      "id": "lumbini",
+      "name": "Lumbini Province",
+      "shortDescription": "The birthplace of Lord Buddha, featuring ancient monasteries, peaceful gardens, and historic stupas.",
+      "featuredImage": "https://i.pinimg.com/1200x/b3/83/c2/b383c22c9aa6854d763a9cbbbe1daed9.jpg"
+    },
+    "karnali": {
+      "id": "karnali",
+      "name": "Karnali Province",
+      "shortDescription": "The wild and rugged west, hosting Rara Lake, Shey Phoksundo National Park, and Sinja Valley.",
+      "featuredImage": "https://i.pinimg.com/736x/4e/ba/4a/4eba4a5546a3525b36808a0f35aecf15.jpg"
+    },
+    "sudurpashchim": {
+      "id": "sudurpashchim",
+      "name": "Sudurpashchim Province",
+      "shortDescription": "The far western frontier, boasting the meadows of Khaptad and rich marshes of Shuklaphanta.",
+      "featuredImage": "https://i.pinimg.com/736x/f2/8f/12/f28f121913883f59a3fa9e466f56ee7e.jpg"
+    }
+  },
+  "destinations": [
+    {
+      "id": "kathmandu-durbar-square",
+      "name": "Kathmandu Durbar Square",
+      "slug": "kathmandu-durbar-square",
+      "category": "heritage",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Kathmandu",
+      "description": "Kathmandu Durbar Square is the historic royal palace plaza of the ancient Kathmandu Kingdom. It is a UNESCO World Heritage site showcasing the rich Newari architecture, royal palaces, wood carvings, and stone temples. It is also the home of the Kumari, the living goddess of Nepal.",
+      "heroImage": "https://i.pinimg.com/1200x/23/cc/01/23cc014972450266ecd4c8493139422a.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/1200x/23/cc/01/23cc014972450266ecd4c8493139422a.jpg",
+        "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "October to April",
+      "duration": "1 Day",
+      "rating": 4.8,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.33!2d85.307!3d27.704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb18f7!2sKathmandu%20Durbar%20Square!5e0!3m2!1sen!2snp!4v1710000000013!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "swayambhunath",
+        "pashupatinath-temple"
+      ],
+      "highlights": {
+        "nature": "Peaceful pigeon flocks gathering in the ancient stone squares.",
+        "history": "Hanuman Dhoka Palace, the royal seat of Malla and Shah dynasties.",
+        "culture": "Living Goddess Kumari who blesses visitors from her wood-carved window.",
+        "adventure": "Walk through the historic Freak Street, once a hippy hub.",
+        "wildlife": "The resident temple monkeys in nearby hill paths.",
+        "photography": "Vibrant red and golden pagoda backdrops of Kaal Bhairav and Taleju Temple."
+      },
+      "travelInfo": {
+        "bestTime": "All year round, best in morning and late afternoon",
+        "transportation": "Taxi, public microbus, or rickshaw from central areas.",
+        "budget": "NPR 1,000 - 2,500",
+        "accommodation": "Boutique hotels and guesthouses in Thamel and Freak Street.",
+        "food": "Traditional Newari cuisine (Samay Baji) and street snacks.",
+        "entryFee": "NPR 1,000 for foreign nationals, free for locals.",
+        "openingHours": "24/7 (Palace museum open 9:00 AM - 5:00 PM)",
+        "safetyTips": "Keep personal belongings close in crowded square gates.",
+        "travelTips": "Kumari photography is prohibited inside Kumair Ghar. Remove shoes before entering temple interiors."
+      }
+    },
+    {
+      "id": "bhaktapur-durbar-square",
+      "name": "Bhaktapur Durbar Square",
+      "slug": "bhaktapur-durbar-square",
+      "category": "heritage,cities",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Bhaktapur",
+      "description": "Known as the City of Devotees, Bhaktapur Durbar Square is a medieval museum of architecture, featuring the grand 55-window Palace, Golden Gate, and Nyatapola, Nepal's tallest pagoda temple.",
+      "heroImage": "https://i.pinimg.com/736x/6c/e3/6f/6ce36f494ed1bde35a2585e9a089df90.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/736x/6c/e3/6f/6ce36f494ed1bde35a2585e9a089df90.jpg",
+        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "September to May",
+      "duration": "1 Day",
+      "rating": 4.9,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.88!2d85.428!3d27.671!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1a64!2sBhaktapur%20Durbar%20Square!5e0!3m2!1sen!2snp!4v1710000000014!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "nagarkot",
+        "patan-durbar-square"
+      ],
+      "highlights": {
+        "nature": "Scenic country sides, surrounding green terraced hills.",
+        "history": "Ancient palace structure dating back to the Malla Kings era.",
+        "culture": "Famous pottery square showing the age-old art of clay pot making.",
+        "adventure": "Exploration of narrow brick lanes and hidden wells.",
+        "wildlife": "None",
+        "photography": "Golden Gate and the beautiful details of Nyatapola Temple carvings."
+      },
+      "travelInfo": {
+        "bestTime": "September to May",
+        "transportation": "Taxi or direct local bus from Ratna Park, Kathmandu.",
+        "budget": "NPR 1,500 - 3,500",
+        "accommodation": "Local heritage guesthouses inside the pedestrian zone.",
+        "food": "Try the legendary Juju Dhau (King Curd), a sweet creamy yogurt.",
+        "entryFee": "NPR 1,500 for foreigners, NPR 500 for SAARC nationals.",
+        "openingHours": "7:00 AM - 7:00 PM",
+        "safetyTips": "Walking-only inside the heritage gate; watch out for bicycles.",
+        "travelTips": "Take a pottery-making session to shape your own souvenir."
+      }
+    },
+    {
+      "id": "patan-durbar-square",
+      "name": "Patan Durbar Square",
+      "slug": "patan-durbar-square",
+      "category": "heritage,cities",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Lalitpur",
+      "description": "Patan Durbar Square is a marvel of Newari architecture, famous for its stone Krishna Mandir, royal palace courtyards, and Patan Museum, hosting some of the finest metal statuary in Asia.",
+      "heroImage": "https://c8.alamy.com/comp/C3A701/durbar-square-of-patan-lalitpur-in-kathmandu-nepal-C3A701.jpg",
+      "galleryImages": [
+        "https://c8.alamy.com/comp/C3A701/durbar-square-of-patan-lalitpur-in-kathmandu-nepal-C3A701.jpg"
+      ],
+      "bestSeason": "October to March",
+      "duration": "1 Day",
+      "rating": 4.8,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3533.15!2d85.325!3d27.674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19!2sPatan%20Durbar%20Square!5e0!3m2!1sen!2snp!4v1710000000040!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "kathmandu-durbar-square",
+        "pashupatinath-temple"
+      ],
+      "highlights": {
+        "nature": "Shady central square yards with pigeons.",
+        "history": "Ancient stone Krishna Mandir with 21 gilded pinnacles.",
+        "culture": "Traditional metalwork and bronze casting workshops.",
+        "adventure": "Explore the multi-level square and narrow lanes.",
+        "wildlife": "None",
+        "photography": "Patan Museum's golden window and palace courtyard pools."
+      },
+      "travelInfo": {
+        "bestTime": "All year round",
+        "transportation": "Taxi or local bus to Lagankhel, then walk 10 mins.",
+        "budget": "NPR 1,000 - 2,500",
+        "accommodation": "Cozy Newari homestays in old Patan.",
+        "food": "Bara (lentil pancakes) and Yomari at local eateries.",
+        "entryFee": "NPR 1,000 for foreigners.",
+        "openingHours": "8:00 AM - 6:00 PM",
+        "safetyTips": "Avoid visiting during hot noon hours; there's little shade.",
+        "travelTips": "Spend time at Patan Museum, one of the best curated museums in South Asia."
+      }
+    },
+    {
+      "id": "lumbini",
+      "name": "Lumbini - Birthplace of Buddha",
+      "slug": "lumbini",
+      "category": "heritage,pilgrimage",
+      "province": "Lumbini Province",
+      "province_id": "lumbini",
+      "district": "Rupandehi",
+      "description": "Lumbini is a UNESCO World Heritage site and the birthplace of Gautama Buddha, built in 623 BC. It features the historic Maya Devi Temple, the Ashokan Pillar, and a massive zone of global monasteries.",
+      "heroImage": "https://i.pinimg.com/1200x/b3/83/c2/b383c22c9aa6854d763a9cbbbe1daed9.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/1200x/b3/83/c2/b383c22c9aa6854d763a9cbbbe1daed9.jpg",
+        "https://www.purevacations.com/wp-content/uploads/2023/05/World-Peace-Stupa-in-Lumbini-1024x683.jpg"
+      ],
+      "bestSeason": "October to April",
+      "duration": "1-2 Days",
+      "rating": 4.9,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14156!2d83.27!3d27.48!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3996!2sLumbini%20Development%20Area!5e0!3m2!1sen!2snp!4v1710000000023!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "tilaurakot",
+        "ramagrama"
+      ],
+      "highlights": {
+        "nature": "Peaceful gardens, home to the endangered Sarus cranes.",
+        "history": "Ashoka's stone pillar erected in 249 BC marking the birthplace.",
+        "culture": "Monasteries built by over 20 nations reflecting diverse architectures.",
+        "adventure": "Bicycle exploration of the massive 4.8 km canal parkway.",
+        "wildlife": "Blue bulls (Nilgai) and birds in the crane sanctuary.",
+        "photography": "Bright white Peace Pagoda dome and sunset reflection on peace canal."
+      },
+      "travelInfo": {
+        "bestTime": "October to March",
+        "transportation": "Fly to Bhairahawa Airport and drive 30 mins, or highway bus.",
+        "budget": "NPR 3,000 - 7,000",
+        "accommodation": "Lumbini Garden hotels or monastery guest stays.",
+        "food": "Vegetarian options, local Terai meals, and Indian snacks.",
+        "entryFee": "NPR 400 for foreigners, free for Nepalis.",
+        "openingHours": "6:00 AM - 8:00 PM",
+        "safetyTips": "Apply mosquito repellent; Terai region has high insects count.",
+        "travelTips": "Bicycles are available for rent at the gates for easy commuting."
+      }
+    },
+    {
+      "id": "chitwan-national-park",
+      "name": "Chitwan National Park",
+      "slug": "chitwan-national-park",
+      "category": "heritage,protected",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Chitwan",
+      "description": "Chitwan is Nepal's first national park and a UNESCO World Heritage site. It is a sanctuary for endangered One-horned Rhinoceroses, Royal Bengal Tigers, leopards, and crocodiles.",
+      "heroImage": "https://i.pinimg.com/736x/54/18/d0/5418d03d29c9e31370b567ce516584c1.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/736x/54/18/d0/5418d03d29c9e31370b567ce516584c1.jpg",
+        "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "October to March",
+      "duration": "2-3 Days",
+      "rating": 4.8,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113943.9!2d84.45!3d27.52!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3994ee!2sChitwan%20National%20Park!5e0!3m2!1sen!2snp!4v1710000000041!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "butwal",
+        "parsa-national-park"
+      ],
+      "highlights": {
+        "nature": "Subtropical Rapti River sunset and tall grasslands.",
+        "history": "First wildlife preservation reserve of Nepal, setup in 1973.",
+        "culture": "Tharu ethnic village tours and traditional stick dance shows.",
+        "adventure": "Canoe rides down the river and deep elephant safaris.",
+        "wildlife": "Spotting One-horned Rhinoceroses, Gharial crocodiles, and tigers.",
+        "photography": "Scenic wildlife snaps in the grasslands and forest crossings."
+      },
+      "travelInfo": {
+        "bestTime": "October to February (clear morning visibility)",
+        "transportation": "Tourist bus from Kathmandu/Pokhara (approx 5-6 hours).",
+        "budget": "NPR 12,000 - 25,000",
+        "accommodation": "Safari lodges in Sauraha and premium resorts in Jagatpur.",
+        "food": "Local Tharu cuisine, grilled river fish, and general continental dishes.",
+        "entryFee": "NPR 2,000 per day for foreigners.",
+        "openingHours": "6:00 AM - 6:00 PM",
+        "safetyTips": "Keep silence during jungle safaris. Never walk alone inside the park.",
+        "travelTips": "Take a morning canoe ride when crocodiles are basking on river banks."
+      }
+    },
+    {
+      "id": "sagarmatha-national-park",
+      "name": "Sagarmatha National Park",
+      "slug": "sagarmatha-national-park",
+      "category": "heritage,protected",
+      "province": "Koshi Province",
+      "province_id": "koshi",
+      "district": "Solukhumbu",
+      "description": "Sagarmatha National Park is a UNESCO World Heritage site encompassing Mount Everest (Sagarmatha) and the surrounding peaks, home to Sherpa culture and rare alpine wildlife like snow leopards.",
+      "heroImage": "https://media.tacdn.com/media/attractions-splice-spp-674x446/0b/39/79/12.jpg",
+      "galleryImages": [
+        "https://media.tacdn.com/media/attractions-splice-spp-674x446/0b/39/79/12.jpg",
+        "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "March to May, October to November",
+      "duration": "10-14 Days",
+      "rating": 4.9,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d86.8!3d27.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e8!2sSagarmatha%20National%20Park!5e0!3m2!1sen!2snp!4v1710000000042!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "kanchenjunga-base-camp",
+        "rara-lake"
+      ],
+      "highlights": {
+        "nature": "Dramatic glacial valleys, giant peaks, and rhododendron forests.",
+        "history": "Birthplace of Everest mountaineering history.",
+        "culture": "Tengboche Buddhist Monastery and Sherpa culture.",
+        "adventure": "Trekking to Everest Base Camp and crossing high altitude passes.",
+        "wildlife": "Musk deer, Himalayan tahr, and rare snow leopards.",
+        "photography": "Stunning sunset on Everest, Lhotse, and Ama Dablam peaks."
+      },
+      "travelInfo": {
+        "bestTime": "Spring (flowers in bloom) and Autumn (clearest sky)",
+        "transportation": "Flight from Kathmandu to Lukla, then trek.",
+        "budget": "NPR 50,000 - 120,000",
+        "accommodation": "High-altitude teahouses and standard mountain lodges.",
+        "food": "Dal Bhat, garlic soup (helps with altitude), Sherpa stew, and momos.",
+        "entryFee": "NPR 3,000 for foreigners, NPR 1,500 for SAARC.",
+        "openingHours": "24/7",
+        "safetyTips": "Ascend slowly to prevent Acute Mountain Sickness (AMS). Watch out for yak trains.",
+        "travelTips": "Carry warm clothing, purification tablets, and cash (cards do not work above Namche)."
+      }
+    },
+    {
+      "id": "langtang-national-park",
+      "name": "Langtang National Park",
+      "slug": "langtang-national-park",
+      "category": "protected",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Rasuwa",
+      "description": "Langtang National Park is a pristine sanctuary of rhododendron and bamboo forests, bordering Tibet, featuring the Langtang Valley, high Gosaikunda lakes, and traditional Tamang settlements.",
+      "heroImage": "https://tse3.mm.bing.net/th/id/OIP.Uy8cOh8QNxRq8hV2o3kMtAHaEo?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+      "galleryImages": [
+        "https://tse3.mm.bing.net/th/id/OIP.Uy8cOh8QNxRq8hV2o3kMtAHaEo?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
+      ],
+      "bestSeason": "March to May, September to November",
+      "duration": "8 Days",
+      "rating": 4.7,
+      "difficulty": "Moderate",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d85.5!3d28.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb!2sLangtang%20National%20Park!5e0!3m2!1sen!2snp!4v1710000000043!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "gosaikunda",
+        "nagarkot"
+      ],
+      "highlights": {
+        "nature": "Lush pine forests, beautiful mountain valleys, and snow fields.",
+        "history": "Historic Tamang villages and trade routes.",
+        "culture": "Kyanjin Gompa and traditional yak cheese factories.",
+        "adventure": "Climbing Kyanjin Ri or Tsergo Ri peaks.",
+        "wildlife": "Red pandas, Himalayan black bears, and monkeys.",
+        "photography": "Spectacular views of Langtang Lirung (7,234m)."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn for clear skies, Spring for red rhododendron blossoms.",
+        "transportation": "Public bus or private jeep from Kathmandu to Syabrubesi (6-7 hours).",
+        "budget": "NPR 25,000 - 45,000",
+        "accommodation": "Local teahouses along the trekking trails.",
+        "food": "Dal Bhat, noodle soups, potatoes, and fresh yak cheese.",
+        "entryFee": "NPR 3,000 for foreigners.",
+        "openingHours": "24/7",
+        "safetyTips": "Be careful on the landslides-prone trails in wet seasons.",
+        "travelTips": "Sample fresh yak cheese directly from the factory in Kyanjin Gompa."
+      }
+    },
+    {
+      "id": "shey-phoksundo-national-park",
+      "name": "Shey Phoksundo Lake",
+      "slug": "shey-phoksundo-national-park",
+      "category": "protected,nature",
+      "province": "Karnali Province",
+      "province_id": "karnali",
+      "district": "Dolpa",
+      "description": "Nepal's largest national park, holding the turquoise Phoksundo Lake and the ancient Bon monasteries of Dolpa, set against barren mountain landscapes.",
+      "heroImage": "https://i.pinimg.com/736x/6c/39/0b/6c390b2c65c90675ed54577b3def33a3.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/736x/6c/39/0b/6c390b2c65c90675ed54577b3def33a3.jpg"
+      ],
+      "bestSeason": "May to October",
+      "duration": "10 Days",
+      "rating": 4.9,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d82.9!3d29.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a0!2sPhoksundo%20Lake!5e0!3m2!1sen!2snp!4v1710000000028!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "rara-national-park",
+        "dolpa-valley"
+      ],
+      "highlights": {
+        "nature": "Unique deep turquoise lake that contains no aquatic life.",
+        "history": "Ancient settlement structures dating back 800 years.",
+        "culture": "Centuries-old Bon Po and Tibetan Buddhist monasteries.",
+        "adventure": "Trekking through dry rain-shadow landscapes.",
+        "wildlife": "Snow leopard, blue sheep, and Tibetan wolves.",
+        "photography": "Breathtaking contrast of blue waters against barren red gorges."
+      },
+      "travelInfo": {
+        "bestTime": "Summer and Autumn",
+        "transportation": "Flight to Juphal via Nepalgunj, then trek 3 days.",
+        "budget": "NPR 60,000 - 90,000",
+        "accommodation": "Homestays and tents.",
+        "food": "Simple barley meals, Dal Bhat, and tea.",
+        "entryFee": "NPR 3,000 for foreigners, plus restricted area permits.",
+        "openingHours": "24/7",
+        "safetyTips": "Very remote; carry emergency satellite phone and meds.",
+        "travelTips": "Hire a local guide to visit the Bon temples around Ringmo Village."
+      }
+    },
+    {
+      "id": "rara-national-park",
+      "name": "Rara Lake National Park",
+      "slug": "rara-national-park",
+      "category": "protected,nature",
+      "province": "Karnali Province",
+      "province_id": "karnali",
+      "district": "Mugu",
+      "description": "Rara National Park protects Rara Lake, Nepal's largest lake, set in high-altitude pine forests, offering scenic meadows and quiet wilderness.",
+      "heroImage": "https://www.himalayanforever.com/public/storage/trip-seos/19/5db49d8d1d42d2db790bcce43379e5d6.jpg",
+      "galleryImages": [
+        "https://www.himalayanforever.com/public/storage/trip-seos/19/5db49d8d1d42d2db790bcce43379e5d6.jpg"
+      ],
+      "bestSeason": "October to December, March to May",
+      "duration": "7 Days",
+      "rating": 4.9,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55685!2d82.08!3d29.53!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a0397ee!2sRara%20Lake!5e0!3m2!1sen!2snp!4v1710000000027!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "sinja-valley",
+        "jumla-town"
+      ],
+      "highlights": {
+        "nature": "Vast clear lake reflecting the blue skies and green forests.",
+        "history": "Created in 1976 to protect the beautiful lake ecosystem.",
+        "culture": "Encounter Thakur and Khas local communities in Mugu.",
+        "adventure": "Camping by the lakeside and hiking in pine forests.",
+        "wildlife": "Himalayan black bear, musk deer, and migrating ducks.",
+        "photography": "360-degree panorama of the lake from Murma Top viewpoint."
+      },
+      "travelInfo": {
+        "bestTime": "March to May, September to November",
+        "transportation": "Flight to Talcha, then 3 hours walk, or 2-day jeep drive.",
+        "budget": "NPR 35,000 - 55,000",
+        "accommodation": "Lakeside luxury tents or basic wooden cabins.",
+        "food": "Fresh local organic food, red rice, and potato dishes.",
+        "entryFee": "NPR 3,000 for foreigners.",
+        "openingHours": "24/7",
+        "safetyTips": "Warm clothes are a must even in spring, as nights are cold.",
+        "travelTips": "Hike up to Murma Top for the best view of the entire lake."
+      }
+    },
+    {
+      "id": "shivapuri-national-park",
+      "name": "Shivapuri Nagarjun National Park",
+      "slug": "shivapuri-national-park",
+      "category": "protected",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Kathmandu",
+      "description": "Shivapuri National Park lies on the northern rim of the Kathmandu Valley, serving as a primary water source and offering popular hiking trails through oak and pine forests.",
+      "heroImage": "https://images.unsplash.com/photo-1508193638397-1c4234db14d8?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1508193638397-1c4234db14d8?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "September to May",
+      "duration": "1 Day",
+      "rating": 4.6,
+      "difficulty": "Moderate",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d56434!2d85.38!3d27.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19e!2sShivapuri%20Nagarjun%20National%20Park!5e0!3m2!1sen!2snp!4v1710000000044!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "pashupatinath-temple",
+        "boudhanath-stupa"
+      ],
+      "highlights": {
+        "nature": "Bagdwar (origin of the holy Bagmati River) and waterfalls.",
+        "history": "Historic Budhanilkantha temple lies at the southern base.",
+        "culture": "Nagi Gompa Buddhist nunnery on the hillside.",
+        "adventure": "Hiking up to Shivapuri Peak (2,732m) through stone steps.",
+        "wildlife": "Wild boars, barking deer, leopards, and over 300 bird species.",
+        "photography": "Splendid views of the Kathmandu valley and Langtang Himalayas."
+      },
+      "travelInfo": {
+        "bestTime": "October to April",
+        "transportation": "Taxi to Muhan Pokhari gate in Budhanilkantha.",
+        "budget": "NPR 1,000 - 2,000",
+        "accommodation": "Resorts in Budhanilkantha or Kathmandu hotels.",
+        "food": "Carry your own lunch and water, as there are no shops inside.",
+        "entryFee": "NPR 1,000 for foreigners, NPR 100 for locals.",
+        "openingHours": "7:00 AM - 5:00 PM",
+        "safetyTips": "Must exit before dark. Hike in groups as leopards are active.",
+        "travelTips": "Register at the army checkpoint at the entrance. Bring plenty of water."
+      }
+    },
+    {
+      "id": "bardiya-national-park",
+      "name": "Bardia National Park",
+      "slug": "bardiya-national-park",
+      "category": "protected",
+      "province": "Lumbini Province",
+      "province_id": "lumbini",
+      "district": "Bardiya",
+      "description": "Bardiya National Park is the largest undisturbed wilderness in Nepal's plains, famous for tiger tracking safaris and river rafting through crocodile-populated bends.",
+      "heroImage": "https://cdn.kimkim.com/files/a/images/0154e137ed055ff13ba90694407f33515ff781ba/original-c35f44388a4f983b7c6330d833878f61.jpg",
+      "galleryImages": [
+        "https://cdn.kimkim.com/files/a/images/0154e137ed055ff13ba90694407f33515ff781ba/original-c35f44388a4f983b7c6330d833878f61.jpg"
+      ],
+      "bestSeason": "November to April",
+      "duration": "3 Days",
+      "rating": 4.8,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113943!2d81.3!3d28.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a3!2sBardiya%20National%20Park!5e0!3m2!1sen!2snp!4v1710000000045!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "shuklaphanta-national-park",
+        "butwal"
+      ],
+      "highlights": {
+        "nature": "Karnali River floodplains and dense riverine forests.",
+        "history": "Initially established as royal hunting reserve in 1969.",
+        "culture": "Tharu ethnic farming villages and museum tour.",
+        "adventure": "Walking safari in the tiger habitat under guard instruction.",
+        "wildlife": "Royal Bengal Tiger, wild Asian Elephant, and Gangetic dolphin.",
+        "photography": "High probability of photographing wild tigers at waterholes."
+      },
+      "travelInfo": {
+        "bestTime": "March to May (hot weather, but tigers come out to drink)",
+        "transportation": "Fly to Nepalgunj, then drive 2 hours to Thakurdwara.",
+        "budget": "NPR 15,000 - 30,000",
+        "accommodation": "Wildlife lodges in Thakurdwara.",
+        "food": "Tharu local dishes, fresh garden vegetables, and standard meals.",
+        "entryFee": "NPR 1,500 for foreigners.",
+        "openingHours": "6:00 AM - 6:00 PM",
+        "safetyTips": "Follow guides' safety rules closely during the walking safari.",
+        "travelTips": "Book a full-day walking safari for the best tiger tracking experience."
+      }
+    },
+    {
+      "id": "shuklaphanta-national-park",
+      "name": "Shuklaphanta National Park",
+      "slug": "shuklaphanta-national-park",
+      "category": "protected,nature",
+      "province": "Sudurpashchim Province",
+      "province_id": "sudurpashchim",
+      "district": "Kanchanpur",
+      "description": "Shuklaphanta National Park is a vast grassland reserve in far-western Nepal, hosting the world's largest herd of endangered swamp deer (Barasingha).",
+      "heroImage": "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "November to April",
+      "duration": "3 Days",
+      "rating": 4.7,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113799!2d80.1!3d28.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a0ef!2sShuklaphanta%20National%20Park!5e0!3m2!1sen!2snp!4v1710000000033!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "dodhara-chandani-bridge",
+        "khaptad-national-park"
+      ],
+      "highlights": {
+        "nature": "Shukla Phanta, the largest continuous patch of grassland in Nepal.",
+        "history": "Upgraded from wildlife reserve to national park in 2017.",
+        "culture": "Rana Tharu culture in the far west plains.",
+        "adventure": "Jeep safaris through flat open meadows.",
+        "wildlife": "Herds of up to 2,000 Swamp Deer (Barasingha).",
+        "photography": "Golden deer antlers in the mist of early morning fields."
+      },
+      "travelInfo": {
+        "bestTime": "November to March",
+        "transportation": "Fly to Dhangadhi and drive 1.5 hours to Mahendranagar.",
+        "budget": "NPR 15,000 - 25,000",
+        "accommodation": "Lakeside resorts in Mahendranagar or park lodges.",
+        "food": "Traditional western Terai dishes, fish curry, and standard meals.",
+        "entryFee": "NPR 1,000 for foreigners.",
+        "openingHours": "6:00 AM - 6:00 PM",
+        "safetyTips": "Do not wander off the marked jeep tracks.",
+        "travelTips": "Visit in February/March when the grass is dry for better animal viewing."
+      }
+    },
+    {
+      "id": "makalu-barun-national-park",
+      "name": "Makalu Barun National Park",
+      "slug": "makalu-barun-national-park",
+      "category": "protected",
+      "province": "Koshi Province",
+      "province_id": "koshi",
+      "district": "Sankhuwasabha",
+      "description": "Makalu Barun National Park protects the wilderness surrounding Mount Makalu. It is the only conservation area in the world with an elevation gain of 8,000m, hosting tropical forests to alpine peaks.",
+      "heroImage": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "September to November, March to May",
+      "duration": "14 Days",
+      "rating": 4.7,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d87.2!3d27.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e8d!2sMakalu%20Barun%20National%20Park!5e0!3m2!1sen!2snp!4v1710000000046!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "kanchenjunga-base-camp",
+        "sagarmatha-national-park"
+      ],
+      "highlights": {
+        "nature": "Stunning hanging glaciers, deep canyons, and rare orchids.",
+        "history": "Established in 1992 as an extension of the Everest ecosystem.",
+        "culture": "Observe traditional lifestyle of rural Rai and Sherpa communities.",
+        "adventure": "Extreme high altitude trekking in the Barun Valley.",
+        "wildlife": "Red pandas, snow leopards, and over 400 bird species.",
+        "photography": "Impressive steep walls of the Barun Gorge and Makalu peak."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn for stable clear weather.",
+        "transportation": "Fly to Tumlingtar from Kathmandu, then drive to Num/Chichila.",
+        "budget": "NPR 60,000 - 100,000",
+        "accommodation": "Remote basic teahouses; camping is often required.",
+        "food": "Local grains, simple Dal Bhat, and potatoes.",
+        "entryFee": "NPR 3,000 for foreigners.",
+        "openingHours": "24/7",
+        "safetyTips": "Barun valley is subject to heavy snowfall and trail blockages.",
+        "travelTips": "Must carry personal satellite tracker and fully stock up on medical supplies."
+      }
+    },
+    {
+      "id": "kathmandu",
+      "name": "Kathmandu City",
+      "slug": "kathmandu",
+      "category": "cities",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Kathmandu",
+      "description": "Kathmandu, the capital of Nepal, is a vibrant city full of history. Known as the City of Temples, it blends ancient wooden shrines, bustling modern markets, and rich festivals.",
+      "heroImage": "../img/8.jpeg",
+      "galleryImages": [
+        "../img/8.jpeg",
+        "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "September to May",
+      "duration": "2 Days",
+      "rating": 4.7,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d56434!2d85.32!3d27.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1907b0!2sKathmandu!5e0!3m2!1sen!2snp!4v1710000000047!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "lalitpur",
+        "bhaktapur"
+      ],
+      "highlights": {
+        "nature": "Scenic valley viewpoints from Swayambhu hill.",
+        "history": "Ancient palace grounds of Kathmandu Malla kingdoms.",
+        "culture": "Newari community celebrations like Indra Jatra and Ghode Jatra.",
+        "adventure": "Walking tour through old markets of Ason and Indra Chowk.",
+        "wildlife": "Holy temple monkeys.",
+        "photography": "Vibrant street life, temples, and historic squares."
+      },
+      "travelInfo": {
+        "bestTime": "All year round",
+        "transportation": "Taxi, public microbuses, or private cars.",
+        "budget": "NPR 5,000 - 15,000",
+        "accommodation": "Thamel hotels, heritage guesthouses, and luxury stays.",
+        "food": "Traditional Momos, Newari feast, and global cuisines.",
+        "entryFee": "None (separate tickets for heritage areas).",
+        "openingHours": "24/7",
+        "safetyTips": "Carry a face mask as traffic dust can be high.",
+        "travelTips": "Stay in Thamel for easy access to shopping and restaurants."
+      }
+    },
+    {
+      "id": "pokhara",
+      "name": "Pokhara",
+      "slug": "pokhara",
+      "category": "cities,nature",
+      "province": "Gandaki Province",
+      "province_id": "gandaki",
+      "district": "Kaski",
+      "description": "Pokhara is Nepal's premier tourist city. Beautifully situated next to Phewa Lake and beneath the Annapurna range, it is the center of adventure sports, lakeside dining, and relaxation.",
+      "heroImage": "https://wallpaperaccess.com/full/4401237.jpg",
+      "galleryImages": [
+        "https://wallpaperaccess.com/full/4401237.jpg",
+        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "September to November, March to May",
+      "duration": "3 Days",
+      "rating": 4.9,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d56215!2d83.96!3d28.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995937b!2sPokhara!5e0!3m2!1sen!2snp!4v1710000000016!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "bandipur",
+        "mustang"
+      ],
+      "highlights": {
+        "nature": "Phewa Lake, reflection of Fishtail Mountain.",
+        "history": "Important trading route center between India and Tibet.",
+        "culture": "Peaceful multi-faith temples and monasteries.",
+        "adventure": "Paragliding, zip-lining, and ultra-light flights.",
+        "wildlife": "None",
+        "photography": "Himalayan range reflection on Phewa Lake at sunrise."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn and Spring",
+        "transportation": "Flight (25 mins) or tourist coach (7 hours) from Kathmandu.",
+        "budget": "NPR 10,000 - 25,000",
+        "accommodation": "Lakeside resort complexes and cozy homestays.",
+        "food": "Lakeside cafes serving trout fish, wood-fired pizzas, and Nepalese thali.",
+        "entryFee": "None (small fees for caves and museum).",
+        "openingHours": "24/7",
+        "safetyTips": "Wear helmet when renting scooters.",
+        "travelTips": "Try the early morning paragliding flight from Sarangkot."
+      }
+    },
+    {
+      "id": "bhaktapur",
+      "name": "Bhaktapur",
+      "slug": "bhaktapur",
+      "category": "cities",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Bhaktapur",
+      "description": "Bhaktapur is a traditional city that feels frozen in time. Entirely pedestrianized in its historic center, it has red-brick streets, pottery squares, and centuries-old temples.",
+      "heroImage": "https://static.toiimg.com/photo/54311463/.jpg",
+      "galleryImages": [
+        "https://static.toiimg.com/photo/54311463/.jpg"
+      ],
+      "bestSeason": "October to March",
+      "duration": "1 Day",
+      "rating": 4.8,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.88!2d85.428!3d27.671!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1a64!2sBhaktapur%20Durbar%20Square!5e0!3m2!1sen!2snp!4v1710000000014!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "nagarkot",
+        "kathmandu"
+      ],
+      "highlights": {
+        "nature": "Peaceful city squares and historic ponds.",
+        "history": "Seat of the Bhaktapur Malla Kingdom.",
+        "culture": "Newari pottery making and clay baking.",
+        "adventure": "Exploring the winding stone-paved paths.",
+        "wildlife": "None",
+        "photography": "Nyatapola Temple steps and Potter's square."
+      },
+      "travelInfo": {
+        "bestTime": "September to May",
+        "transportation": "Taxi or bus from Kathmandu center.",
+        "budget": "NPR 1,500 - 3,000",
+        "accommodation": "Local heritage guest lodges.",
+        "food": "Juju Dhau (King Curd) and traditional thali.",
+        "entryFee": "NPR 1,500 for foreigners.",
+        "openingHours": "24/7",
+        "safetyTips": "Pedestrian-only zone; safe for walking.",
+        "travelTips": "Buy authentic local pottery items directly from the makers."
+      }
+    },
+    {
+      "id": "lalitpur",
+      "name": "Lalitpur (Patan)",
+      "slug": "lalitpur",
+      "category": "cities",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Lalitpur",
+      "description": "Lalitpur, historically called Patan, is the city of fine arts. It is famous for its ancient metal handicraft industry, stone temples, and the magnificent Patan Durbar Square.",
+      "heroImage": "https://c8.alamy.com/comp/C3A701/durbar-square-of-patan-lalitpur-in-kathmandu-nepal-C3A701.jpg",
+      "galleryImages": [
+        "https://c8.alamy.com/comp/C3A701/durbar-square-of-patan-lalitpur-in-kathmandu-nepal-C3A701.jpg"
+      ],
+      "bestSeason": "October to March",
+      "duration": "1 Day",
+      "rating": 4.8,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3533.15!2d85.325!3d27.674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19!2sPatan%20Durbar%20Square!5e0!3m2!1sen!2snp!4v1710000000040!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "kathmandu",
+        "bhaktapur"
+      ],
+      "highlights": {
+        "nature": "Shady temple yards.",
+        "history": "Krishna Mandir and Malla royal courtyard.",
+        "culture": "Exquisite Newari brass and copper metalwork.",
+        "adventure": "Walking tour through local handicraft lanes.",
+        "wildlife": "None",
+        "photography": "Fine details of Patan Museum courtyard."
+      },
+      "travelInfo": {
+        "bestTime": "All year round",
+        "transportation": "Taxi or direct bus from Kathmandu.",
+        "budget": "NPR 1,500 - 3,500",
+        "accommodation": "Charming boutique homestays in old town.",
+        "food": "Bara, Yomari, and local Newari set meals.",
+        "entryFee": "NPR 1,000 for foreigners at Durbar Square.",
+        "openingHours": "24/7",
+        "safetyTips": "Walk through lanes to avoid heavy traffic on main roads.",
+        "travelTips": "Visit local workshops to see how bronze statues are handmade."
+      }
+    },
+    {
+      "id": "janakpur",
+      "name": "Janakpur (Mithila)",
+      "slug": "janakpur",
+      "category": "cities,pilgrimage",
+      "province": "Madhesh Province",
+      "province_id": "madhesh",
+      "district": "Dhanusha",
+      "description": "Janakpur is the birthplace of Goddess Sita and the capital of the ancient Mithila Kingdom. It is a major pilgrimage hub, featuring the grand Janaki Temple and dozens of holy ponds.",
+      "heroImage": "https://komalhotels.com/storage/janaki-mandir-of-janakpurdham-nepal.jpg",
+      "galleryImages": [
+        "https://komalhotels.com/storage/janaki-mandir-of-janakpurdham-nepal.jpg",
+        "https://images.unsplash.com/photo-1627856013091-fed6e4e30025?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "October to March",
+      "duration": "1 Day",
+      "rating": 4.7,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3566.24838612502!2d85.9238384!3d26.7308298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ec417fa523fbf5%3A0xb3c3b016258a1f73!2sJanaki%20Temple!5e0!3m2!1sen!2snp!4v1710000000005!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "dhanushadham",
+        "gadhimai-temple"
+      ],
+      "highlights": {
+        "nature": "Vast network of historical ponds (Sagar).",
+        "history": "Ancient kingdom capital of King Janak.",
+        "culture": "Colorful Mithila wall paintings and pottery arts.",
+        "adventure": "Ride on Nepal's only operating railway line.",
+        "wildlife": "None",
+        "photography": "Vibrant temple structure lit up with neon lights at night."
+      },
+      "travelInfo": {
+        "bestTime": "October to March (winter season)",
+        "transportation": "Daily flights from Kathmandu (25 mins) or overnight buses.",
+        "budget": "NPR 4,000 - 8,000",
+        "accommodation": "Standard city hotels and pilgrimage dharmashalas.",
+        "food": "Mithila vegetarian meals, lassi, and local sweets.",
+        "entryFee": "None (free access).",
+        "openingHours": "6:00 AM - 10:00 PM",
+        "safetyTips": "Dress modestly near temple pools.",
+        "travelTips": "Attend the evening Ganga Aarti at Ganga Sagar pond."
+      }
+    },
+    {
+      "id": "dharan",
+      "name": "Dharan",
+      "slug": "dharan",
+      "category": "cities",
+      "province": "Koshi Province",
+      "province_id": "koshi",
+      "district": "Sunsari",
+      "description": "Dharan is a clean, modern city in the foothills of eastern Nepal. It serves as a major trade center and is known for temples, golf courses, and the nearby Bhedetar viewpoint.",
+      "heroImage": "https://i.pinimg.com/736x/f4/5d/56/f45d56303612b3a80d8dff73270bdd17.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/736x/f4/5d/56/f45d56303612b3a80d8dff73270bdd17.jpg"
+      ],
+      "bestSeason": "October to April",
+      "duration": "2 Days",
+      "rating": 4.6,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57053!2d87.27!3d26.82!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef!2sDharan!5e0!3m2!1sen!2snp!4v1710000000048!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "dhankuta",
+        "koshi-tappu"
+      ],
+      "highlights": {
+        "nature": "Scenic hills, forests, and the massive Namaste Falls.",
+        "history": "Originally developed as a British Gorkha recruitment camp.",
+        "culture": "Budha Subba temple where lovers tie threads on bamboo.",
+        "adventure": "Rafting on Tamur River or hiking up to Bhedetar.",
+        "wildlife": "Deer and monkeys in the nearby forest areas.",
+        "photography": "Lush green golf course and scenic forest drives."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn and Winter",
+        "transportation": "Flight to Biratnagar, then 1 hour drive, or bus.",
+        "budget": "NPR 5,000 - 10,000",
+        "accommodation": "Good city hotels and homestays.",
+        "food": "Pork dishes (famous locally), sekuwa, and eastern style momos.",
+        "entryFee": "None.",
+        "openingHours": "24/7",
+        "safetyTips": "Wear helmet on winding highway slopes.",
+        "travelTips": "Visit Budha Subba Temple and tie a thread for good luck."
+      }
+    },
+    {
+      "id": "butwal",
+      "name": "Butwal",
+      "slug": "butwal",
+      "category": "cities",
+      "province": "Lumbini Province",
+      "province_id": "lumbini",
+      "district": "Rupandehi",
+      "description": "Butwal is a fast-growing city at the intersection of East-West and Siddharth highways. It features the historic Jitgadi Fort and serves as a gateway to Lumbini and Palpa.",
+      "heroImage": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "October to March",
+      "duration": "1 Day",
+      "rating": 4.5,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113799!2d83.45!3d27.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3996ec!2sButwal!5e0!3m2!1sen!2snp!4v1710000000049!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "tansen",
+        "maya-devi-temple"
+      ],
+      "highlights": {
+        "nature": "Hill Park and scenic riverside walks.",
+        "history": "Jitgadi Fort where Nepalese soldiers defeated British troops.",
+        "culture": "Siddhababa Temple visited by Shiva devotees.",
+        "adventure": "Hiking to Nuwakot hill point.",
+        "wildlife": "Deer in Manimukunda Sen Park.",
+        "photography": "Views of Tinau River and highway bridges."
+      },
+      "travelInfo": {
+        "bestTime": "October to February",
+        "transportation": "Direct highway transport from Kathmandu (7-8 hours).",
+        "budget": "NPR 3,000 - 6,000",
+        "accommodation": "Modern city business hotels.",
+        "food": "Highway snacks, sekuwa, and local sweets.",
+        "entryFee": "None.",
+        "openingHours": "24/7",
+        "safetyTips": "Summers are extremely hot; carry sunscreen and hydration.",
+        "travelTips": "Visit Jitgadi Fort to see the historic army fortifications."
+      }
+    },
+    {
+      "id": "tansen",
+      "name": "Tansen",
+      "slug": "tansen",
+      "category": "cities,hills",
+      "province": "Lumbini Province",
+      "province_id": "lumbini",
+      "district": "Palpa",
+      "description": "Tansen is a charming hill town known for its cobbled streets, Newari architecture, Palpali Dhaka fabric, and the massive Ranighat Palace on the banks of the Kali Gandaki River.",
+      "heroImage": "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "September to May",
+      "duration": "2 Days",
+      "rating": 4.6,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113799!2d83.5!3d27.87!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3996ed!2sTansen!5e0!3m2!1sen!2snp!4v1710000000050!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "butwal",
+        "bandipur"
+      ],
+      "highlights": {
+        "nature": "Panoramic views of the Himalayas from Srinagar Hill.",
+        "history": "Ranighat Palace, the 'Taj Mahal of Nepal' built in 1893.",
+        "culture": "Traditional Palpali Dhaka handloom weaving.",
+        "adventure": "Hiking down to the Ranighat palace along the river.",
+        "wildlife": "None",
+        "photography": "Ranighat Palace standing on massive rocks over the river."
+      },
+      "travelInfo": {
+        "bestTime": "All year round",
+        "transportation": "Bus or jeep from Butwal (approx. 1.5 - 2 hours drive).",
+        "budget": "NPR 5,000 - 9,000",
+        "accommodation": "Old Newari style homestays and hotels.",
+        "food": "Palpali Chukouni (potato-yogurt salad) and Hans ko Choila.",
+        "entryFee": "None.",
+        "openingHours": "24/7",
+        "safetyTips": "Road down to Ranighat is narrow; hire experienced driver.",
+        "travelTips": "Buy a Palpali Dhaka cap or shawl as an authentic souvenir."
+      }
+    },
+    {
+      "id": "gorkha",
+      "name": "Gorkha",
+      "slug": "gorkha",
+      "category": "cities",
+      "province": "Gandaki Province",
+      "province_id": "gandaki",
+      "district": "Gorkha",
+      "description": "Gorkha is the ancestral home of the Shah dynasty and the legendary Gorkha soldiers. The hilltop Gorkha Durbar serves as a palace, fort, and temple complex with stunning mountain views.",
+      "heroImage": "https://www.nepalvisitinfo.com/wp-content/uploads/2019/09/gorkha-durbar.png",
+      "galleryImages": [
+        "https://www.nepalvisitinfo.com/wp-content/uploads/2019/09/gorkha-durbar.png"
+      ],
+      "bestSeason": "September to May",
+      "duration": "2 Days",
+      "rating": 4.5,
+      "difficulty": "Moderate",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d84.62!3d28.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995!2sGorkha%20Durbar!5e0!3m2!1sen!2snp!4v1710000000051!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "manakamana",
+        "bandipur"
+      ],
+      "highlights": {
+        "nature": "Pristine mountain slopes and view points.",
+        "history": "Birthplace of King Prithvi Narayan Shah, unifier of Nepal.",
+        "culture": "Gorakhnath temple and holy cave of Guru Gorakhnath.",
+        "adventure": "Climbing the 1,500 stone stairs to the palace fort.",
+        "wildlife": "None",
+        "photography": "Traditional palace doors, windows, and views of Mount Manaslu."
+      },
+      "travelInfo": {
+        "bestTime": "September to May",
+        "transportation": "Direct road route from Kathmandu/Pokhara (approx 4-5 hours).",
+        "budget": "NPR 5,000 - 8,000",
+        "accommodation": "Hillside lodges and market hotels.",
+        "food": "Local thali, millet pancakes, and local poultry.",
+        "entryFee": "None (small fee for museum).",
+        "openingHours": "6:00 AM - 6:00 PM",
+        "safetyTips": "Mind your footing on the steep stone steps to Durbar.",
+        "travelTips": "Visit early morning to get clear views of the peaks."
+      }
+    },
+    {
+      "id": "bandipur",
+      "name": "Bandipur",
+      "slug": "bandipur",
+      "category": "cities,hills",
+      "province": "Gandaki Province",
+      "province_id": "gandaki",
+      "district": "Tanahun",
+      "description": "Bandipur is a beautifully preserved Newari hill town. With its slate-paved streets and 18th-century architecture, it offers panoramic mountain views and a peaceful, vehicle-free core.",
+      "heroImage": "https://i.pinimg.com/736x/6c/6f/4d/6c6f4dcc0f9240ef799b002d1ca6e341.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/736x/6c/6f/4d/6c6f4dcc0f9240ef799b002d1ca6e341.jpg"
+      ],
+      "bestSeason": "September to May",
+      "duration": "2 Days",
+      "rating": 4.8,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3527.2!2d84.41!3d27.93!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995!2sBandipur!5e0!3m2!1sen!2snp!4v1710000000020!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "pokhara",
+        "gorkha"
+      ],
+      "highlights": {
+        "nature": "Tundikhel viewpoint with sunset clouds.",
+        "history": "Ancient trade stop on the Tibet route.",
+        "culture": "Newari architecture and wooden carvings.",
+        "adventure": "Caving inside Siddha Gufa, one of Nepal's largest.",
+        "wildlife": "None",
+        "photography": "Bright bougainvillea flowers against old brick walls."
+      },
+      "travelInfo": {
+        "bestTime": "September to May",
+        "transportation": "Highway bus to Dumre, then local jeep up the hill.",
+        "budget": "NPR 6,000 - 12,000",
+        "accommodation": "Charming boutique hotels in restored Malla buildings.",
+        "food": "Samay Baji, choila, and standard continental dishes.",
+        "entryFee": "None.",
+        "openingHours": "24/7",
+        "safetyTips": "No vehicles in old town; be prepared to walk.",
+        "travelTips": "Hike to Thani Mai Temple on the ridge for an incredible sunrise view."
+      }
+    },
+    {
+      "id": "mount-everest",
+      "name": "Mount Everest (8,849m)",
+      "slug": "mount-everest",
+      "category": "peaks",
+      "province": "Koshi Province",
+      "province_id": "koshi",
+      "district": "Solukhumbu",
+      "description": "Mount Everest (Sagarmatha) is the world's highest peak at 8,848.86m. Nestled in the Himalayas, it is the ultimate symbol of adventure, challenge, and majestic natural scale.",
+      "heroImage": "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80",
+        "https://media.tacdn.com/media/attractions-splice-spp-674x446/0b/39/79/12.jpg"
+      ],
+      "bestSeason": "April to May, October to November",
+      "duration": "14 Days",
+      "rating": 5.0,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3527.27!2d86.92!3d27.98!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e857e!2sMount%20Everest!5e0!3m2!1sen!2snp!4v1710000000052!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "sagarmatha-national-park",
+        "kanchenjunga-base-camp"
+      ],
+      "highlights": {
+        "nature": "Highest point on earth and colossal glaciers.",
+        "history": "First scaled by Sir Edmund Hillary and Tenzing Norgay in 1953.",
+        "culture": "Tibetan Buddhist stupas and prayer flags at base camp.",
+        "adventure": "The ultimate base camp trek or summit climb.",
+        "wildlife": "Snow leopards, Himalayan tahr, and musk deer.",
+        "photography": "Iconic sunrise on Mount Everest peak from Kala Patthar."
+      },
+      "travelInfo": {
+        "bestTime": "Spring (flowery paths) and Autumn (cold but super clear)",
+        "transportation": "Flight from Kathmandu to Lukla, then trek to base camp.",
+        "budget": "NPR 60,000 - 150,000",
+        "accommodation": "Mountain teahouses and lodges.",
+        "food": "Dal Bhat, hot noodle soup, and ginger tea.",
+        "entryFee": "NPR 3,000 for National Park permit.",
+        "openingHours": "24/7",
+        "safetyTips": "Highly subject to extreme cold and altitude sickness; monitor oxygen levels.",
+        "travelTips": "Hike to Kala Patthar (5,545m) for the best direct view of the summit."
+      }
+    },
+    {
+      "id": "kanchenjunga",
+      "name": "Kangchenjunga (8,586m)",
+      "slug": "kanchenjunga",
+      "category": "peaks",
+      "province": "Koshi Province",
+      "province_id": "koshi",
+      "district": "Taplejung",
+      "description": "Mount Kanchenjunga is the third-highest mountain in the world (8,586m). Located on the border of eastern Nepal and India, it offers a raw, remote alpine wilderness experience.",
+      "heroImage": "https://th.bing.com/th/id/R.f30e8de98f4df71194c14ff08fe03168?rik=7aXgZC4YmM%2bSlg&pid=ImgRaw&r=0",
+      "galleryImages": [
+        "https://th.bing.com/th/id/R.f30e8de98f4df71194c14ff08fe03168?rik=7aXgZC4YmM%2bSlg&pid=ImgRaw&r=0"
+      ],
+      "bestSeason": "March to May, October to November",
+      "duration": "18 Days",
+      "rating": 4.9,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3527.2798937000003!2d88.1469!3d27.7025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e574c8e7efcf27%3A0xe2128bd5427d142f!2sKanchenjunga!5e0!3m2!1sen!2snp!4v1710000000001!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "pathibhara-temple",
+        "mount-everest"
+      ],
+      "highlights": {
+        "nature": "Massive glacial walls and deep valleys.",
+        "history": "Legendary peak of eastern legends.",
+        "culture": "Limbu and Kirat mountain civilizations.",
+        "adventure": "Restricted wilderness trek to base camp.",
+        "wildlife": "Red pandas and Himalayan bears.",
+        "photography": "Vast Kanchenjunga massif seen from Pangpema."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn (October) for clear trails.",
+        "transportation": "Fly to Bhadrapur, jeep to Taplejung, then trek.",
+        "budget": "NPR 90,000 - 150,000",
+        "accommodation": "Basic teahouses and camps.",
+        "food": "Local hot meals, potatoes, and Dal Bhat.",
+        "entryFee": "Restricted area permit required (USD 10-20/week).",
+        "openingHours": "24/7",
+        "safetyTips": "Must travel in a group of at least 2 with a registered guide.",
+        "travelTips": "Visit both north and south base camps if you have enough days."
+      }
+    },
+    {
+      "id": "lhotse",
+      "name": "Lhotse (8,516m)",
+      "slug": "lhotse",
+      "category": "peaks",
+      "province": "Koshi Province",
+      "province_id": "koshi",
+      "district": "Solukhumbu",
+      "description": "Lhotse is the fourth-highest mountain in the world at 8,516m. It is connected directly to Mount Everest via the South Col and features one of the most dramatic mountain walls on earth.",
+      "heroImage": "https://climbing4sdgs.com/wp-content/uploads/elementor/thumbs/Mt.-Lhotse-q3oobij347nqlzcvzp1c1uibci6ai16yx433vltn4o.jpg",
+      "galleryImages": [
+        "https://climbing4sdgs.com/wp-content/uploads/elementor/thumbs/Mt.-Lhotse-q3oobij347nqlzcvzp1c1uibci6ai16yx433vltn4o.jpg"
+      ],
+      "bestSeason": "April to May, October to November",
+      "duration": "14 Days",
+      "rating": 4.8,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d86.93!3d27.96!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e8!2sLhotse!5e0!3m2!1sen!2snp!4v1710000000053!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "mount-everest",
+        "sagarmatha-national-park"
+      ],
+      "highlights": {
+        "nature": "The sheer 3.2 km South Face wall, one of the steepest in the world.",
+        "history": "First scaled in 1956 by Swiss climbers.",
+        "culture": "Sherpa high-altitude settlements.",
+        "adventure": "Challenging climbing routes sharing the Everest trail.",
+        "wildlife": "Himalayan yaks.",
+        "photography": "Splendid shots of the Lhotse face from Chhukung village."
+      },
+      "travelInfo": {
+        "bestTime": "Spring for climbing, Autumn for viewing.",
+        "transportation": "Lukla flight, then trek via Namche.",
+        "budget": "NPR 60,000 - 130,000",
+        "accommodation": "Teahouses and camps.",
+        "food": "Dal Bhat, garlic soups, tea, and noodles.",
+        "entryFee": "NPR 3,000 park fee.",
+        "openingHours": "24/7",
+        "safetyTips": "Highly risk of avalanches on the Lhotse face.",
+        "travelTips": "Stay at Chhukung for a couple of days to view the peak clearly."
+      }
+    },
+    {
+      "id": "makalu",
+      "name": "Makalu (8,485m)",
+      "slug": "makalu",
+      "category": "peaks",
+      "province": "Koshi Province",
+      "province_id": "koshi",
+      "district": "Sankhuwasabha",
+      "description": "Mount Makalu is the fifth-highest mountain on Earth (8,485m). It is an isolated four-sided pyramid peak located in the Makalu Barun National Park.",
+      "heroImage": "https://i.pinimg.com/736x/01/99/65/0199659033e094c0c576f5f76f600135.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/736x/01/99/65/0199659033e094c0c576f5f76f600135.jpg"
+      ],
+      "bestSeason": "March to May, October to November",
+      "duration": "16 Days",
+      "rating": 4.8,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d87.08!3d27.89!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e8!2sMakalu!5e0!3m2!1sen!2snp!4v1710000000054!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "makalu-barun-national-park",
+        "kanchenjunga"
+      ],
+      "highlights": {
+        "nature": "Pyramidal mountain slopes and massive hanging glaciers.",
+        "history": "First scaled in 1955 by a French expedition.",
+        "culture": "Sherpa and Rai remote villages.",
+        "adventure": "Challenging trek to base camp through Barun gorge.",
+        "wildlife": "Red pandas and mountain tahrs in the valleys.",
+        "photography": "Stunning reflections of Makalu on glacial tarn lakes."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn (clear mountain skies)",
+        "transportation": "Flight to Tumlingtar and jeep to Num, then trek.",
+        "budget": "NPR 70,000 - 110,000",
+        "accommodation": "Basic teahouses and camping setup.",
+        "food": "Dal Bhat, local flatbreads, and potatoes.",
+        "entryFee": "NPR 3,000 park fee.",
+        "openingHours": "24/7",
+        "safetyTips": "Frequent trail landslides in rainy seasons.",
+        "travelTips": "Make sure you pack a warm sleeping bag rated for -15C."
+      }
+    },
+    {
+      "id": "cho-oyu",
+      "name": "Cho Oyu (8,188m)",
+      "slug": "cho-oyu",
+      "category": "peaks",
+      "province": "Koshi Province",
+      "province_id": "koshi",
+      "district": "Solukhumbu",
+      "description": "Mount Cho Oyu (8,188m) is the sixth-highest mountain in the world. It stands on the Nepal-Tibet border and is considered the easiest of the 8,000m peaks to climb due to its moderate slopes.",
+      "heroImage": "https://live.staticflickr.com/65535/54398125656_91afcbae53_b.jpg",
+      "galleryImages": [
+        "https://live.staticflickr.com/65535/54398125656_91afcbae53_b.jpg"
+      ],
+      "bestSeason": "April to May, September to October",
+      "duration": "14 Days",
+      "rating": 4.7,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d86.66!3d28.09!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e8!2sCho%20Oyu!5e0!3m2!1sen!2snp!4v1710000000055!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "mount-everest",
+        "sagarmatha-national-park"
+      ],
+      "highlights": {
+        "nature": "Broad snow fields and glacial passes.",
+        "history": "First scaled in 1954 by Austrian expedition.",
+        "culture": "Sherpa communities of Gokyo Valley.",
+        "adventure": "Cross Nangpa La, the historic trade pass.",
+        "wildlife": "Himalayan yaks and snow pigeons.",
+        "photography": "Vast peak outline seen from the Gokyo Lakes area."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn for clear skies.",
+        "transportation": "Fly to Lukla, then trek via Gokyo.",
+        "budget": "NPR 60,000 - 110,000",
+        "accommodation": "Teahouses and camps.",
+        "food": "Noodle soups, hot tea, and Dal Bhat.",
+        "entryFee": "NPR 3,000 park fee.",
+        "openingHours": "24/7",
+        "safetyTips": "Cold winds are strong; keep face and hands warm.",
+        "travelTips": "Combine this with the Gokyo Lakes trek for the best views."
+      }
+    },
+    {
+      "id": "dhaulagiri",
+      "name": "Dhaulagiri I (8,167m)",
+      "slug": "dhaulagiri",
+      "category": "peaks",
+      "province": "Gandaki Province",
+      "province_id": "gandaki",
+      "district": "Myagdi",
+      "description": "Mount Dhaulagiri I (8,167m) is the seventh-highest mountain on Earth, forming a massive wall that separates the deep Kali Gandaki Gorge from the rest of Nepal.",
+      "heroImage": "https://i.pinimg.com/736x/10/29/a3/1029a3d7fc29f45b6acd4f305e1b0575.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/736x/10/29/a3/1029a3d7fc29f45b6acd4f305e1b0575.jpg"
+      ],
+      "bestSeason": "March to May, September to November",
+      "duration": "15 Days",
+      "rating": 4.8,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d83.48!3d28.69!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3996!2sDhaulagiri!5e0!3m2!1sen!2snp!4v1710000000056!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "mustang",
+        "annapurna-base-camp"
+      ],
+      "highlights": {
+        "nature": "Kali Gandaki gorge, the deepest gorge in the world.",
+        "history": "First scaled in 1960 by a Swiss-Austrian team.",
+        "culture": "Explore local Thakali and Gurung cultures.",
+        "adventure": "The challenging Dhaulagiri circuit trek.",
+        "wildlife": "Himalayan tahr and snow leopards.",
+        "photography": "Incredible pyramid shape of Dhaulagiri rising over green hills."
+      },
+      "travelInfo": {
+        "bestTime": "October and November (extremely clear skies)",
+        "transportation": "Jeep to Darbang from Pokhara, then trek.",
+        "budget": "NPR 70,000 - 120,000",
+        "accommodation": "Mainly camping; teahouses are basic.",
+        "food": "Dal Bhat, local potatoes, and camp foods.",
+        "entryFee": "NPR 3,000 ACAP permit.",
+        "openingHours": "24/7",
+        "safetyTips": "Subject to high winds and snowstorms near French Pass.",
+        "travelTips": "Only attempt the circuit with an experienced guide and proper mountain gear."
+      }
+    },
+    {
+      "id": "manaslu",
+      "name": "Mount Manaslu",
+      "slug": "manaslu",
+      "category": "peaks",
+      "province": "Gandaki Province",
+      "province_id": "gandaki",
+      "district": "Gorkha",
+      "description": "Mount Manaslu (8,163m) is the eighth-highest mountain in the world, set in a protected conservation area that displays pristine Tibetan-style villages and a challenging pass (Larkya La).",
+      "heroImage": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "March to May, September to November",
+      "duration": "14 Days",
+      "rating": 4.8,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d84.56!3d28.55!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995!2sManaslu!5e0!3m2!1sen!2snp!4v1710000000057!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "gorkha-durbar",
+        "annapurna-base-camp"
+      ],
+      "highlights": {
+        "nature": "Stunning glacial valleys and Larkya La pass at 5,160m.",
+        "history": "First scaled in 1956 by Japanese climbers.",
+        "culture": "Ancient monasteries and Buddhist way of life in Samagaon.",
+        "adventure": "Trekking around the entire Manaslu massif.",
+        "wildlife": "Blue sheep and snow leopards.",
+        "photography": "Twin-peaked outline of Manaslu from Samagaon village."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn (October) is the peak trekking season.",
+        "transportation": "Jeep from Kathmandu to Soti Khola / Machha Khola.",
+        "budget": "NPR 50,000 - 85,000",
+        "accommodation": "Trekking teahouses.",
+        "food": "Dal Bhat, barley porridge, and noodles.",
+        "entryFee": "Restricted permit required (USD 70-100/week).",
+        "openingHours": "24/7",
+        "safetyTips": "Acclimatize properly before crossing Larkya La pass.",
+        "travelTips": "Must hire a licensed guide to travel in the restricted zone."
+      }
+    },
+    {
+      "id": "annapurna-i",
+      "name": "Mount Annapurna I",
+      "slug": "annapurna-i",
+      "category": "peaks",
+      "province": "Gandaki Province",
+      "province_id": "gandaki",
+      "district": "Kaski",
+      "description": "Annapurna I is the tenth-highest mountain in the world at 8,091m. It is historically famous as the first 8,000m peak ever scaled by humans.",
+      "heroImage": "https://paradisehimalayan.com/public/uploads/frontend/main/annapurna-base-camp-trek-1599407752461.jpg",
+      "galleryImages": [
+        "https://paradisehimalayan.com/public/uploads/frontend/main/annapurna-base-camp-trek-1599407752461.jpg"
+      ],
+      "bestSeason": "October to November, March to May",
+      "duration": "10 Days",
+      "rating": 4.9,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14022.3!2d83.87!3d28.53!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3996!2sAnnapurna%20Base%20Camp!5e0!3m2!1sen!2snp!4v1710000000019!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "pokhara",
+        "mustang"
+      ],
+      "highlights": {
+        "nature": "High altitude glacier basin of the Annapurna sanctuary.",
+        "history": "First scaled in 1950 by Maurice Herzog and Louis Lachenal.",
+        "culture": "Local Gurung traditional dances and hospitality.",
+        "adventure": "Trekking to the base camp at 4,130m.",
+        "wildlife": "Musk deer and Himalayan tahr.",
+        "photography": "Golden sun hitting the snow walls of Annapurna South."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn for clear skies, Spring for blooming flowers.",
+        "transportation": "Drive from Pokhara to Ghandruk/Jhinu, then trek.",
+        "budget": "NPR 35,000 - 55,000",
+        "accommodation": "Standard teahouses.",
+        "food": "Dal Bhat, pasta, oatmeal, tea, and local pie.",
+        "entryFee": "NPR 3,000 ACAP permit fee.",
+        "openingHours": "24/7",
+        "safetyTips": "Beware of avalanche warnings near Hinku Cave.",
+        "travelTips": "Take a hot dip in the natural springs at Jhinu Danda on return."
+      }
+    },
+    {
+      "id": "pashupatinath-temple",
+      "name": "Pashupatinath Temple",
+      "slug": "pashupatinath-temple",
+      "category": "pilgrimage,heritage",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Kathmandu",
+      "description": "Pashupatinath is the oldest and most sacred Hindu temple complex in Kathmandu. Dedicated to Lord Shiva, it is a UNESCO heritage site built in the classic pagoda style along the Bagmati River.",
+      "heroImage": "https://i.pinimg.com/originals/10/3a/27/103a27cbdb069603fd534d33ddbabe23.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/originals/10/3a/27/103a27cbdb069603fd534d33ddbabe23.jpg",
+        "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "All year round",
+      "duration": "1 Day",
+      "rating": 4.9,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.1812836248386!2d85.3462947!3d27.7106606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb197171e2efef%3A0xe54d3f3f0e0fc9f9!2sPashupatinath%20Temple!5e0!3m2!1sen!2snp!4v1710000000010!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "kathmandu-durbar-square",
+        "boudhanath-stupa"
+      ],
+      "highlights": {
+        "nature": "Shady forests of Mrigasthali hill.",
+        "history": "Dating back to 400 AD, oldest temple in Kathmandu.",
+        "culture": "Powerful evening Ganga Aarti with thousands of lamps.",
+        "adventure": "None",
+        "wildlife": "Sacred temple monkeys and deer.",
+        "photography": "Vibrant Sadhus (ascetics) with unique facial paintings."
+      },
+      "travelInfo": {
+        "bestTime": "All year round, evening for Aarti",
+        "transportation": "Taxi or bus to Gaushala.",
+        "budget": "NPR 1,000 - 3,000",
+        "accommodation": "Standard Kathmandu hotels.",
+        "food": "Pure vegetarian local foods.",
+        "entryFee": "NPR 1,000 for foreigners, free for Hindus.",
+        "openingHours": "4:00 AM - 9:00 PM",
+        "safetyTips": "Keep food inside bags due to aggressive monkeys.",
+        "travelTips": "Wear conservative clothing covering shoulders and knees."
+      }
+    },
+    {
+      "id": "muktinath-temple",
+      "name": "Muktinath Temple",
+      "slug": "muktinath-temple",
+      "category": "pilgrimage",
+      "province": "Gandaki Province",
+      "province_id": "gandaki",
+      "district": "Mustang",
+      "description": "Muktinath Temple, located at 3,710m in Mustang, is a highly sacred pilgrimage site for both Hindus and Buddhists, famous for its 108 water spouts and natural gas flames burning on water.",
+      "heroImage": "https://1.bp.blogspot.com/-FfOe5crZXAQ/XaFn98m-CTI/AAAAAAAAAMA/HxXdM519zxcVgF8En-st2wgpvoe1SSnQwCLcBGAsYHQ/s1600/muktinath-darshan-yatra86.jpg",
+      "galleryImages": [
+        "https://1.bp.blogspot.com/-FfOe5crZXAQ/XaFn98m-CTI/AAAAAAAAAMA/HxXdM519zxcVgF8En-st2wgpvoe1SSnQwCLcBGAsYHQ/s1600/muktinath-darshan-yatra86.jpg"
+      ],
+      "bestSeason": "March to May, September to November",
+      "duration": "2 Days",
+      "rating": 4.9,
+      "difficulty": "Moderate",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d83.87!3d28.81!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3996!2sMuktinath%20Temple!5e0!3m2!1sen!2snp!4v1710000000058!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "mustang",
+        "pokhara"
+      ],
+      "highlights": {
+        "nature": "High altitude desert slopes of Mustang.",
+        "history": "Centuries-old pilgrimage site mentioned in holy texts.",
+        "culture": "Co-worship by Hindu priests and Buddhist Juma nuns.",
+        "adventure": "Jeep ride or hike up the dry valley.",
+        "wildlife": "Himalayan yaks.",
+        "photography": "108 semi-circular brass water spouts in front of the temple."
+      },
+      "travelInfo": {
+        "bestTime": "March to May, September to November",
+        "transportation": "Jeep or flight from Pokhara to Jomsom, then local jeep.",
+        "budget": "NPR 15,000 - 30,000",
+        "accommodation": "Lodges in Ranipauwa village.",
+        "food": "Local thali, apple pies, and hot soups.",
+        "entryFee": "ACAP permit needed (NPR 3,000).",
+        "openingHours": "5:00 AM - 7:00 PM",
+        "safetyTips": "High altitude can cause breathing difficulty; walk slowly.",
+        "travelTips": "Take a bath in the 108 freezing cold water spouts for spiritual purification."
+      }
+    },
+    {
+      "id": "janaki-temple",
+      "name": "Janaki Temple",
+      "slug": "janaki-temple",
+      "category": "pilgrimage,heritage",
+      "province": "Madhesh Province",
+      "province_id": "madhesh",
+      "district": "Dhanusha",
+      "description": "Janaki Mandir is a stunning Rajput-Mughal style white temple dedicated to Goddess Sita. Located in Janakpur, it is considered one of the most magnificent religious monuments in Nepal.",
+      "heroImage": "https://chinarinepal.com/wp-content/uploads/2022/03/JANAKI-MANDIR-1024x386.png",
+      "galleryImages": [
+        "https://chinarinepal.com/wp-content/uploads/2022/03/JANAKI-MANDIR-1024x386.png",
+        "https://images.unsplash.com/photo-1627856013091-fed6e4e30025?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "October to March",
+      "duration": "1 Day",
+      "rating": 4.9,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3566.24838612502!2d85.9238384!3d26.7308298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ec417fa523fbf5%3A0xb3c3b016258a1f73!2sJanaki%20Temple!5e0!3m2!1sen!2snp!4v1710000000005!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "janakpur",
+        "dhanushadham"
+      ],
+      "highlights": {
+        "nature": "Scenic temple ponds.",
+        "history": "Built in 1910 by the Queen of Tikamgarh.",
+        "culture": "Epicenter of Ramayana marriage rituals.",
+        "adventure": "Walking through historic bazaar lanes.",
+        "wildlife": "None",
+        "photography": "Ornate dome arches and white temple walls."
+      },
+      "travelInfo": {
+        "bestTime": "October to March",
+        "transportation": "Flight or bus from Kathmandu.",
+        "budget": "NPR 3,000 - 7,000",
+        "accommodation": "Standard city hotels.",
+        "food": "Pure vegetarian north Indian and Mithila meals.",
+        "entryFee": "Free.",
+        "openingHours": "6:00 AM - 8:00 PM",
+        "safetyTips": "Wear modest clothes; remove footwear before entering.",
+        "travelTips": "Visit during Ram Navami or Vivah Panchami to see grand festivals."
+      }
+    },
+    {
+      "id": "manakamana-temple",
+      "name": "Manakamana Temple",
+      "slug": "manakamana-temple",
+      "category": "pilgrimage",
+      "province": "Gandaki Province",
+      "province_id": "gandaki",
+      "district": "Gorkha",
+      "description": "Manakamana Temple is a highly popular Hindu shrine dedicated to Goddess Bhagwati, believed to fulfill the wishes of her devotees. It is reached by a scenic cable car ride rising over the Trishuli River.",
+      "heroImage": "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "All year round",
+      "duration": "1 Day",
+      "rating": 4.7,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d84.6!3d27.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995!2sManakamana%20Temple!5e0!3m2!1sen!2snp!4v1710000000059!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "gorkha-durbar",
+        "bandipur"
+      ],
+      "highlights": {
+        "nature": "Beautiful orange orchards and river views.",
+        "history": "Dates back to the 17th century Gorkha Kingdom.",
+        "culture": "Traditional animal sacrifices and offerings.",
+        "adventure": "Cable car ride climbing 1,000m in 10 minutes.",
+        "wildlife": "None",
+        "photography": "Views of the Trishuli river valley from the cable car."
+      },
+      "travelInfo": {
+        "bestTime": "September to May",
+        "transportation": "Highway drive to Kurintar, then take the cable car.",
+        "budget": "NPR 3,000 - 5,000",
+        "accommodation": "Local hotels in Manakamana bazaar.",
+        "food": "Local thali, fruits, and snacks.",
+        "entryFee": "None (cable car ticket approx. NPR 700).",
+        "openingHours": "6:00 AM - 6:00 PM",
+        "safetyTips": "Cable car lines are long on Saturdays and festivals; arrive early.",
+        "travelTips": "Try fresh organic oranges sold on the temple steps."
+      }
+    },
+    {
+      "id": "pathibhara-temple",
+      "name": "Pathibhara Temple",
+      "slug": "pathibhara-temple",
+      "category": "pilgrimage",
+      "province": "Koshi Province",
+      "province_id": "koshi",
+      "district": "Taplejung",
+      "description": "Pathibhara Devi Temple is a sacred hilltop shrine located at 3,794m in eastern Nepal, offering spiritual peace and spectacular views of the Kanchenjunga range.",
+      "heroImage": "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "September to November, March to May",
+      "duration": "4 Days",
+      "rating": 4.7,
+      "difficulty": "Moderate",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.909935105953!2d87.7719602!3d27.4253164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e59cb122ca88cb%3A0xa1969df26a6e53a2!2sPathibhara%20Devi%20Temple!5e0!3m2!1sen!2snp!4v1710000000002!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "kanchenjunga-base-camp",
+        "ilam-tea-garden"
+      ],
+      "highlights": {
+        "nature": "Scenic rhododendron forests and mountain ranges.",
+        "history": "Beloved goddess shrine revered by Limbu kings.",
+        "culture": "Kirat and Hindu syncretic rituals.",
+        "adventure": "A steep uphill hike to the temple ridge.",
+        "wildlife": "Rare mountain birds.",
+        "photography": "Vast Kanchenjunga peaks rising behind the prayer bells."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn and Spring",
+        "transportation": "Jeep to Sano Phedi, then 5 hours climb.",
+        "budget": "NPR 15,000 - 25,000",
+        "accommodation": "Basic mountain lodges in Phedi.",
+        "food": "Simple vegetarian Dal Bhat.",
+        "entryFee": "Free.",
+        "openingHours": "5:00 AM - 6:00 PM",
+        "safetyTips": "Carry warm clothes; altitude can cause headaches.",
+        "travelTips": "Ascend slowly; take sips of hot water frequently."
+      }
+    },
+    {
+      "id": "gosaikunda",
+      "name": "Gosaikunda Lake",
+      "slug": "gosaikunda",
+      "category": "pilgrimage,nature",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Rasuwa",
+      "description": "Gosaikunda is a holy alpine lake located at 4,380m in Langtang National Park. Revered by Hindus as the creation of Lord Shiva, it features pristine blue waters surrounded by snow peaks.",
+      "heroImage": "https://images.unsplash.com/photo-1551829142-d9b812de432c?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1551829142-d9b812de432c?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "May to November",
+      "duration": "5 Days",
+      "rating": 4.8,
+      "difficulty": "Hard",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d85.41!3d28.08!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb!2sGosaikunda!5e0!3m2!1sen!2snp!4v1710000000060!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "langtang-national-park",
+        "kathmandu"
+      ],
+      "highlights": {
+        "nature": "Deep blue alpine lakes surrounded by snow ridges.",
+        "history": "Mythological site of Shiva's Trishul creation.",
+        "culture": "Janai Purnima festival gathering of shamans.",
+        "adventure": "Challenging trek crossing Lauribina Pass (4,610m).",
+        "wildlife": "None",
+        "photography": "Stunning reflections of snowy peaks on Gosaikunda lake."
+      },
+      "travelInfo": {
+        "bestTime": "September to November, May (Janai Purnima in August is crowded)",
+        "transportation": "Bus from Kathmandu to Dunche, then trek for 2 days.",
+        "budget": "NPR 15,000 - 25,000",
+        "accommodation": "Local teahouses along the trail.",
+        "food": "Dal Bhat, garlic soup, potatoes, and tea.",
+        "entryFee": "NPR 3,000 national park fee.",
+        "openingHours": "24/7",
+        "safetyTips": "Highly prone to altitude sickness; ascend slowly.",
+        "travelTips": "Bring a warm thermal layer as temperatures drop below freezing at night."
+      }
+    },
+    {
+      "id": "halesi-mahadev",
+      "name": "Halesi Mahadev",
+      "slug": "halesi-mahadev",
+      "category": "pilgrimage",
+      "province": "Koshi Province",
+      "province_id": "koshi",
+      "district": "Khotang",
+      "description": "Halesi Mahadev is a famous cave temple situated in eastern Nepal. Revered as the 'Pashupatinath of the East' by Hindus and as Maratika Cave by Buddhists, it is a site of deep meditation and spirituality.",
+      "heroImage": "https://images.unsplash.com/photo-1590073844006-33379778ae09?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1590073844006-33379778ae09?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "October to May",
+      "duration": "3 Days",
+      "rating": 4.6,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d86.62!3d27.18!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e8!2sHalesi%20Mahadev%20Temple!5e0!3m2!1sen!2snp!4v1710000000061!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "ilam-tea-garden",
+        "dhankuta"
+      ],
+      "highlights": {
+        "nature": "Massive natural limestone cave structures.",
+        "history": "Cave complex associated with Guru Padmasambhava.",
+        "culture": "Confluence of Hindu, Buddhist, and Kirat devotees.",
+        "adventure": "Exploring the dark cavernous passages.",
+        "wildlife": "Hundreds of bats residing in the cave ceilings.",
+        "photography": "Shafts of light filtering into the dark cave halls."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn and Spring",
+        "transportation": "Direct bus or jeep from Kathmandu (approx. 7-8 hours).",
+        "budget": "NPR 6,000 - 12,000",
+        "accommodation": "Local budget hotels and guest lodges.",
+        "food": "Simple vegetarian foods.",
+        "entryFee": "Free.",
+        "openingHours": "5:00 AM - 8:00 PM",
+        "safetyTips": "Be careful on the slippery stone steps inside the caves.",
+        "travelTips": "Carry a headlamp to inspect the beautiful stalactite shapes."
+      }
+    },
+    {
+      "id": "dhulikhel",
+      "name": "Dhulikhel",
+      "slug": "dhulikhel",
+      "category": "hills",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Kavrepalanchok",
+      "description": "Dhulikhel is an ancient Newari town in the mid-hills, famous for its historic brick houses, sweet organic farming, and views of the eastern Himalayan peaks.",
+      "heroImage": "https://www.holidify.com/images/cmsuploads/compressed/town_20181010191058_20181010191109.jpg",
+      "galleryImages": [
+        "https://www.holidify.com/images/cmsuploads/compressed/town_20181010191058_20181010191109.jpg"
+      ],
+      "bestSeason": "September to May",
+      "duration": "1 Day",
+      "rating": 4.6,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.88!2d85.55!3d27.61!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1a!2sDhulikhel!5e0!3m2!1sen!2snp!4v1710000000062!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "nagarkot",
+        "bhaktapur"
+      ],
+      "highlights": {
+        "nature": "Pine forests and panoramic vistas of eastern peaks.",
+        "history": "Old trading town on the Kathmandu-Tibet route.",
+        "culture": "Newari culture and temples inside old quarters.",
+        "adventure": "Zip-lining in nearby adventure parks.",
+        "wildlife": "None",
+        "photography": "Sunset colors on the Langtang and Rolwaling ranges."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn and Spring",
+        "transportation": "Taxi or local bus from Kathmandu (approx. 1.5 hours).",
+        "budget": "NPR 3,000 - 8,000",
+        "accommodation": "Luxury resorts and heritage guesthouses.",
+        "food": "Local organic vegetables, trout fish, and Newari sets.",
+        "entryFee": "None.",
+        "openingHours": "24/7",
+        "safetyTips": "Safe to travel all year round.",
+        "travelTips": "Visit Namo Buddha Monastery located just 12 km from Dhulikhel."
+      }
+    },
+    {
+      "id": "nagarkot",
+      "name": "Nagarkot",
+      "slug": "nagarkot",
+      "category": "hills,nature",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Bhaktapur",
+      "description": "Nagarkot is a famous hill station on the rim of the Kathmandu Valley, providing panoramic views of the Himalayas including Everest on clear days.",
+      "heroImage": "https://travel80.com/wp-content/uploads/2025/08/2025-08-22-002-Nagarkot-sunrise-view.png",
+      "galleryImages": [
+        "https://travel80.com/wp-content/uploads/2025/08/2025-08-22-002-Nagarkot-sunrise-view.png"
+      ],
+      "bestSeason": "October to March",
+      "duration": "1-2 Days",
+      "rating": 4.6,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.06!2d85.521!3d27.721!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1c0!2sNagarkot!5e0!3m2!1sen!2snp!4v1710000000015!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "bhaktapur",
+        "dhulikhel"
+      ],
+      "highlights": {
+        "nature": "Dense pine forests and morning mist valleys.",
+        "history": "Ancient fort town monitoring the valley borders.",
+        "culture": "Hill villages of Tamang and Newari families.",
+        "adventure": "Hiking the eco-trail through pine woods.",
+        "wildlife": "Forest birds.",
+        "photography": "Golden sun hitting the snow caps at sunrise."
+      },
+      "travelInfo": {
+        "bestTime": "October to December (clearest view)",
+        "transportation": "Taxi or local bus from Bhaktapur.",
+        "budget": "NPR 5,000 - 15,000",
+        "accommodation": "Premium mountain resorts and simple lodges.",
+        "food": "Barbecue, local organic vegetables, and thali sets.",
+        "entryFee": "None.",
+        "openingHours": "24/7",
+        "safetyTips": "High highway curves; drive carefully.",
+        "travelTips": "Wake up 30 minutes before sunrise to capture the best mountain colors."
+      }
+    },
+    {
+      "id": "ilam",
+      "name": "Ilam (Tea Gardens)",
+      "slug": "ilam",
+      "category": "hills,nature",
+      "province": "Koshi Province",
+      "province_id": "koshi",
+      "district": "Ilam",
+      "description": "Ilam is a scenic hill station in eastern Nepal, famous for extensive rolling tea gardens, unique biodiversity in Mai Pokhari, and breathtaking sunrise views.",
+      "heroImage": "https://images.unsplash.com/photo-1597211684565-dca64d72bdfe?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1597211684565-dca64d72bdfe?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "October to April",
+      "duration": "2 Days",
+      "rating": 4.8,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113912.4414777598!2d87.84803929424754!3d26.911019688537554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e5b5c92d5c3db7%3A0xe54d3f3f0e0fc9f9!2sIlam!5e0!3m2!1sen!2snp!4v1710000000000!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "pathibhara-temple",
+        "dharan"
+      ],
+      "highlights": {
+        "nature": "Lush green rolling tea fields of Kanyam.",
+        "history": "Nepal's oldest tea plantation dating back to 1863.",
+        "culture": "Eastern hill agriculture and Gurung/Limbu custom.",
+        "adventure": "Horse riding in the tea estates.",
+        "wildlife": "Endemic birds and amphibians in Mai Pokhari.",
+        "photography": "Mist rolling over the green tea garden hills."
+      },
+      "travelInfo": {
+        "bestTime": "October to December, February to April",
+        "transportation": "Bhadrapur flight, then jeep to Ilam (3-4 hours).",
+        "budget": "NPR 8,000 - 15,000",
+        "accommodation": "Lakeside home cottages and standard market hotels.",
+        "food": "Ilam tea, lollipop sweets, and organic local foods.",
+        "entryFee": "None.",
+        "openingHours": "24/7",
+        "safetyTips": "Carry warm clothes; hill weather shifts quickly.",
+        "travelTips": "Wake up early and head to Antu Danda for the best sunrise view in eastern Nepal."
+      }
+    },
+    {
+      "id": "ghandruk",
+      "name": "Ghandruk Village",
+      "slug": "ghandruk",
+      "category": "hills",
+      "province": "Gandaki Province",
+      "province_id": "gandaki",
+      "district": "Kaski",
+      "description": "Ghandruk is a beautiful Gurung village in the Annapurna foothills, famous for traditional slate-roofed houses, Gurung cultural museums, and direct views of Annapurna South and Machapuchare.",
+      "heroImage": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "September to May",
+      "duration": "2 Days",
+      "rating": 4.7,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3527.2!2d83.8!3d28.37!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995!2sGhandruk!5e0!3m2!1sen!2snp!4v1710000000063!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "pokhara",
+        "annapurna-i"
+      ],
+      "highlights": {
+        "nature": "Terraced fields and mountain vistas.",
+        "history": "Ancestral village of Gurung soldiers.",
+        "culture": "Traditional Gurung museum and ethnic clothing trials.",
+        "adventure": "Short trek from Pokhara/Nayapul.",
+        "wildlife": "None",
+        "photography": "Direct sunrise on Machapuchare from village yards."
+      },
+      "travelInfo": {
+        "bestTime": "September to May",
+        "transportation": "Jeep or bus from Pokhara (approx. 3 hours).",
+        "budget": "NPR 5,000 - 8,000",
+        "accommodation": "Cozy Gurung homestays and teahouses.",
+        "food": "Dal Bhat, local chicken curry, and home-brewed beverages.",
+        "entryFee": "ACAP permit needed (NPR 3,000).",
+        "openingHours": "24/7",
+        "safetyTips": "Paths are stone stairs; wear good walking shoes.",
+        "travelTips": "Dress up in traditional Gurung attire at the local museum for a photograph."
+      }
+    },
+    {
+      "id": "ghalegaun",
+      "name": "Ghalegaun",
+      "slug": "ghalegaun",
+      "category": "hills",
+      "province": "Gandaki Province",
+      "province_id": "gandaki",
+      "district": "Lamjung",
+      "description": "Ghalegaun is a model smart village located in the Gurung heartland, offering authentic homestay hospitality, traditional Gurung dance performances, and panoramas of Lamjung Himal.",
+      "heroImage": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "September to May",
+      "duration": "2 Days",
+      "rating": 4.6,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3527.2!2d84.3!3d28.25!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995!2sGhalegaun!5e0!3m2!1sen!2snp!4v1710000000064!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "besisahar",
+        "pokhara"
+      ],
+      "highlights": {
+        "nature": "Green hills and direct sunrise on Annapurna II.",
+        "history": "Traditional homeland of the Ghale Gurung clan.",
+        "culture": "Authentic community homestay experience and Deuda/Krishna dances.",
+        "adventure": "Nature hikes through tea orchards.",
+        "wildlife": "None",
+        "photography": "Traditional slate-roof houses and village assemblies."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn and Spring",
+        "transportation": "Jeep from Besisahar (approx. 1.5 - 2 hours drive).",
+        "budget": "NPR 4,000 - 7,000",
+        "accommodation": "Regulated community homestay rooms.",
+        "food": "Organic home-cooked Gurung thali, millet bread, and local milk.",
+        "entryFee": "Small community fee (NPR 100).",
+        "openingHours": "24/7",
+        "safetyTips": "homestays have shared basic washrooms; prepare accordingly.",
+        "travelTips": "Participate in the evening cultural dances organized by the village committee."
+      }
+    },
+    {
+      "id": "besisahar",
+      "name": "Besisahar",
+      "slug": "besisahar",
+      "category": "hills",
+      "province": "Gandaki Province",
+      "province_id": "gandaki",
+      "district": "Lamjung",
+      "description": "Besisahar is the gateway town to the famous Annapurna Circuit trek, situated in a valley along the Marsyangdi River, surrounded by green hills and waterfalls.",
+      "heroImage": "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80",
+      "galleryImages": [
+        "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80"
+      ],
+      "bestSeason": "September to May",
+      "duration": "1 Day",
+      "rating": 4.5,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112340!2d84.37!3d28.23!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995!2sBesisahar!5e0!3m2!1sen!2snp!4v1710000000065!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "ghalegaun",
+        "bandipur"
+      ],
+      "highlights": {
+        "nature": "Marsyangdi river banks and fast waterfalls.",
+        "history": "District headquarters of Lamjung, center of trade.",
+        "culture": "Blend of Gurung, Brahmin, and Chhetri societies.",
+        "adventure": "Starting point of Annapurna Circuit biking/trekking.",
+        "wildlife": "None",
+        "photography": "Fast rapids of the Marsyangdi River."
+      },
+      "travelInfo": {
+        "bestTime": "September to May",
+        "transportation": "Direct bus or private micro from Kathmandu (approx. 5-6 hours).",
+        "budget": "NPR 3,000 - 5,000",
+        "accommodation": "Standard highway lodges and market hotels.",
+        "food": "Dal Bhat, fried river fish, and standard fast foods.",
+        "entryFee": "None.",
+        "openingHours": "24/7",
+        "safetyTips": "Dusty roads; carry a mask.",
+        "travelTips": "Stock up on trekking gear and permits here before starting the circuit."
+      }
+    },
+    {
+      "id": "changu-narayan-temple",
+      "name": "Changu Narayan Temple",
+      "slug": "changu-narayan-temple",
+      "category": "heritage",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Bhaktapur",
+      "description": "Changu Narayan Temple is an ancient Hindu temple located on a high hilltop in Bhaktapur district. It is considered one of the oldest Hindu temples in Nepal, featuring beautiful stone, wood, and metal crafts from the Lichhavi era.",
+      "heroImage": "https://i.pinimg.com/736x/88/5f/84/885f848be422c549303d8dff73270bd17.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/736x/88/5f/84/885f848be422c549303d8dff73270bd17.jpg"
+      ],
+      "bestSeason": "September to May",
+      "duration": "1 Day",
+      "rating": 4.7,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.18!2d85.42!3d27.71!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb!2sChangu%20Narayan%20Temple!5e0!3m2!1sen!2snp!4v1710000000070!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "bhaktapur-durbar-square",
+        "nagarkot"
+      ],
+      "highlights": {
+        "nature": "Scenic green pine woods and hilltop breezes.",
+        "history": "Oldest inscription in Nepal dating back to 464 AD.",
+        "culture": "Unique Lichhavi carvings and Malla structures.",
+        "adventure": "Short scenic hike from Bhaktapur valley.",
+        "wildlife": "None",
+        "photography": "Vibrant stone statues and details of temple carvings."
+      },
+      "travelInfo": {
+        "bestTime": "All year round",
+        "transportation": "Taxi or local bus from Bhaktapur city.",
+        "budget": "NPR 500 - 1,500",
+        "accommodation": "Local heritage stays or Bhaktapur hotels.",
+        "food": "Traditional local foods and snacks.",
+        "entryFee": "NPR 300 for foreigners.",
+        "openingHours": "6:00 AM - 6:00 PM",
+        "safetyTips": "Remove shoes before stepping into the temple compound.",
+        "travelTips": "Visit the local private museum near the temple gates."
+      }
+    },
+    {
+      "id": "khaptad-national-park",
+      "name": "Khaptad National Park",
+      "slug": "khaptad-national-park",
+      "category": "protected",
+      "province": "Sudurpashchim Province",
+      "province_id": "sudurpashchim",
+      "district": "Bajhang",
+      "description": "Khaptad National Park is a hidden gem of western Nepal, known for rolling green meadows, rich oak and pine forests, and spiritual heritage associated with the Khaptad Baba hermitage.",
+      "heroImage": "https://i.pinimg.com/736x/fc/a6/50/fca6504a3e9ccecf7418f03d29c9e3137.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/736x/fc/a6/50/fca6504a3e9ccecf7418f03d29c9e3137.jpg"
+      ],
+      "bestSeason": "March to May, October to November",
+      "duration": "5 Days",
+      "rating": 4.8,
+      "difficulty": "Moderate",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113799!2d81.1!3d29.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a0!2sKhaptad%20National%20Park!5e0!3m2!1sen!2snp!4v1710000000071!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "shuklaphanta-national-park",
+        "api-himal"
+      ],
+      "highlights": {
+        "nature": "22 vast green moorland meadows (Khaptad Patan) covered in wildflowers.",
+        "history": "Khaptad Baba ashram where he meditated for over 50 years.",
+        "culture": "Holy temple and shrines visited during Ganga Dashahara.",
+        "adventure": "Wilderness trek through pristine hills.",
+        "wildlife": "Barking deer, musk deer, leopards, and diverse colorful birds.",
+        "photography": "Vast green rolling patans contrasted with snowy Himalayan backdrops."
+      },
+      "travelInfo": {
+        "bestTime": "Spring (wildflowers) and Autumn (clear views).",
+        "transportation": "Fly to Dhangadhi, drive to Silgarhi, then trek 1.5 days.",
+        "budget": "NPR 15,000 - 30,000",
+        "accommodation": "Simple military guesthouse rooms or camping tents.",
+        "food": "Simple organic grains, local lentils, and mountain greens.",
+        "entryFee": "NPR 3,000 for foreigners.",
+        "openingHours": "24/7",
+        "safetyTips": "Very remote wilderness area; keep first aid kit and snacks.",
+        "travelTips": "Respect the silence of the hermitage area around Khaptad Baba's ashram."
+      }
+    },
+    {
+      "id": "boudhanath-stupa",
+      "name": "Boudhanath Stupa",
+      "slug": "boudhanath-stupa",
+      "category": "heritage,pilgrimage",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Kathmandu",
+      "description": "Boudhanath Stupa is one of the largest spherical stupas in Nepal and the world. It is a major pilgrimage site for Tibetan Buddhists and a UNESCO World Heritage site, featuring the watchful eyes of Buddha.",
+      "heroImage": "https://i.pinimg.com/1200x/06/41/58/0641580b200efd746e90e452b9f6e6e6.jpg",
+      "galleryImages": [
+        "https://i.pinimg.com/1200x/06/41/58/0641580b200efd746e90e452b9f6e6e6.jpg"
+      ],
+      "bestSeason": "October to April",
+      "duration": "1 Day",
+      "rating": 4.8,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.12!2d85.35!3d27.72!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1b!2sBoudhanath%20Stupa!5e0!3m2!1sen!2snp!4v1710000000080!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "pashupatinath-temple",
+        "kathmandu-durbar-square"
+      ],
+      "highlights": {
+        "nature": "Pleasant evenings with glowing butter lamps.",
+        "history": "Ancient stupa built shortly after the demise of Buddha Kassapa.",
+        "culture": "Tibetan restaurants, shops, and prayer wheel circles.",
+        "adventure": "None",
+        "wildlife": "None",
+        "photography": "Vibrant prayer flags flying against the blue sky."
+      },
+      "travelInfo": {
+        "bestTime": "All year round, especially in the afternoon or evening.",
+        "transportation": "Taxi or local micro-bus from central Kathmandu.",
+        "budget": "NPR 400 - 1,000",
+        "accommodation": "Boutique Tibetan hotels and monasteries nearby.",
+        "food": "Tibetan momos, thukpa, and butter tea in rooftop cafes.",
+        "entryFee": "NPR 400 for foreign nationals.",
+        "openingHours": "24/7 (Monasteries close around 6:00 PM)",
+        "safetyTips": "Always walk clockwise around the stupa.",
+        "travelTips": "Visit during the evening to see locals performing kora (circumambulation) and lighting butter lamps."
+      }
+    },
+    {
+      "id": "namo-buddha",
+      "name": "Namo Buddha",
+      "slug": "namo-buddha",
+      "category": "pilgrimage",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Kavrepalanchok",
+      "description": "Namo Buddha is a sacred Buddhist pilgrimage site situated on a hilltop in Kavre district. It is famous for the Thrangu Tashi Yangtse Monastery and the legend of the prince who sacrificed himself to feed a starving tigress and her cubs.",
+      "heroImage": "https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/9e/9b/0c/namo-buddha-the-name.jpg",
+      "galleryImages": [
+        "https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/9e/9b/0c/namo-buddha-the-name.jpg"
+      ],
+      "bestSeason": "October to May",
+      "duration": "1 Day",
+      "rating": 4.6,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3536.5!2d85.58!3d27.57!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb0c!2sThrangu%20Tashi%20Yangtse%20Monastery!5e0!3m2!1sen!2snp!4v1710000000081!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "dhulikhel",
+        "panauti"
+      ],
+      "highlights": {
+        "nature": "Panoramic views of the eastern Himalayas and clean green hills.",
+        "history": "Ancient stone relief carving depicting the self-sacrifice of Prince Mahasattva.",
+        "culture": "Thrangu Tashi Yangtse Monastery housing hundreds of monks.",
+        "adventure": "Day hiking trail from Dhulikhel through local villages.",
+        "wildlife": "None",
+        "photography": "Vibrant monastery facade, golden statues, and rolling hills."
+      },
+      "travelInfo": {
+        "bestTime": "Autumn and Spring for crystal clear mountain views.",
+        "transportation": "Private car or local bus via Dhulikhel.",
+        "budget": "NPR 1,000 - 3,000",
+        "accommodation": "Monastery guest house or local hillside resorts.",
+        "food": "Vegetarian meals served in the monastery or local tea-shops.",
+        "entryFee": "None.",
+        "openingHours": "7:00 AM - 5:00 PM",
+        "safetyTips": "Remove shoes and cover shoulders/knees when entering the temple.",
+        "travelTips": "Purchase some local organic honey from the monastery shop."
+      }
+    },
+    {
+      "id": "nuwakot",
+      "name": "Nuwakot",
+      "slug": "nuwakot",
+      "category": "hills",
+      "province": "Bagmati Province",
+      "province_id": "bagmati",
+      "district": "Nuwakot",
+      "description": "Nuwakot is a historic hilltop town famous for the Nuwakot Durbar (Seven-Story Palace), representing the traditional Newari style of craftsmanship and the unification history of modern Nepal.",
+      "heroImage": "https://3.bp.blogspot.com/-5b1FHZDnYEc/Wf8bGMXtUdI/AAAAAAAAFmw/boGOZgY-YEYc9kNFkiWFW_X6GoLDy7HGwCLcBGAs/s1600/Nuwakot%2Bpalace.png",
+      "galleryImages": [
+        "https://3.bp.blogspot.com/-5b1FHZDnYEc/Wf8bGMXtUdI/AAAAAAAAFmw/boGOZgY-YEYc9kNFkiWFW_X6GoLDy7HGwCLcBGAs/s1600/Nuwakot%2Bpalace.png"
+      ],
+      "bestSeason": "September to May",
+      "duration": "2 Days",
+      "rating": 4.5,
+      "difficulty": "Easy",
+      "coordinates": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3525.6!2d85.16!3d27.91!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb!2sNuwakot%20Durbar!5e0!3m2!1sen!2snp!4v1710000000082!5m2!1sen!2snp",
+      "nearbyAttractions": [
+        "kathmandu",
+        "langtang-national-park"
+      ],
+      "highlights": {
+        "nature": "Scenic views of the Trishuli River valley and terraced fields.",
+        "history": "Built by King Prithvi Narayan Shah in the 18th century as a key fortress.",
+        "culture": " Bhairabi Temple and annual Sindure Jatra festival.",
+        "adventure": "Short exploration hikes and heritage walks.",
+        "wildlife": "None",
+        "photography": "Vast wooden carvings and structure of the towering seven-story fortress palace."
+      },
+      "travelInfo": {
+        "bestTime": "All year round, winter offers comfortable temperatures.",
+        "transportation": "Bus or jeep from Gongabu Bus Park, Kathmandu (approx 3 hours).",
+        "budget": "NPR 3,000 - 6,000",
+        "accommodation": "Local farmhouses, heritage home stays, and standard lodges.",
+        "food": "Dal Bhat, local free-range chicken, and village-grown produce.",
+        "entryFee": "Small conservation entry fee (NPR 100).",
+        "openingHours": "9:00 AM - 5:00 PM",
+        "safetyTips": "Some staircases inside the old palace are steep; tread carefully.",
+        "travelTips": "Spend a night at a heritage farm stay to experience authentic local life."
+      }
+    }
+  ]
+}
