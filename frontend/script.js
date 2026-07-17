@@ -114,6 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const categoryBtns = document.querySelectorAll('.category-btn');
     const placesGrid = document.getElementById('places-grid');
     const viewAllBtn = document.getElementById('places-view-all-btn');
+    const placesModal = document.getElementById('placesPopupModal');
+    const placesModalGrid = document.getElementById('placesPopupGrid');
     
     if (!placesGrid) return;
 
@@ -123,8 +125,63 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let destinationsCached = null;
 
-    // Cache the static province cards from DOM
-    const staticProvinceCards = Array.from(placesGrid.querySelectorAll('.place-card[data-category="provinces"]'));
+    // Cache the visible static province cards from DOM
+    const staticProvinceCards = Array.from(placesGrid.querySelectorAll('.place-card[data-category="provinces"]:not(.place-card--hidden)'));
+    const popupProvinceCards = [
+        { name: 'Koshi', href: 'places/koshi', image: 'https://i.pinimg.com/736x/38/7a/21/387a21d7763974798937d09cecf7418f.jpg' },
+        { name: 'Madhesh', href: 'places/madhesh', image: 'https://chinarinepal.com/wp-content/uploads/2022/03/JANAKI-MANDIR-1024x386.png' },
+        { name: 'Bagmati', href: 'places/bagmati', image: 'https://i.pinimg.com/1200x/be/a3/e5/bea3e57e5abd2abb4d3ada67e7c200dc.jpg' },
+        { name: 'Gandaki', href: 'places/gandaki', image: 'https://i.pinimg.com/736x/56/3e/91/563e9142137cad48487a45b9bba77d62.jpg' },
+        { name: 'Lumbini', href: 'places/lumbini', image: 'https://i.pinimg.com/1200x/b3/83/c2/b383c22c9aa6854d763a9cbbbe1daed9.jpg' },
+        { name: 'Karnali', href: 'places/karnali', image: 'https://i.pinimg.com/736x/4e/ba/4a/4eba4a5546a3525b36808a0f35aecf15.jpg' },
+        { name: 'Sudurpashchim', href: 'places/sudurpashchim', image: 'https://i.pinimg.com/736x/f2/8f/12/f28f121913883f59a3fa9e466f56ee7e.jpg' }
+    ];
+
+    function openPlacesPopup() {
+        if (!placesModal || !placesModalGrid) return;
+
+        placesModalGrid.innerHTML = '';
+        popupProvinceCards.forEach((place) => {
+            const item = document.createElement('a');
+            item.className = 'places-popup-item';
+            item.href = place.href;
+            item.innerHTML = `
+                <img src="${place.image}" alt="${place.name}">
+                <h4>${place.name}</h4>
+            `;
+            placesModalGrid.appendChild(item);
+        });
+
+        placesModal.hidden = false;
+        document.body.classList.add('booking-modal-open');
+    }
+
+    function closePlacesPopup() {
+        if (!placesModal) return;
+
+        placesModal.hidden = true;
+        document.body.classList.remove('booking-modal-open');
+    }
+
+    if (viewAllBtn) {
+        viewAllBtn.addEventListener('click', function() {
+            openPlacesPopup();
+        });
+    }
+
+    if (placesModal) {
+        placesModal.addEventListener('click', function(event) {
+            if (event.target.hasAttribute('data-places-close')) {
+                closePlacesPopup();
+            }
+        });
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && placesModal && !placesModal.hidden) {
+            closePlacesPopup();
+        }
+    });
 
     // Fetch destinations data once
     async function loadDestinations() {

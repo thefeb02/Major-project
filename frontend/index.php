@@ -24,10 +24,10 @@ $user = getCurrentUser();
             <ul class="nav-menu">
                 <li><a href="#places" class="nav-link">Places</a></li>
                 <li><a href="#things" class="nav-link">Activities</a></li>
-                <li><a href="#festivals" class="nav-link">Festivals</a></li>
+               
 
                 <li><a href="about.php" class="nav-link">About</a></li>
-                <li><a href="admin.php" class="nav-link admin-nav-link">Admin</a></li>
+                
                 <?php if ($user): ?>
                     <li><a href="logout.php" class="nav-link">Logout</a></li>
                 <?php else: ?>
@@ -123,9 +123,7 @@ $user = getCurrentUser();
                         <a href="#" class="read-more">Read More →</a>
                     </div>
                 </article>
-            </div>
-            <button class="view-all-btn">View All Stories</button>
-        </div>
+           
     </section>
 
     <!-- Places to Go Section -->
@@ -205,52 +203,68 @@ $user = getCurrentUser();
                         </div>
                     </div>
                 </a>
-            </div>
-                        <button class="view-all-btn" id="places-view-all-btn">View All</button>
-        </div>
+           
     </section>
-    <!-- Things to Do Section -->
+  
+     <!-- Things to Do Section -->
     <section class="things-to-do" id="things">
         <div class="container">
             <h2 class="section-title">Things to Do</h2>
             <p class="section-subtitle"><b>Endless activities and experiences for every type of traveler</b></p>
-             <div class="activities-grid"><a href="trekking.php" > 
-                <div class="activity-card">
-                    <div class="activity-icon">🥾</div>
-               <h3>Trekking</h3>
-                    <p>Explore scenic trails through mountains and valleys with breathtaking views.</p>
-                </div></a>
-                <a href="yoga.php" >
-                <div class="activity-card">
-                    <div class="activity-icon">🧘</div>
-                    <h3>Meditation & Yoga</h3>
-                    <p>Find inner peace in spiritual retreats and ashrams across the country.</p>
-                </div></a>
-                 <a href="paragliding.php" >
-                <div class="activity-card">
-                    <div class="activity-icon">🪂</div>
-                    <h3>Paragliding</h3>
-                    <p>Experience the thrill of flying over beautiful landscapes and mountain peaks.</p>
-                </div></a>
-                 <a href="photography.php" >
-                <div class="activity-card">
-                    <div class="activity-icon">📸</div>
-                    <h3>Photography</h3>
-                    <p>Capture stunning moments in nature and culture with professional guidance.</p>
-                </div></a>
-                 <a href="culinary.php" >
-                <div class="activity-card">
-                    <div class="activity-icon">🍽️</div>
-                    <h3>Culinary Tours</h3>
-                    <p>Taste authentic Nepali cuisine and local delicacies in traditional settings.</p>
-                </div></a>
+            <div class="activities-grid">
+                <a href="trekking.php" class="activity-link">
+                    <article class="activity-card">
+                        <div class="activity-image" style="background-image: url('https://www.andbeyond.com/wp-content/uploads/sites/5/trekking-annapurnas-nepal.jpg');"></div>
+                        <div class="activity-body">
+                            <span class="activity-tag">Adventure</span>
+                            <h3>Trekking</h3>
+                            <p>Explore scenic trails through mountains and valleys with breathtaking views.</p>
+                        </div>
+                    </article>
+                </a>
+                <a href="yoga.php" class="activity-link">
+                    <article class="activity-card">
+                        <div class="activity-image" style="background-image: url('https://wallpaperaccess.com/full/654400.jpg');"></div>
+                        <div class="activity-body">
+                            <span class="activity-tag">Wellness</span>
+                            <h3>Meditation & Yoga</h3>
+                            <p>Find inner peace in spiritual retreats and ashrams across the country.</p>
+                        </div>
+                    </article>
+                </a>
+                <a href="paragliding.php" class="activity-link">
+                    <article class="activity-card">
+                        <div class="activity-image" style="background-image: url('https://th.bing.com/th/id/R.779148d67bf705d4c90c65d79e7684bb?rik=otLE%2fHnp7NmJWQ&riu=http%3a%2f%2fhdqwalls.com%2fwallpapers%2fparagliding-wide.jpg&ehk=l4Tdcb3EapUNN3thR%2fzBmzRi6%2fYRcTu2RVCLXOt6mQo%3d&risl=&pid=ImgRaw&r=0');"></div>
+                        <div class="activity-body">
+                            <span class="activity-tag">Thrill</span>
+                            <h3>Paragliding</h3>
+                            <p>Experience the thrill of flying over beautiful landscapes and mountain peaks.</p>
+                        </div>
+                    </article>
+                </a>
+                <a href="photography.php" class="activity-link">
+                    <article class="activity-card">
+                        <div class="activity-image" style="background-image: url('https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=900&q=80');"></div>
+                        <div class="activity-body">
+                            <span class="activity-tag">Creative</span>
+                            <h3>Photography</h3>
+                            <p>Capture stunning moments in nature and culture with professional guidance.</p>
+                        </div>
+                    </article>
+                </a>
+                <a href="culinary.php" class="activity-link">
+                    <article class="activity-card">
+                        <div class="activity-image" style="background-image: url('https://images.squarespace-cdn.com/content/v1/53ecd1bde4b0a6f9524254f8/1753609193026-HTNI4HYQ404GS83BTJWD/Savoring+Kathmandu-shankerhotel_com_np.png');"></div>
+                        <div class="activity-body">
+                            <span class="activity-tag">Taste</span>
+                            <h3>Culinary Tours</h3>
+                            <p>Taste authentic Nepali cuisine and local delicacies in traditional settings.</p>
+                        </div>
+                    </article>
+                </a>
             </div>
         </div>
     </section>
-
-  
-
-    
 
     <!-- Footer -->
     <footer class="footer">
