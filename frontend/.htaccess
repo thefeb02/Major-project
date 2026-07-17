@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Ensure that we do not conflict with existing files or folders
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route for destination details: places/<province>/<destination>
+RewriteRule ^places/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/?$ places.php?province=$1&destination=$2 [QSA,L]
+
+# Route for province page: places/<province>
+RewriteRule ^places/([a-zA-Z0-9_-]+)/?$ places.php?province=$1 [QSA,L]

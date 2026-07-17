@@ -207,15 +207,22 @@ function createPackageCard(item) {
                 <div class="stars">${starsHTML}</div>
                 <span class="review-count">based on ${item.reviews} reviews</span>
             </div>
+<<<<<<< HEAD
             <button type="button" class="booking-card-action" data-booking-package="${item.title}" data-booking-image="${item.image}">Book Now</button>
+=======
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
             <a href="#" class="package-details-link" data-id="${item.id}">
                 Details <span>→</span>
             </a>
         </div>
     `;
 
+<<<<<<< HEAD
     card.addEventListener('click', (event) => {
         if (event.target.closest('.booking-card-action')) return;
+=======
+    card.addEventListener('click', () => {
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
         showDetails(item.id);
     });
 
@@ -337,7 +344,11 @@ function renderDetails(item) {
                 <div class="details-card booking-card">
                     <h3>Book This Tour</h3>
                     <div class="price-tag">From $799</div>
+<<<<<<< HEAD
                     <button class="btn-book-large" data-booking-package="${item.title}" data-booking-image="${item.image}">Check Availability</button>
+=======
+                    <button class="btn-book-large">Check Availability</button>
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
                     <p class="booking-note">* Price depends on group size and season</p>
                 </div>
 

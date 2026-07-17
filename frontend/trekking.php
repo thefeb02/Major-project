@@ -11,10 +11,16 @@ $user = getCurrentUser();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nepal Trekking Packages</title>
     <link rel="stylesheet" href="trekking.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="booking-form.css">
 </head>
 
 <body data-booking-category="Trekking">
+=======
+</head>
+
+<body>
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -62,7 +68,10 @@ $user = getCurrentUser();
             </section>
         </div>
     </div>
+<<<<<<< HEAD
     <script src="booking-form.js"></script>
+=======
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
     <script src="trekking.js"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"499e684b7b1043878977050a0a606794","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>

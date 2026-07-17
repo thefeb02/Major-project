@@ -179,15 +179,22 @@ function createPackageCard(pkg) {
                 <div class="stars">${starsHTML}</div>
                 <span class="review-count">based on ${pkg.reviews} reviews</span>
             </div>
+<<<<<<< HEAD
             <button type="button" class="booking-card-action" data-booking-package="${pkg.title}" data-booking-image="${pkg.image}">Book Now</button>
+=======
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
             <a href="#" class="package-details-link" data-id="${pkg.id}">
                 Details <span>→</span>
             </a>
         </div>
     `;
 
+<<<<<<< HEAD
     card.addEventListener('click', (event) => {
         if (event.target.closest('.booking-card-action')) return;
+=======
+    card.addEventListener('click', () => {
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
         showPackageDetails(pkg.id);
     });
 
@@ -335,7 +342,11 @@ function renderPackageDetails(pkg) {
                     </div>
 
                     <div class="button-group">
+<<<<<<< HEAD
                         <button class="btn btn-primary booking-trigger" data-booking-package="${pkg.title}" data-booking-image="${pkg.image}">Book This Flight</button>
+=======
+                        <button class="btn btn-primary">Book This Flight</button>
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
                         <button class="btn btn-secondary">Inquire Now</button>
                     </div>
                 </div>

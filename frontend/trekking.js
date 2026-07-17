@@ -207,15 +207,22 @@ function createPackageCard(trek) {
                 <div class="stars">${starsHTML}</div>
                 <span class="review-count">based on ${trek.reviews} reviews</span>
             </div>
+<<<<<<< HEAD
             <button type="button" class="booking-card-action" data-booking-package="${trek.title}" data-booking-image="${trek.image}">Book Now</button>
+=======
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
             <a href="#" class="package-details-link" data-trek-id="${trek.id}">
                 Details <span>→</span>
             </a>
         </div>
     `;
 
+<<<<<<< HEAD
     card.addEventListener('click', (event) => {
         if (event.target.closest('.booking-card-action')) return;
+=======
+    card.addEventListener('click', () => {
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
         showTrekDetails(trek.id);
     });
 
@@ -366,7 +373,11 @@ function renderTrekDetails(trek) {
                     </div>
 
                     <div class="button-group">
+<<<<<<< HEAD
                         <button class="btn btn-primary booking-trigger" data-booking-package="${trek.title}" data-booking-image="${trek.image}">Book This Trek</button>
+=======
+                        <button class="btn btn-primary">Book This Trek</button>
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
                         <button class="btn btn-secondary">Contact Guide</button>
                     </div>
                 </div>
@@ -386,3 +397,7 @@ function showDetailsPage() {
     packagesPage.classList.remove('active');
     detailsPage.classList.add('active');
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
