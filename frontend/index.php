@@ -3,13 +3,21 @@
 <?php
 require_once __DIR__ . '/../Backend/database.php';
 $user = getCurrentUser();
+$siteSettings = ['site_name' => 'AddNepalTour & Travel', 'seo_title' => 'Nepal Tour and Travel - Discover the Magic of Nepal', 'homepage_hero' => 'Discover the Magic of Nepal'];
+$websiteGallery = [];
+try {
+    $siteSettings = array_merge($siteSettings, $pdo->query('SELECT setting_key, setting_value FROM website_settings')->fetchAll(PDO::FETCH_KEY_PAIR));
+    $websiteGallery = $pdo->query('SELECT title, image_url, alt_text FROM gallery_images WHERE is_visible = 1 ORDER BY created_at DESC LIMIT 8')->fetchAll();
+} catch (Throwable $e) {
+    // The existing website stays available until the dashboard schema is imported.
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nepal Tour and Travel - Discover the Magic of Nepal</title>
+    <title><?= htmlspecialchars($siteSettings['seo_title']) ?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=4">
@@ -55,7 +63,7 @@ $user = getCurrentUser();
       <h2><b> ⭐⭐⭐⭐⭐ Trusted by 5,000+ Travelers</b></h2>
     </div>
 
-    <h1>Discover the Magic of Nepal</h1>
+    <h1><?= htmlspecialchars($siteSettings['homepage_hero']) ?></h1>
 
     <p>
         Explore breathtaking mountains, ancient temples,
@@ -267,6 +275,23 @@ $user = getCurrentUser();
     </section>
 
     <!-- Footer -->
+    <?php if ($websiteGallery): ?>
+        <section class="latest-stories" id="website-gallery">
+            <div class="container">
+                <h2 class="section-title">Website Gallery</h2>
+                <p class="section-subtitle">Moments curated by <?= htmlspecialchars($siteSettings['site_name']) ?></p>
+                <div class="stories-grid">
+                    <?php foreach ($websiteGallery as $image): ?>
+                        <article class="story-card">
+                            <div class="story-image-wrapper"><img src="<?= htmlspecialchars($image['image_url']) ?>" alt="<?= htmlspecialchars($image['alt_text'] ?: $image['title']) ?>" loading="lazy"></div>
+                            <div class="story-content"><h3><?= htmlspecialchars($image['title']) ?></h3></div>
+                        </article>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </section>
+    <?php endif; ?>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-top">

@@ -38,6 +38,18 @@ $user = getCurrentUser();
                     <p><strong>Phone:</strong> +9779763658085</p>
                     <p><strong>Location:</strong> Butwal, Nepal</p>
                 </div>
+                <?php if (($_GET['message'] ?? '') === 'sent'): ?>
+                    <p style="margin-top:16px;color:#15803d;font-weight:600;">Thank you. Your message has been sent to our travel team.</p>
+                <?php elseif (($_GET['message'] ?? '') === 'invalid'): ?>
+                    <p style="margin-top:16px;color:#b91c1c;font-weight:600;">Please complete your name, email, and message.</p>
+                <?php endif; ?>
+                <form action="contact_message.php" method="post" style="margin-top:22px;display:grid;gap:12px;">
+                    <input name="name" required maxlength="120" placeholder="Your name" style="padding:12px;border:1px solid #d1d5db;border-radius:8px;">
+                    <input name="email" type="email" required maxlength="190" placeholder="Your email" style="padding:12px;border:1px solid #d1d5db;border-radius:8px;">
+                    <input name="subject" maxlength="190" placeholder="Subject" style="padding:12px;border:1px solid #d1d5db;border-radius:8px;">
+                    <textarea name="message" required rows="5" placeholder="How can we help?" style="padding:12px;border:1px solid #d1d5db;border-radius:8px;resize:vertical;"></textarea>
+                    <button type="submit" class="btn-primary" style="border:0;cursor:pointer;">Send message</button>
+                </form>
             </section>
         </div>
     </main>

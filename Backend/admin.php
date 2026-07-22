@@ -12,11 +12,33 @@ $travelPlanCount = 0;
 $bookingCount = 0;
 $recentPlans = [];
 $recentBookings = [];
+$databaseTables = [];
+$databaseSizeBytes = 0;
+$databaseStatus = 'Connected';
+$adminPackages = [];
+$adminBookings = [];
+$adminCustomers = [];
+$adminGallery = [];
+$websiteImages = [];
+$adminPayments = [];
+$adminMessages = [];
+$adminReviews = [];
+$adminSettings = [
+    'site_name' => 'AddNepalTour & Travel', 'contact_email' => 'info@nepalitourtravel.com',
+    'contact_phone' => '+9779763658085', 'address' => 'Butwal, Nepal', 'facebook_url' => '',
+    'twitter_url' => '', 'seo_title' => 'Nepal Tour & Travel', 'seo_keywords' => 'Nepal, tours, travel, trekking',
+    'homepage_hero' => 'Discover Nepal with confidence',
+];
+
+if (empty($_SESSION['admin_csrf'])) {
+    $_SESSION['admin_csrf'] = bin2hex(random_bytes(32));
+}
+$adminCsrf = $_SESSION['admin_csrf'];
 
 try {
-    $userCount = (int) $pdo->query("SELECT COUNT(*) FROM users WHERE archived_at IS NULL")->fetchColumn();
+    $userCount = (int) $pdo->query("SELECT COUNT(*) FROM customers WHERE archived_at IS NULL")->fetchColumn();
     $travelPlanCount = (int) $pdo->query("SELECT COUNT(*) FROM travel_plans WHERE archived_at IS NULL")->fetchColumn();
-    $bookingCount = (int) $pdo->query("SELECT COUNT(*) FROM service_bookings WHERE archived_at IS NULL")->fetchColumn();
+    $bookingCount = (int) $pdo->query("SELECT COUNT(*) FROM bookings WHERE archived_at IS NULL")->fetchColumn();
 
     $recentPlans = $pdo->query("
         SELECT tp.title, tp.destination, tp.status, tp.created_at, u.name AS user_name
@@ -29,13 +51,67 @@ try {
 
     $recentBookings = $pdo->query("
         SELECT service_name, service_category, full_name, status, created_at
-        FROM service_bookings
+        FROM bookings
         WHERE archived_at IS NULL
         ORDER BY created_at DESC
         LIMIT 5
     ")->fetchAll();
+
+    $databaseTables = $pdo->query("
+        SELECT table_name, table_rows, data_length + index_length AS size_bytes,
+               create_time, update_time
+        FROM information_schema.tables
+        WHERE table_schema = DATABASE() AND table_type = 'BASE TABLE'
+        ORDER BY table_name
+    ")->fetchAll();
+    $databaseSizeBytes = array_sum(array_map(
+        static fn ($table) => (int) ($table['size_bytes'] ?? 0),
+        $databaseTables
+    ));
 } catch (Throwable $e) {
     // Keep the dashboard usable even if a query fails.
+    $databaseStatus = 'Unavailable';
+}
+
+try {
+    $adminPackages = $pdo->query("SELECT id, title, destination, category, duration, price, status, image_url FROM tour_packages ORDER BY created_at DESC")->fetchAll();
+    $adminBookings = $pdo->query("SELECT id, full_name AS customer, service_name AS destination, travel_date AS date, CONCAT(UCASE(LEFT(status, 1)), SUBSTRING(status, 2)) AS status, 0 AS amount FROM bookings WHERE archived_at IS NULL ORDER BY created_at DESC")->fetchAll();
+    $adminCustomers = $pdo->query("SELECT c.id, c.name, c.email, '' AS phone, COUNT(b.id) AS totalBookings FROM customers c LEFT JOIN bookings b ON b.user_id = c.id AND b.archived_at IS NULL WHERE c.archived_at IS NULL GROUP BY c.id ORDER BY c.created_at DESC")->fetchAll();
+    $adminGallery = $pdo->query("SELECT id, title, image_url AS url, alt_text FROM gallery WHERE is_visible = 1 ORDER BY created_at DESC")->fetchAll();
+    $adminPayments = $pdo->query("SELECT id, booking_id AS bookingId, customer_name AS customer, type, amount, status, payment_date AS date FROM payments ORDER BY created_at DESC")->fetchAll();
+    $adminMessages = $pdo->query("SELECT id, name AS customer, email, subject, message, status, created_at FROM contact_messages ORDER BY created_at DESC")->fetchAll();
+    $adminReviews = $pdo->query("SELECT id, customer_name AS customer, package_name AS target, rating, comment, status FROM reviews ORDER BY created_at DESC")->fetchAll();
+    $savedSettings = $pdo->query("SELECT setting_key, setting_value FROM website_settings")->fetchAll(PDO::FETCH_KEY_PAIR);
+    $adminSettings = array_merge($adminSettings, $savedSettings);
+} catch (Throwable $e) {
+    // The dashboard remains available before the latest schema migration is imported.
+}
+
+try {
+    $imageRoot = realpath(__DIR__ . '/../img');
+    if ($imageRoot) {
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($imageRoot, FilesystemIterator::SKIP_DOTS));
+        foreach ($iterator as $file) {
+            if (!$file->isFile() || !in_array(strtolower($file->getExtension()), ['jpg', 'jpeg', 'png', 'gif', 'webp'], true)) continue;
+            $relativePath = str_replace('\\', '/', substr($file->getPathname(), strlen($imageRoot) + 1));
+            $websiteImages[] = [
+                'id' => 'website-' . md5($relativePath),
+                'title' => pathinfo($relativePath, PATHINFO_FILENAME),
+                'url' => '../img/' . $relativePath,
+                'source' => 'Website image',
+            ];
+        }
+    }
+} catch (Throwable $e) {
+    // Gallery uploads are still shown even if the local image folder cannot be scanned.
+}
+
+$adminGallery = array_merge($adminGallery, $websiteImages);
+
+function adminJson($value): string
+{
+    $json = json_encode($value, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+    return htmlspecialchars($json === false ? '[]' : $json, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 ?>
 <!DOCTYPE html>
@@ -79,26 +155,13 @@ try {
             settingFilter: 'company',
 
             // 2. Mock Data Stores
-            packages: [
-                { id: 'PKG-101', destination: 'Paris, France', category: 'Luxury Travel', duration: '7 Days', price: 1499, status: 'Active' },
-                { id: 'PKG-102', destination: 'Kyoto, Japan', category: 'Cultural Exploration', duration: '10 Days', price: 2850, status: 'Active' },
-                { id: 'PKG-103', destination: 'Maui, Hawaii', category: 'Beach Resort', duration: '5 Days', price: 1999, status: 'Active' }
-            ],
+            packages: <?= adminJson($adminPackages) ?>,
             categories: ['Luxury Travel', 'Cultural Exploration', 'Beach Resort', 'Adventure Trekking', 'Wildlife Safari'],
             destinations: ['Paris, France', 'Kyoto, Japan', 'Maui, Hawaii', 'Cairo, Egypt', 'Reykjavik, Iceland'],
             
-            bookings: [
-                { id: 'BKG-901', customer: 'John Doe', destination: 'Paris, France', date: '2026-07-20', status: 'New', amount: 1499 },
-                { id: 'BKG-902', customer: 'Jane Smith', destination: 'Kyoto, Japan', date: '2026-08-12', status: 'Confirmed', amount: 2850 },
-                { id: 'BKG-903', customer: 'Robert Johnson', destination: 'Maui, Hawaii', date: '2026-06-01', status: 'Completed', amount: 1999 },
-                { id: 'BKG-904', customer: 'Emily Davis', destination: 'Paris, France', date: '2026-05-14', status: 'Cancelled', amount: 1499 }
-            ],
+            bookings: <?= adminJson($adminBookings) ?>,
             
-            customers: [
-                { id: 'CST-001', name: 'John Doe', email: 'john@example.com', phone: '+1 555-0192', totalBookings: 2 },
-                { id: 'CST-002', name: 'Jane Smith', email: 'jane@example.com', phone: '+1 555-0143', totalBookings: 1 },
-                { id: 'CST-003', name: 'Robert Johnson', email: 'robert@example.com', phone: '+1 555-0188', totalBookings: 5 }
-            ],
+            customers: <?= adminJson($adminCustomers) ?>,
 
             userSessions: [
                 { id: 'LS-101', customer: 'John Doe', status: 'Online', lastActive: '2026-07-15 09:12', ip: '192.168.0.21' },
@@ -111,22 +174,13 @@ try {
             selectedGalleryId: null,
             selectedPackageId: null,
 
-            payments: [
-                { id: 'TXN-7001', bookingId: 'BKG-901', customer: 'John Doe', type: 'Transaction', amount: 1499, status: 'Paid', date: '2026-07-01' },
-                { id: 'INV-7002', bookingId: 'BKG-902', customer: 'Jane Smith', type: 'Invoice', amount: 2850, status: 'Pending', date: '2026-07-10' },
-                { id: 'REF-7003', bookingId: 'BKG-904', customer: 'Emily Davis', type: 'Refund', amount: 1499, status: 'Processed', date: '2026-07-14' }
-            ],
+            payments: <?= adminJson($adminPayments) ?>,
 
-            gallery: [
-                { id: 'IMG-01', title: 'Eiffel Tower Sunset', url: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=400&q=80' },
-                { id: 'IMG-02', title: 'Kyoto Bamboo Forest', url: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=400&q=80' }
-            ],
-            reviews: [
-                { id: 'REV-01', customer: 'Alice Vance', rating: 5, target: 'Kyoto, Japan', comment: 'Absolutely breathtaking arrangements.' },
-                { id: 'REV-02', customer: 'Mark R.', rating: 4, target: 'Paris, France', comment: 'Great hotels, but itinerary was tight.' }
-            ],
+            gallery: <?= adminJson($adminGallery) ?>,
+            reviews: <?= adminJson($adminReviews) ?>,
+            messages: <?= adminJson($adminMessages) ?>,
 
-            companySettings: { name: 'TravelAdmin Enterprise', email: 'ops@traveladmin.site', phone: '+1 800-555-TRAV', address: '100 Innovation Way, Suite 400', facebook: 'fb.com/traveladmin', twitter: 'x.com/traveladmin', seoTitle: 'Premium Worldwide Custom Vacation Packages', seoKeywords: 'travel, tourism, luxury tour packages, private guide', homepageHero: 'Discover Uncharted Paradise Destinations' },
+            companySettings: { name: <?= adminJson($adminSettings['site_name']) ?>, email: <?= adminJson($adminSettings['contact_email']) ?>, phone: <?= adminJson($adminSettings['contact_phone']) ?>, address: <?= adminJson($adminSettings['address']) ?>, facebook: <?= adminJson($adminSettings['facebook_url']) ?>, twitter: <?= adminJson($adminSettings['twitter_url']) ?>, seoTitle: <?= adminJson($adminSettings['seo_title']) ?>, seoKeywords: <?= adminJson($adminSettings['seo_keywords']) ?>, homepageHero: <?= adminJson($adminSettings['homepage_hero']) ?> },
             auditLogs: [],
 
             // Modals Configuration Context variables
@@ -138,11 +192,33 @@ try {
                 this.auditLogs.unshift({ id: Date.now(), action, refId, time: new Date().toLocaleTimeString() });
             },
 
-            executeSave() {
+            async callAdminApi(action, payload = {}) {
+                const response = await fetch('admin_api.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action, csrf: <?= adminJson($adminCsrf) ?>, ...payload }) });
+                const result = await response.json();
+                if (!result.ok) throw new Error(result.message || 'Unable to save the change.');
+                return result;
+            },
+
+            async saveWebsiteSettings() {
+                try {
+                    await this.callAdminApi('save_settings', { settings: {
+                        site_name: this.companySettings.name, contact_email: this.companySettings.email,
+                        contact_phone: this.companySettings.phone, address: this.companySettings.address,
+                        facebook_url: this.companySettings.facebook, twitter_url: this.companySettings.twitter,
+                        seo_title: this.companySettings.seoTitle, seo_keywords: this.companySettings.seoKeywords,
+                        homepage_hero: this.companySettings.homepageHero
+                    }});
+                    this.logActivity('Saved website settings', 'website_settings');
+                    alert('Website settings saved.');
+                } catch (error) { alert(error.message); }
+            },
+
+            async executeSave() {
                 if (this.activeModal === 'add-package') {
-                    let newPkg = { id: 'PKG-' + Math.floor(100 + Math.random() * 900), destination: this.modalForm.destination, category: this.modalForm.category, duration: this.modalForm.duration, price: parseFloat(this.modalForm.price || 0), status: 'Active' };
-                    this.packages.push(newPkg);
-                    this.logActivity('Create Tour Package', newPkg.id);
+                    try {
+                        await this.callAdminApi('create_package', { title: this.modalForm.title || this.modalForm.destination, destination: this.modalForm.destination, category: this.modalForm.category, duration: this.modalForm.duration, price: this.modalForm.price, imageUrl: this.modalForm.imageUrl || '', description: this.modalForm.description || '' });
+                        window.location.reload(); return;
+                    } catch (error) { alert(error.message); return; }
                 } else if (this.activeModal === 'add-category') {
                     this.categories.push(this.modalForm.name);
                     this.logActivity('Create Package Category', this.modalForm.name);
@@ -154,11 +230,17 @@ try {
                     this.customers.push(newCst);
                     this.logActivity('Register Customer Profile', newCst.id);
                 } else if (this.activeModal === 'add-gallery') {
-                    this.gallery.push({ id: 'IMG-' + Date.now(), title: this.modalForm.title, url: this.modalForm.url || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=400&q=80' });
-                    this.logActivity('Upload Media Resource', this.modalForm.title);
+                    try {
+                        const imageFile = document.getElementById('galleryImageFile')?.files[0];
+                        const imageData = imageFile ? await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(imageFile); }) : '';
+                        await this.callAdminApi('create_gallery', { title: this.modalForm.title, imageUrl: this.modalForm.url || '', imageData, altText: this.modalForm.altText || '' });
+                        window.location.reload(); return;
+                    } catch (error) { alert(error.message); return; }
                 } else if (this.activeModal === 'add-payment') {
-                    this.payments.push({ id: (this.modalForm.type === 'Invoice' ? 'INV-' : this.modalForm.type === 'Refund' ? 'REF-' : 'TXN-') + Math.floor(1000 + Math.random() * 9000), bookingId: this.modalForm.bookingId || 'BKG-N/A', customer: this.modalForm.customer, type: this.modalForm.type, amount: parseFloat(this.modalForm.amount || 0), status: 'Processed', date: new Date().toISOString().split('T')[0] });
-                    this.logActivity('Execute Ledger Transaction Balance Roll', this.modalForm.type);
+                    try {
+                        await this.callAdminApi('create_payment', { customer: this.modalForm.customer, bookingId: this.modalForm.bookingId || 0, type: this.modalForm.type, amount: this.modalForm.amount });
+                        window.location.reload(); return;
+                    } catch (error) { alert(error.message); return; }
                 } else if (this.activeModal === 'edit-customer') {
                     const idx = this.customers.findIndex(c => c.id === this.modalForm.id);
                     if (idx !== -1) {
@@ -202,10 +284,10 @@ try {
                 this.selectedGalleryId = this.selectedGalleryId === galleryId ? null : galleryId;
             },
 
-            removeGalleryImage(galleryId) {
-                this.gallery = this.gallery.filter(item => item.id !== galleryId);
-                this.selectedGalleryId = null;
-                this.logActivity('Remove Website Image', galleryId);
+            async removeGalleryImage(galleryId) {
+                if (String(galleryId).startsWith('website-')) { alert('Website source images are shown here automatically and cannot be removed from the dashboard.'); return; }
+                if (!confirm('Remove this image from the website gallery?')) return;
+                try { await this.callAdminApi('delete_gallery', { id: galleryId }); window.location.reload(); } catch (error) { alert(error.message); }
             },
 
             contactCustomer(customerId) {
@@ -226,9 +308,10 @@ try {
                 }
             },
 
-            changeBookingStatus(id, nextStatus) {
+            async changeBookingStatus(id, nextStatus) {
                 let target = this.bookings.find(b => b.id === id);
-                if(target) { target.status = nextStatus; this.logActivity(`Update Booking State to ${nextStatus}`, id); }
+                if (!target) return;
+                try { await this.callAdminApi('update_booking_status', { id, status: nextStatus.toLowerCase() }); target.status = nextStatus; this.logActivity(`Update Booking State to ${nextStatus}`, id); } catch (error) { alert(error.message); }
             },
 
             selectPackage(packageId) {
@@ -259,7 +342,7 @@ try {
         >
             <div class="h-16 flex items-center justify-between px-5 border-b border-slate-800 shrink-0">
                 <div class="flex items-center space-x-3 overflow-hidden" x-show="sidebarOpen">
-                    <div class="p-2 bg-blue-600 rounded-xl text-white shadow-md shadow-blue-500/20"><i class="bi bi-airplane-fill text-lg"></i></div>
+                    <img src="../img/logo.png" alt="AddNepalTour & Travel logo" class="h-10 w-10 rounded-xl object-contain bg-blue-600 p-1 shadow-md shadow-blue-500/20">
                     <span class="text-lg font-bold text-white tracking-wide whitespace-nowrap">AddNepalTour & Travel Dashboard</span>
                 </div>
                 <button @click="sidebarOpen = !sidebarOpen" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition-colors hidden lg:block">
@@ -443,7 +526,7 @@ try {
                         <span class="text-[10px] text-emerald-600 font-mono font-bold">Status: Full Access Guard Active</span>
                     </div>
                     <div class="h-8 w-px bg-slate-200"></div>
-                    <img class="w-9 h-9 rounded-xl object-cover ring-2 ring-slate-100" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Root admin avatar">
+                    <img class="w-9 h-9 rounded-xl object-contain bg-blue-50 ring-2 ring-slate-100" src="../img/logo.png" alt="AddNepalTour & Travel logo">
                 </div>
             </header>
 
@@ -701,26 +784,29 @@ try {
 
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
                         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
-                            <h4 class="text-sm font-bold text-slate-900 mb-4">Customer Login Sessions</h4>
+                            <h4 class="text-sm font-bold text-slate-900 mb-4">Website contact messages</h4>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left text-sm">
                                     <thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase text-slate-500">
                                         <tr>
                                             <th class="px-4 py-3">No.</th>
-                                            <th class="px-4 py-3">Customer</th>
+                                            <th class="px-4 py-3">Sender</th>
+                                            <th class="px-4 py-3">Subject</th>
                                             <th class="px-4 py-3">Status</th>
-                                            <th class="px-4 py-3">Last Active</th>
+                                            <th class="px-4 py-3">Received</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100">
-                                        <template x-for="(session,index) in userSessions" :key="session.id">
+                                        <template x-for="(message,index) in messages" :key="message.id">
                                             <tr class="hover:bg-slate-50/70">
                                                 <td class="px-4 py-3 font-mono text-slate-700" x-text="index + 1"></td>
-                                                <td class="px-4 py-3 text-slate-900" x-text="session.customer"></td>
-                                                <td class="px-4 py-3"><span :class="session.status === 'Online' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'" class="px-2 py-1 rounded-full text-[10px] font-semibold" x-text="session.status"></span></td>
-                                                <td class="px-4 py-3 font-mono text-slate-500" x-text="session.lastActive"></td>
+                                                <td class="px-4 py-3 text-slate-900"><p x-text="message.customer"></p><p class="text-xs text-slate-500" x-text="message.email"></p></td>
+                                                <td class="px-4 py-3 text-slate-600" x-text="message.subject || 'Website enquiry'"></td>
+                                                <td class="px-4 py-3"><span class="bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-[10px] font-semibold" x-text="message.status"></span></td>
+                                                <td class="px-4 py-3 font-mono text-slate-500" x-text="message.created_at"></td>
                                             </tr>
                                         </template>
+                                        <tr x-show="messages.length === 0"><td colspan="5" class="px-4 py-6 text-center text-slate-500">No website messages yet.</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -824,10 +910,10 @@ try {
                                 <img :src="img.url" class="w-full h-32 object-cover rounded-xl" :alt="img.title">
                                 <div class="p-2">
                                     <p class="text-xs font-bold truncate text-slate-800" x-text="img.title"></p>
-                                    <p class="text-[10px] text-slate-400 font-mono mt-0.5" x-text="index + 1"></p>
+                                    <p class="text-[10px] text-slate-400 font-mono mt-0.5" x-text="img.source || 'Gallery upload'"></p>
                                 </div>
-                                <button @click.stop="editGallery(img.id)" class="absolute top-4 right-12 bg-slate-700 text-white p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-xs"><i class="bi bi-pencil"></i></button>
-                                <button @click.stop="removeGalleryImage(img.id)" class="absolute top-4 right-4 bg-rose-600 text-white p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-xs"><i class="bi bi-trash"></i></button>
+                                <button x-show="!img.source" @click.stop="editGallery(img.id)" class="absolute top-4 right-12 bg-slate-700 text-white p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-xs"><i class="bi bi-pencil"></i></button>
+                                <button x-show="!img.source" @click.stop="removeGalleryImage(img.id)" class="absolute top-4 right-4 bg-rose-600 text-white p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-xs"><i class="bi bi-trash"></i></button>
                             </div>
                         </template>
                     </div>
@@ -915,7 +1001,7 @@ try {
 
                         <!-- Data Form Fields Workarea Column -->
                         <div class="md:col-span-3 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                            <form @submit.prevent="logActivity('Mutate Global Configuration Property', settingFilter); alert('System operational metadata flags committed to local application scope context successfully.')" class="space-y-4">
+                            <form @submit.prevent="saveWebsiteSettings()" class="space-y-4">
                                 
                                 <template x-if="settingFilter === 'company'">
                                     <div class="space-y-3">
@@ -959,14 +1045,14 @@ try {
                     </div>
                 </div>
 
-                <!-- PANEL K: OPERATOR PROFILE CORE SUMMARY -->
+                <!-- PANEL L: OPERATOR PROFILE CORE SUMMARY -->
                 <div x-show="currentView === 'profile'" x-transition class="space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm max-w-xl mx-auto space-y-6">
                         <div class="flex items-center space-x-4">
-                            <img class="w-16 h-16 rounded-2xl object-cover ring-4 ring-slate-100 shadow-sm" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Avatar">
+                            <img class="w-16 h-16 rounded-2xl object-contain bg-blue-50 p-2 ring-4 ring-slate-100 shadow-sm" src="../img/logo.png" alt="AddNepalTour & Travel logo">
                             <div>
-                                <h3 class="text-lg font-black text-slate-900">Alex Mercer</h3>
-                                <p class="text-xs font-mono text-blue-600 font-bold">Assigned Security Principal: Root Administrator</p>
+                                <h3 class="text-lg font-black text-slate-900">Sujit Kumar Mandal</h3>
+                                <p class="text-xs font-mono text-blue-600 font-bold">Website Administrator</p>
                             </div>
                         </div>
                         
@@ -999,6 +1085,7 @@ try {
                     <!-- Form Fields Conditionals Block -->
                     <template x-if="activeModal === 'add-package'">
                         <div class="space-y-3">
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Package title</label><input type="text" x-model="modalForm.title" required maxlength="190" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">Destination Hub Label</label><input type="text" x-model="modalForm.destination" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 uppercase">Classification Tag</label>
@@ -1011,6 +1098,7 @@ try {
                                 <div><label class="block text-xs font-bold text-slate-500 uppercase">Duration Window</label><input type="text" x-model="modalForm.duration" placeholder="e.g. 7 Days" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
                                 <div><label class="block text-xs font-bold text-slate-500 uppercase">Base Cost ($ USD)</label><input type="number" x-model="modalForm.price" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
                             </div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Website image URL</label><input type="url" x-model="modalForm.imageUrl" placeholder="https://..." class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
                         </div>
                     </template>
 
@@ -1032,7 +1120,8 @@ try {
                     <template x-if="activeModal === 'add-gallery' || activeModal === 'edit-gallery'">
                         <div class="space-y-3">
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">Media Caption Title</label><input type="text" x-model="modalForm.title" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
-                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Asset Source Target URI Link</label><input type="url" x-model="modalForm.url" placeholder="https://..." class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Asset source URL</label><input type="url" x-model="modalForm.url" placeholder="https://..." class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div x-show="activeModal === 'add-gallery'"><label class="block text-xs font-bold text-slate-500 uppercase">Or upload image (max 5 MB)</label><input id="galleryImageFile" type="file" accept="image/png,image/jpeg,image/gif,image/webp" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
                         </div>
                     </template>
 

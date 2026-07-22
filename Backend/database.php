@@ -7,7 +7,7 @@ session_start();
 // Database credentials
 define('DB_HOST', 'localhost');
 define('DB_PORTS', [3307, 3306]);
-define('DB_NAME', 'tour_travel_db');
+define('DB_NAME', 'nepal_travel_db');
 define('DB_CREDENTIALS', [
     ['user' => 'tour_user', 'pass' => 'tour_pass_2026'],
     ['user' => 'root', 'pass' => ''],

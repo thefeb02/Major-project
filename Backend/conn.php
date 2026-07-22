@@ -7,7 +7,7 @@ $credentials = [
     ["user" => "tour_user", "pass" => "tour_pass_2026"],
     ["user" => "root", "pass" => ""],
 ];
-$database = "tour_travel_db";
+$database = "nepal_travel_db";
 
 $conn = null;
 
