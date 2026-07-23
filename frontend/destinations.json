@@ -520,10 +520,10 @@
       "province_id": "sudurpashchim",
       "district": "Kanchanpur",
       "description": "Shuklaphanta National Park is a vast grassland reserve in far-western Nepal, hosting the world's largest herd of endangered swamp deer (Barasingha).",
-      "heroImage": "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://commons.wikimedia.org/wiki/Special:FilePath/Shuklaphanta.jpg?width=1200",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?auto=format&fit=crop&w=800&q=80"
+        "https://commons.wikimedia.org/wiki/Special:FilePath/Shuklaphanta.jpg?width=1200",
+        "https://commons.wikimedia.org/wiki/Special:FilePath/Shuklaphanta%20National%20Park-1.jpg?width=1200"
       ],
       "bestSeason": "November to April",
       "duration": "3 Days",
@@ -1028,9 +1028,9 @@
       "province_id": "koshi",
       "district": "Solukhumbu",
       "description": "Mount Everest (Sagarmatha) is the world's highest peak at 8,848.86m. Nestled in the Himalayas, it is the ultimate symbol of adventure, challenge, and majestic natural scale.",
-      "heroImage": "https://en.wikipedia.org/wiki/Mount_Everest",
+      "heroImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Mount_Everest%2C_Nepal%2C_Himalayas.jpg/1280px-Mount_Everest%2C_Nepal%2C_Himalayas.jpg",
       "galleryImages": [
-        "https://en.wikipedia.org/wiki/Mount_Everest",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Mount_Everest%2C_Nepal%2C_Himalayas.jpg/1280px-Mount_Everest%2C_Nepal%2C_Himalayas.jpg",
         "https://media.tacdn.com/media/attractions-splice-spp-674x446/0b/39/79/12.jpg"
       ],
       "bestSeason": "April to May, October to November",
@@ -1493,9 +1493,9 @@
       "province_id": "gandaki",
       "district": "Gorkha",
       "description": "Manakamana Temple is a highly popular Hindu shrine dedicated to Goddess Bhagwati, believed to fulfill the wishes of her devotees. It is reached by a scenic cable car ride rising over the Trishuli River.",
-      "heroImage": "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://commons.wikimedia.org/wiki/Special:FilePath/ManakamanaTemple.JPG?width=1200",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80"
+        "https://commons.wikimedia.org/wiki/Special:FilePath/ManakamanaTemple.JPG?width=1200"
       ],
       "bestSeason": "All year round",
       "duration": "1 Day",
@@ -1535,9 +1535,9 @@
       "province_id": "koshi",
       "district": "Taplejung",
       "description": "Pathibhara Devi Temple is a sacred hilltop shrine located at 3,794m in eastern Nepal, offering spiritual peace and spectacular views of the Kanchenjunga range.",
-      "heroImage": "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Pathibhara_taplejung.jpg/960px-Pathibhara_taplejung.jpg",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80"
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Pathibhara_taplejung.jpg/960px-Pathibhara_taplejung.jpg"
       ],
       "bestSeason": "September to November, March to May",
       "duration": "4 Days",
@@ -1577,9 +1577,9 @@
       "province_id": "bagmati",
       "district": "Rasuwa",
       "description": "Gosaikunda is a holy alpine lake located at 4,380m in Langtang National Park. Revered by Hindus as the creation of Lord Shiva, it features pristine blue waters surrounded by snow peaks.",
-      "heroImage": "https://images.unsplash.com/photo-1551829142-d9b812de432c?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://commons.wikimedia.org/wiki/Special:FilePath/Lake%20Gosaikunda.jpg?width=1200",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1551829142-d9b812de432c?auto=format&fit=crop&w=800&q=80"
+        "https://commons.wikimedia.org/wiki/Special:FilePath/Lake%20Gosaikunda.jpg?width=1200"
       ],
       "bestSeason": "May to November",
       "duration": "5 Days",
@@ -1619,9 +1619,9 @@
       "province_id": "koshi",
       "district": "Khotang",
       "description": "Halesi Mahadev is a famous cave temple situated in eastern Nepal. Revered as the 'Pashupatinath of the East' by Hindus and as Maratika Cave by Buddhists, it is a site of deep meditation and spirituality.",
-      "heroImage": "https://images.unsplash.com/photo-1590073844006-33379778ae09?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Halesi_Mahadev_Temple.jpg/960px-Halesi_Mahadev_Temple.jpg",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1590073844006-33379778ae09?auto=format&fit=crop&w=800&q=80"
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Halesi_Mahadev_Temple.jpg/960px-Halesi_Mahadev_Temple.jpg"
       ],
       "bestSeason": "October to May",
       "duration": "3 Days",
@@ -1913,9 +1913,9 @@
       "province_id": "bagmati",
       "district": "Bhaktapur",
       "description": "Changu Narayan Temple is an ancient Hindu temple located on a high hilltop in Bhaktapur district. It is considered one of the oldest Hindu temples in Nepal, featuring beautiful stone, wood, and metal crafts from the Lichhavi era.",
-      "heroImage": "https://i.pinimg.com/736x/88/5f/84/885f848be422c549303d8dff73270bd17.jpg",
+      "heroImage": "https://commons.wikimedia.org/wiki/Special:FilePath/Changunarayan%20Temple%2C%20Bhaktapur.JPG?width=1200",
       "galleryImages": [
-        "https://i.pinimg.com/736x/88/5f/84/885f848be422c549303d8dff73270bd17.jpg"
+        "https://commons.wikimedia.org/wiki/Special:FilePath/Changunarayan%20Temple%2C%20Bhaktapur.JPG?width=1200"
       ],
       "bestSeason": "September to May",
       "duration": "1 Day",
@@ -1955,9 +1955,9 @@
       "province_id": "sudurpashchim",
       "district": "Bajhang",
       "description": "Khaptad National Park is a hidden gem of western Nepal, known for rolling green meadows, rich oak and pine forests, and spiritual heritage associated with the Khaptad Baba hermitage.",
-      "heroImage": "https://i.pinimg.com/736x/fc/a6/50/fca6504a3e9ccecf7418f03d29c9e3137.jpg",
+      "heroImage": "https://commons.wikimedia.org/wiki/Special:FilePath/Khaptad%20National%20Park%20-%20a%20piece%20of%20heaven.jpg?width=1200",
       "galleryImages": [
-        "https://i.pinimg.com/736x/fc/a6/50/fca6504a3e9ccecf7418f03d29c9e3137.jpg"
+        "https://commons.wikimedia.org/wiki/Special:FilePath/Khaptad%20National%20Park%20-%20a%20piece%20of%20heaven.jpg?width=1200"
       ],
       "bestSeason": "March to May, October to November",
       "duration": "5 Days",
@@ -2113,6 +2113,108 @@
         "safetyTips": "Some staircases inside the old palace are steep; tread carefully.",
         "travelTips": "Spend a night at a heritage farm stay to experience authentic local life."
       }
+    },
+    {
+      "id": "parsa-national-park", "name": "Parsa National Park", "slug": "parsa-national-park", "category": "protected,nature", "province": "Madhesh Province", "province_id": "madhesh", "district": "Parsa",
+      "description": "Parsa National Park protects Sal forests, grasslands and wildlife in the southern plains, offering a quieter nature experience beside Chitwan.", "heroImage": "https://gorkhapatraonline.com/storage/media/354261/Untitled-3.jpg", "galleryImages": ["https://gorkhapatraonline.com/storage/media/354261/Untitled-3.jpg"], "bestSeason": "October to March", "duration": "2 Days", "rating": 4.5, "difficulty": "Easy",
+      "highlights": {"nature":"Sal forest, grassland and river landscapes.","history":"A protected landscape established to conserve the central Terai ecosystem.","culture":"Nearby Tharu communities and plains culture.","adventure":"Guided nature walks and wildlife viewing.","wildlife":"Elephants, deer, birds and other Terai wildlife.","photography":"Early-morning forest light and birdlife."},
+      "travelInfo": {"bestTime":"October to March","transportation":"Road travel from Birgunj or Kathmandu.","budget":"NPR 5,000 - 12,000","accommodation":"Lodges in nearby towns.","food":"Local Nepali and Tharu meals.","entryFee":"Check current park entry fees.","openingHours":"Daylight visiting hours","safetyTips":"Use a registered guide and keep distance from wildlife.","travelTips":"Start early for the best wildlife activity."}
+    },
+    {
+      "id": "gadhimai-temple", "name": "Gadhimai Temple", "slug": "gadhimai-temple", "category": "pilgrimage", "province": "Madhesh Province", "province_id": "madhesh", "district": "Bara",
+      "description": "Gadhimai Temple in Bariyarpur is an important Hindu pilgrimage site visited by devotees from Nepal and India.", "heroImage": "https://commons.wikimedia.org/wiki/Special:FilePath/Gadhimai%20temple.jpg", "galleryImages": ["https://commons.wikimedia.org/wiki/Special:FilePath/Gadhimai%20temple.jpg"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.4, "difficulty": "Easy",
+      "highlights": {"nature":"Open Terai plains around Bariyarpur.","history":"A long-standing regional pilgrimage centre.","culture":"Devotional gatherings, offerings and local fairs.","adventure":"A cultural day trip from Simara or Birgunj.","wildlife":"Local birdlife in the surrounding plains.","photography":"Temple details and festival colour."},
+      "travelInfo": {"bestTime":"Morning in the cooler months","transportation":"Road access via Simara and Kalaiya.","budget":"NPR 2,000 - 5,000","accommodation":"Hotels in Simara or Kalaiya.","food":"Local Mithila and Nepali food.","entryFee":"Free; offerings are optional.","openingHours":"Daytime; confirm festival schedules locally.","safetyTips":"Respect worship areas and local guidance.","travelTips":"Avoid peak festival crowds if you prefer a quiet visit."}
+    },
+    {
+      "id": "simraungadh-fort", "name": "Simraungadh Fort", "slug": "simraungadh-fort", "category": "heritage", "province": "Madhesh Province", "province_id": "madhesh", "district": "Bara",
+      "description": "Simraungadh preserves the remains of the medieval Karnat Kingdom capital and is one of the most important historical places in the Terai.", "heroImage": "https://khabarmukam.com/images/news/1755310125-1%201000.jpg", "galleryImages": ["https://khabarmukam.com/images/news/1755310125-1%201000.jpg"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.2, "difficulty": "Easy",
+      "highlights": {"nature":"Flat plains and rural surroundings.","history":"Archaeological remains linked with the Karnat dynasty.","culture":"Local traditions connected to the historic town.","adventure":"Heritage walk through the old settlement.","wildlife":"Common Terai birds.","photography":"Brick remains, ponds and local streets."},
+      "travelInfo": {"bestTime":"October to March","transportation":"Road journey from Kalaiya or Birgunj.","budget":"NPR 2,000 - 5,000","accommodation":"Stay in nearby Bara towns.","food":"Local Nepali meals.","entryFee":"Check local access information.","openingHours":"Daylight hours","safetyTips":"Wear sun protection and carry water.","travelTips":"Pair the visit with nearby religious sites."}
+    },
+    {
+      "id": "dhanushadham", "name": "Dhanushadham", "slug": "dhanushadham", "category": "pilgrimage,nature", "province": "Madhesh Province", "province_id": "madhesh", "district": "Dhanusha",
+      "description": "Dhanushadham is a revered Mithila pilgrimage destination associated with the Ramayana and a sacred forest landscape.", "heroImage": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYXb-ovtXtJTDuJidkW4Ks9olaCgNTMCGChqOvcVfOPcf33KFnNaehoNFGqJJB1BQcmpa7Ev1jLbRLB8h_tNIaYfRz0gDZXkHNclFi8z_pKtziR_4wzNe7uFS8pnfuPtiw1G7BMb35XkI/w1200-h630-p-k-no-nu/DSC01686.JPG", "galleryImages": ["https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYXb-ovtXtJTDuJidkW4Ks9olaCgNTMCGChqOvcVfOPcf33KFnNaehoNFGqJJB1BQcmpa7Ev1jLbRLB8h_tNIaYfRz0gDZXkHNclFi8z_pKtziR_4wzNe7uFS8pnfuPtiw1G7BMb35XkI/w1200-h630-p-k-no-nu/DSC01686.JPG"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.5, "difficulty": "Easy",
+      "highlights": {"nature":"Sacred grove and peaceful plains setting.","history":"Connected with the bow of Lord Shiva in Ramayana tradition.","culture":"Mithila worship and annual fairs.","adventure":"Easy pilgrimage and nature walk.","wildlife":"Birdlife in the protected grove.","photography":"Shrine, trees and local rituals."},
+      "travelInfo": {"bestTime":"October to March","transportation":"Road access from Janakpur and Dhalkebar.","budget":"NPR 2,000 - 5,000","accommodation":"Hotels in Janakpur or Dhalkebar.","food":"Mithila cuisine and local snacks.","entryFee":"Free.","openingHours":"Daylight hours","safetyTips":"Respect temple customs and keep the grove clean.","travelTips":"Visit in the morning for a calmer experience."}
+    },
+    {
+      "id": "chhinnamasta-temple", "name": "Chhinnamasta Temple", "slug": "chhinnamasta-temple", "category": "pilgrimage", "province": "Madhesh Province", "province_id": "madhesh", "district": "Saptari",
+      "description": "Chhinnamasta Temple in Saptari is a major Shakti shrine where devotees gather for worship, especially during Dashain.", "heroImage": "https://commons.wikimedia.org/wiki/Special:FilePath/Chhinnamasta%20Temple%2C%20Saptari-WLV-0808.jpg?width=1200", "galleryImages": ["https://commons.wikimedia.org/wiki/Special:FilePath/Chhinnamasta%20Temple%2C%20Saptari-WLV-0808.jpg?width=1200"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.5, "difficulty": "Easy",
+      "highlights": {"nature":"Terai plains landscape.","history":"An established regional Shakti pilgrimage site.","culture":"Hindu worship, fairs and devotional traditions.","adventure":"Short cultural excursion.","wildlife":"Local plains birdlife.","photography":"Temple architecture and festival colour."},
+      "travelInfo": {"bestTime":"Morning, October to March","transportation":"Road access from Rajbiraj.","budget":"NPR 2,000 - 5,000","accommodation":"Hotels in Rajbiraj.","food":"Local Maithili food.","entryFee":"Free; offerings optional.","openingHours":"Daytime","safetyTips":"Follow temple rules and crowd directions.","travelTips":"Festival days are vibrant but very busy."}
+    },
+    {
+      "id": "koshi-tappu", "name": "Koshi Tappu Wildlife Reserve", "slug": "koshi-tappu", "category": "protected,nature", "province": "Madhesh Province", "province_id": "madhesh", "district": "Saptari",
+      "description": "Koshi Tappu is a wetland wildlife reserve on the Koshi floodplain, well known for migratory birds, water buffalo and river scenery.", "heroImage": "https://commons.wikimedia.org/wiki/Special:FilePath/Koshi%20Tappu.JPG?width=1200", "galleryImages": ["https://commons.wikimedia.org/wiki/Special:FilePath/Koshi%20Tappu.JPG?width=1200"], "bestSeason": "November to February", "duration": "2 Days", "rating": 4.6, "difficulty": "Easy",
+      "highlights": {"nature":"Wetlands, river channels and grasslands.","history":"A nationally important wetland conservation area.","culture":"Riverside communities and fishing traditions.","adventure":"Birdwatching and guided jeep safaris.","wildlife":"Wild water buffalo and migratory birds.","photography":"Dawn light over wetlands and birdlife."},
+      "travelInfo": {"bestTime":"November to February for birds","transportation":"Road access via Kosi Barrage and nearby towns.","budget":"NPR 6,000 - 15,000","accommodation":"Nature lodges nearby.","food":"Nepali and local Tharu-style meals.","entryFee":"Check current reserve entry fees.","openingHours":"Daylight safari hours","safetyTips":"Use a guide and carry insect protection.","travelTips":"Bring binoculars for the best experience."}
+    },
+    {
+      "id": "murtiya-lake", "name": "Murtiya Lake", "slug": "murtiya-lake", "category": "nature", "province": "Madhesh Province", "province_id": "madhesh", "district": "Mahottari",
+      "description": "Murtiya Lake is a quiet local waterbody suited to relaxed walks, picnics and enjoying the rural landscape of Madhesh.", "heroImage": "https://gorkhapatraonline.com/storage/media/244695/sauteniya-pokhari.jpg", "galleryImages": ["https://gorkhapatraonline.com/storage/media/244695/sauteniya-pokhari.jpg"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.0, "difficulty": "Easy",
+      "highlights": {"nature":"Lake views and open plains.","history":"A local recreation and community landscape.","culture":"Nearby rural Madheshi life.","adventure":"Leisurely walks and picnics.","wildlife":"Water birds in suitable seasons.","photography":"Reflections at sunrise and sunset."},
+      "travelInfo": {"bestTime":"Early morning or late afternoon","transportation":"Local road travel from Mahottari towns.","budget":"NPR 1,500 - 4,000","accommodation":"Hotels in nearby market centres.","food":"Bring snacks or eat locally.","entryFee":"Usually free.","openingHours":"Daylight hours","safetyTips":"Avoid deep water and keep the shoreline clean.","travelTips":"Carry drinking water and sun protection."}
+    },
+    {
+      "id": "sahid-smarak", "name": "Sahid Smarak", "slug": "sahid-smarak", "category": "heritage", "province": "Madhesh Province", "province_id": "madhesh", "district": "Rautahat",
+      "description": "Sahid Smarak is a memorial space honouring martyrs and offering a reflective stop for visitors exploring Madhesh history.", "heroImage": "https://sahidsmarak.org/wp-content/uploads/2023/02/Sahid-Smarak.png", "galleryImages": ["https://sahidsmarak.org/wp-content/uploads/2023/02/Sahid-Smarak.png"], "bestSeason": "October to March", "duration": "Half Day", "rating": 4.1, "difficulty": "Easy",
+      "highlights": {"nature":"Open public grounds.","history":"Memorial to national and local sacrifices.","culture":"Public remembrance and civic events.","adventure":"Easy town sightseeing stop.","wildlife":"Common urban birds.","photography":"Memorial forms and evening light."},
+      "travelInfo": {"bestTime":"Morning or late afternoon","transportation":"Local transport from district centres.","budget":"NPR 1,000 - 3,000","accommodation":"Nearby town hotels.","food":"Local restaurants.","entryFee":"Free.","openingHours":"Daylight hours","safetyTips":"Use normal city travel precautions.","travelTips":"Combine with other nearby cultural stops."}
+    },
+    {
+      "id": "nunthar", "name": "Nunthar", "slug": "nunthar", "category": "nature", "province": "Madhesh Province", "province_id": "madhesh", "district": "Rautahat",
+      "description": "Nunthar is a peaceful riverside and forest-area outing destination popular for picnics and short nature breaks.", "heroImage": "https://travelnepaltoday.com/wp-content/uploads/2025/07/Nunthar-Mahadev.webp", "galleryImages": ["https://travelnepaltoday.com/wp-content/uploads/2025/07/Nunthar-Mahadev.webp"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.2, "difficulty": "Easy",
+      "highlights": {"nature":"River, forest and picnic landscape.","history":"A long-used local recreation area.","culture":"Popular with family and student outings.","adventure":"Short walks and riverside relaxation.","wildlife":"Forest birds and small wildlife.","photography":"Green hills and riverside scenes."},
+      "travelInfo": {"bestTime":"October to March","transportation":"Local road travel from Rautahat and surrounding towns.","budget":"NPR 1,500 - 5,000","accommodation":"Day trip or stay in nearby towns.","food":"Pack picnic food or buy locally.","entryFee":"Check local access rules.","openingHours":"Daylight hours","safetyTips":"Avoid river currents and carry water.","travelTips":"Leave no litter in the forest area."}
+    },
+    {
+      "id": "pathlaiya", "name": "Pathlaiya", "slug": "pathlaiya", "category": "cities", "province": "Madhesh Province", "province_id": "madhesh", "district": "Bara",
+      "description": "Pathlaiya is a busy gateway town in Bara, useful as a transport hub for travel toward Simara, Birgunj and nearby Terai destinations.", "heroImage": "https://cdn.explurger.com/media/places_photo/ChIJH7DdEJ9T6zkRdo56YTrLlhs/ChIJH7DdEJ9T6zkRdo56YTrLlhs.jpg", "galleryImages": ["https://cdn.explurger.com/media/places_photo/ChIJH7DdEJ9T6zkRdo56YTrLlhs/ChIJH7DdEJ9T6zkRdo56YTrLlhs.jpg"], "bestSeason": "October to March", "duration": "Half Day", "rating": 3.9, "difficulty": "Easy",
+      "highlights": {"nature":"Access point to nearby forest and plains.","history":"A developing road junction in central Madhesh.","culture":"Everyday market life of the Terai.","adventure":"Gateway for onward regional trips.","wildlife":"None.","photography":"Street scenes and local markets."},
+      "travelInfo": {"bestTime":"All year","transportation":"Major road junction with buses and local vehicles.","budget":"NPR 1,500 - 4,000","accommodation":"Simple hotels and lodges.","food":"Roadside Nepali and Indian-style food.","entryFee":"None.","openingHours":"24/7","safetyTips":"Use care around busy traffic.","travelTips":"Use Pathlaiya as a base for exploring Bara."}
+    },
+    {
+      "id": "baghmati-river", "name": "Baghmati River", "slug": "baghmati-river", "category": "nature", "province": "Madhesh Province", "province_id": "madhesh", "district": "Sarlahi",
+      "description": "The Baghmati River creates a scenic riverine landscape through Madhesh and supports farming, local settlements and seasonal birdlife.", "heroImage": "https://travelnepaltoday.com/wp-content/uploads/2025/07/bagmati-river-nunthar.webp", "galleryImages": ["https://travelnepaltoday.com/wp-content/uploads/2025/07/bagmati-river-nunthar.webp"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.0, "difficulty": "Easy",
+      "highlights": {"nature":"Riverbanks, farmland and changing seasonal flows.","history":"A river important to local settlement and agriculture.","culture":"Riverside rituals and everyday rural life.","adventure":"Riverside walks and photography.","wildlife":"Water birds in calm stretches.","photography":"Sunset over the river and fields."},
+      "travelInfo": {"bestTime":"October to March","transportation":"Local road access through Sarlahi.","budget":"NPR 1,500 - 4,000","accommodation":"Stay in nearby towns.","food":"Local meals in market areas.","entryFee":"Free.","openingHours":"Daylight hours","safetyTips":"Avoid swollen rivers during monsoon.","travelTips":"Check local weather before travelling in rainy season."}
+    },
+    {
+      "id": "bishnupaduka", "name": "Bishnupaduka", "slug": "bishnupaduka", "category": "pilgrimage", "province": "Madhesh Province", "province_id": "madhesh", "district": "Saptari",
+      "description": "Bishnupaduka is a local Hindu pilgrimage destination where visitors come for worship and a peaceful spiritual outing.", "heroImage": "https://commons.wikimedia.org/wiki/Special:FilePath/Side%20View%20Of%20Bishnupaduka%20Temple.jpg?width=1200", "galleryImages": ["https://commons.wikimedia.org/wiki/Special:FilePath/Side%20View%20Of%20Bishnupaduka%20Temple.jpg?width=1200"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.2, "difficulty": "Easy",
+      "highlights": {"nature":"Quiet temple surroundings.","history":"A site shaped by local devotional history.","culture":"Hindu worship and seasonal gatherings.","adventure":"Easy pilgrimage walk.","wildlife":"Common local birds.","photography":"Temple details and devotional colour."},
+      "travelInfo": {"bestTime":"Morning, October to March","transportation":"Local road access from nearby towns.","budget":"NPR 1,500 - 4,000","accommodation":"Nearby market hotels.","food":"Local Nepali food.","entryFee":"Free; offerings optional.","openingHours":"Daytime","safetyTips":"Dress respectfully and follow site rules.","travelTips":"Ask local caretakers about special worship times."}
+    },
+    {
+      "id": "kankalini-temple", "name": "Kankalini Temple", "slug": "kankalini-temple", "category": "pilgrimage", "province": "Madhesh Province", "province_id": "madhesh", "district": "Saptari",
+      "description": "Kankalini Temple is a revered goddess shrine in Saptari and an important destination for Hindu devotees in the eastern Terai.", "heroImage": "https://gorkhapatraonline.com/storage/media/169838/Kankalini-Temple_Rajesh-Dhungana-(1).JPG", "galleryImages": ["https://gorkhapatraonline.com/storage/media/169838/Kankalini-Temple_Rajesh-Dhungana-(1).JPG"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.5, "difficulty": "Easy",
+      "highlights": {"nature":"Terai village surroundings.","history":"Established regional goddess worship site.","culture":"Strong local devotional practices and fairs.","adventure":"Cultural day excursion.","wildlife":"Common plains birds.","photography":"Shrine ornaments and festival scenes."},
+      "travelInfo": {"bestTime":"Morning and festival season","transportation":"Road access from Rajbiraj and Saptari towns.","budget":"NPR 2,000 - 5,000","accommodation":"Hotels in Rajbiraj.","food":"Local Maithili dishes.","entryFee":"Free.","openingHours":"Daytime","safetyTips":"Expect crowds during major festivals.","travelTips":"Visit early for easier parking and a calmer darshan."}
+    },
+    {
+      "id": "rajdevi-temple", "name": "Rajdevi Temple", "slug": "rajdevi-temple", "category": "pilgrimage", "province": "Madhesh Province", "province_id": "madhesh", "district": "Rautahat",
+      "description": "Rajdevi Temple is a well-known goddess temple in Rautahat, especially lively during Dashain and local religious celebrations.", "heroImage": "https://gorkhapatraonline.com/storage/media/171465/Rajdevi-Temple_Rajbiraj_Rajesh-Dhungana-(8).JPG", "galleryImages": ["https://gorkhapatraonline.com/storage/media/171465/Rajdevi-Temple_Rajbiraj_Rajesh-Dhungana-(8).JPG"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.4, "difficulty": "Easy",
+      "highlights": {"nature":"Open plains setting.","history":"A long-standing local place of worship.","culture":"Dashain worship and community gatherings.","adventure":"Short temple visit and local exploration.","wildlife":"Common urban birds.","photography":"Temple façade and festive decorations."},
+      "travelInfo": {"bestTime":"Morning, October to March","transportation":"Road access from Gaur and Chandrapur.","budget":"NPR 2,000 - 5,000","accommodation":"Hotels in nearby town centres.","food":"Local Nepali and Maithili meals.","entryFee":"Free.","openingHours":"Daytime","safetyTips":"Follow crowd management during festivals.","travelTips":"Confirm festival dates before making a special trip."}
+    },
+    {
+      "id": "hariharpur-gadhi", "name": "Hariharpur Gadhi", "slug": "hariharpur-gadhi", "category": "heritage,hills", "province": "Madhesh Province", "province_id": "madhesh", "district": "Sindhuli",
+      "description": "Hariharpur Gadhi is a historic hill fort area with heritage interest, forest walks and wide views over the surrounding landscape.", "heroImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Gate_of_Hariharpur_Gadhi_Darbar.jpg/1280px-Gate_of_Hariharpur_Gadhi_Darbar.jpg", "galleryImages": ["https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Gate_of_Hariharpur_Gadhi_Darbar.jpg/1280px-Gate_of_Hariharpur_Gadhi_Darbar.jpg"], "bestSeason": "October to April", "duration": "2 Days", "rating": 4.3, "difficulty": "Moderate",
+      "highlights": {"nature":"Forested hills and broad viewpoints.","history":"Historic fort landscape associated with Nepal's unification era.","culture":"Rural hill communities and local traditions.","adventure":"Hill walks and heritage exploration.","wildlife":"Forest birds and small wildlife.","photography":"Fort remains and distant ridge views."},
+      "travelInfo": {"bestTime":"October to April","transportation":"Road journey via Sindhuli and local hill roads.","budget":"NPR 5,000 - 12,000","accommodation":"Homestays or lodges in nearby settlements.","food":"Local hill meals.","entryFee":"Check local access information.","openingHours":"Daylight hours","safetyTips":"Use suitable footwear and avoid travel in heavy rain.","travelTips":"Hire a local guide for the best historical context and route advice."}
+    },
+    {
+      "id": "karik-baba-than", "name": "Karik Baba Than", "slug": "karik-baba-than", "category": "pilgrimage", "province": "Madhesh Province", "province_id": "madhesh", "district": "Mahottari",
+      "description": "Karik Baba Than is a local Hindu worship site in Paraul near Jaleshwar, visited for prayer and a peaceful spiritual outing.", "heroImage": "https://i.ytimg.com/vi/ZMXoZyDWcSw/maxresdefault.jpg", "galleryImages": ["https://i.ytimg.com/vi/ZMXoZyDWcSw/maxresdefault.jpg"], "bestSeason": "October to March", "duration": "Half Day", "rating": 4.2, "difficulty": "Easy",
+      "highlights": {"nature":"Quiet rural surroundings near Paraul.","history":"A local place of worship serving nearby communities.","culture":"Hindu prayer, offerings and festival visits.","adventure":"Short pilgrimage outing from Jaleshwar.","wildlife":"Common Terai birdlife.","photography":"Temple details and village scenes."},
+      "travelInfo": {"bestTime":"Morning or late afternoon","transportation":"Local road travel from Jaleshwar to Paraul.","budget":"NPR 1,000 - 3,000","accommodation":"Hotels in Jaleshwar or Janakpur.","food":"Local Mithila snacks and meals.","entryFee":"Free; offerings optional.","openingHours":"Daytime","safetyTips":"Respect worship customs and keep the site clean.","travelTips":"Ask local residents about special worship days."}
+    },
+    {
+      "id": "mahadev-kunda", "name": "Mahadev Kunda", "slug": "mahadev-kunda", "category": "pilgrimage,nature", "province": "Madhesh Province", "province_id": "madhesh", "district": "Mahottari",
+      "description": "Mahadev Kunda is a sacred water and Shiva worship destination in the Jaleshwar area, suited to a calm religious visit.", "heroImage": "https://myadhyatm.com/wp-content/uploads/2025/04/1-7.jpg", "galleryImages": ["https://myadhyatm.com/wp-content/uploads/2025/04/1-7.jpg"], "bestSeason": "October to March", "duration": "Half Day", "rating": 4.3, "difficulty": "Easy",
+      "highlights": {"nature":"Sacred water setting and open Terai landscape.","history":"A local Shiva worship destination in the Jaleshwar area.","culture":"Prayer, offerings and seasonal religious gatherings.","adventure":"Easy spiritual stop near Jaleshwar.","wildlife":"Common local birds around water and trees.","photography":"Temple architecture and ritual details."},
+      "travelInfo": {"bestTime":"Morning, October to March","transportation":"Local road access from Jaleshwar.","budget":"NPR 1,000 - 3,000","accommodation":"Hotels in Jaleshwar or Janakpur.","food":"Local Mithila cuisine in Jaleshwar.","entryFee":"Free; offerings optional.","openingHours":"Daytime","safetyTips":"Respect sacred-water and temple rules.","travelTips":"Carry drinking water and confirm festival timings locally."}
     }
   ]
 }
