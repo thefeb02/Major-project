@@ -86,10 +86,21 @@ try {
 
     if ($action === 'update_booking_status') {
         $status = $input['status'] ?? '';
-        if (!in_array($status, ['pending', 'approved', 'rejected', 'confirmed', 'cancelled'], true)) throw new InvalidArgumentException('Invalid booking status.');
+        if (!in_array($status, ['pending', 'confirmed', 'hold', 'cancelled'], true)) throw new InvalidArgumentException('Invalid booking status.');
+        $bookingId = (int) ($input['id'] ?? 0);
+        $bookingStmt = $pdo->prepare('SELECT full_name, email, phone, service_name, travel_date FROM service_bookings WHERE id = ?');
+        $bookingStmt->execute([$bookingId]);
+        $booking = $bookingStmt->fetch();
+        if (!$booking) throw new InvalidArgumentException('Booking not found.');
         $stmt = $pdo->prepare('UPDATE service_bookings SET status = ? WHERE id = ?');
-        $stmt->execute([$status, (int) ($input['id'] ?? 0)]);
-        adminApiResponse();
+        $stmt->execute([$status, $bookingId]);
+
+        $statusLabel = ucfirst($status);
+        $subject = 'Booking status update: ' . $booking['service_name'];
+        $message = "Hello {$booking['full_name']},\n\nYour booking for {$booking['service_name']} on {$booking['travel_date']} is now: {$statusLabel}.\n\nThank you,\nAddNepalTour & Travel";
+        $headers = "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nFrom: AddNepalTour & Travel <no-reply@localhost>\r\n";
+        $emailSent = filter_var($booking['email'], FILTER_VALIDATE_EMAIL) ? @mail($booking['email'], $subject, $message, $headers) : false;
+        adminApiResponse(['emailSent' => $emailSent, 'phone' => $booking['phone']]);
     }
 
     if ($action === 'update_message_status') {

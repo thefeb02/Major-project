@@ -157,6 +157,7 @@ $profiles = [
 $profile = $profiles[$topic] ?? $profiles['destination'];
 $pageTitle = $title ?: 'Travel Detail';
 $pageDesc = $desc ?: 'Explore helpful travel details, suggested activities, timing and planning guidance for this section.';
+$bookingCategory = $topic === 'activity' ? 'Adventure activity' : ($topic === 'heritage' ? 'Cultural tour' : ($topic === 'peaks' ? 'Trekking' : 'Tour'));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -165,6 +166,7 @@ $pageDesc = $desc ?: 'Explore helpful travel details, suggested activities, timi
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title><?= esc($pageTitle) ?> | Nepal Tour & Travel</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="booking-form.css">
     <style>
     .detail-shell{max-width:1120px;margin:0 auto;padding:28px 18px 70px}
     .detail-back{display:inline-block;margin-bottom:22px;color:#0f2340;text-decoration:none;font-size:18px}
@@ -173,6 +175,11 @@ $pageDesc = $desc ?: 'Explore helpful travel details, suggested activities, timi
     .detail-desc{font-size:20px;line-height:1.7;color:#1f2937}
     .detail-image{border-radius:8px;overflow:hidden;box-shadow:0 18px 45px rgba(15,35,64,.18);background:#eef2f7;min-height:320px}
     .detail-image img{width:100%;height:100%;min-height:320px;max-height:520px;object-fit:cover;display:block}
+    .detail-booking-card{margin-top:18px;padding:20px 22px;background:#0f2340;border-radius:8px;color:#fff;box-shadow:0 14px 28px rgba(15,35,64,.18)}
+    .detail-booking-card p{margin:0 0 5px;color:#cfe4ff;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+    .detail-booking-card h2{margin:0 0 14px;font-size:24px}
+    .detail-book-button{width:100%;padding:14px 18px;border:0;border-radius:6px;background:#f59e0b;color:#111827;font:700 17px inherit;cursor:pointer}
+    .detail-book-button:hover{background:#fbbf24}
     .detail-placeholder{min-height:320px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#eef6ff,#f5fff7);color:#0f2340;font-size:28px;font-weight:800;text-align:center;padding:28px}
     .detail-more{margin-top:28px}
     .detail-more h2{font-size:28px;margin:0 0 12px;color:#0f2340}
@@ -194,7 +201,7 @@ $pageDesc = $desc ?: 'Explore helpful travel details, suggested activities, timi
     }
     </style>
 </head>
-<body>
+<body data-booking-category="<?= esc($bookingCategory) ?>">
     <main class="detail-shell">
         <a class="detail-back" href="index.php">&larr; Back to home</a>
 
@@ -203,12 +210,19 @@ $pageDesc = $desc ?: 'Explore helpful travel details, suggested activities, timi
                 <h1 class="detail-title"><?= esc($pageTitle) ?></h1>
                 <div class="detail-desc"><?= esc($pageDesc) ?></div>
             </div>
+            <div>
             <div class="detail-image">
                 <?php if ($img): ?>
                     <img src="<?= esc($img) ?>" alt="<?= esc($alt ?: $pageTitle) ?>">
                 <?php else: ?>
                     <div class="detail-placeholder"><?= esc($pageTitle) ?></div>
                 <?php endif; ?>
+            </div>
+            <aside class="detail-booking-card">
+                <p>Ready to travel?</p>
+                <h2>Book this experience</h2>
+                <button type="button" class="detail-book-button" data-booking-package="<?= esc($pageTitle) ?>" data-booking-image="<?= esc($img) ?>">Book Now</button>
+            </aside>
             </div>
         </section>
 
@@ -238,5 +252,6 @@ $pageDesc = $desc ?: 'Explore helpful travel details, suggested activities, timi
             </aside>
         </section>
     </main>
+    <script src="booking-form.js"></script>
 </body>
 </html>

@@ -21,6 +21,7 @@ try {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="booking-form.css">
 </head>
 <body>
     <nav class="navbar">
@@ -32,6 +33,7 @@ try {
             <ul class="nav-menu">
                 <li><a href="#places" class="nav-link">Places</a></li>
                 <li><a href="#things" class="nav-link">Activities</a></li>
+                <li><a href="packages.php" class="nav-link">Packages</a></li>
                
 
                 <li><a href="about.php" class="nav-link">About</a></li>
@@ -96,10 +98,10 @@ try {
           <b>  <p class="section-subtitle">Discover inspiring travel stories and experiences from our community</p></b>
             <div class="stories-grid">
                 <article class="story-card">
-                    <div class="story-image-wrapper">
+                    <a class="story-image-link" href="media_detail.php?title=Trekking%20in%20the%20Himalayas&amp;desc=Discover%20the%20best%20trekking%20routes%20and%20prepare%20for%20your%20mountain%20adventure%20with%20expert%20tips.&amp;img=../img/3.jpeg&amp;alt=Trekking%20in%20the%20Himalayas&amp;topic=peaks" aria-label="View Trekking in the Himalayas details"><div class="story-image-wrapper">
                         <img src="../img/3.jpeg" alt="Story 1">
                         <span class="story-badge">Featured</span>
-                    </div>
+                    </div></a>
                     <div class="story-content">
                         <span class="story-date">May 15, 2026</span>
                         <h3>Trekking in the Himalayas</h3>
@@ -108,10 +110,10 @@ try {
                     </div>
                 </article>
                 <article class="story-card">
-                    <div class="story-image-wrapper">
+                    <a class="story-image-link" href="media_detail.php?title=Cultural%20Heritage%20Sites&amp;desc=Explore%20the%20ancient%20temples%20and%20cultural%20landmarks%20that%20define%20Nepal%27s%20rich%20history.&amp;img=../img/4.jpeg&amp;alt=Cultural%20Heritage%20Sites&amp;topic=heritage" aria-label="View Cultural Heritage Sites details"><div class="story-image-wrapper">
                         <img src="../img/4.jpeg" alt="Story 2">
                         <span class="story-badge">Popular</span>
-                    </div>
+                    </div></a>
                     <div class="story-content">
                         <span class="story-date">May 12, 2026</span>
                         <h3>Cultural Heritage Sites</h3>
@@ -120,10 +122,10 @@ try {
                     </div>
                 </article>
                 <article class="story-card">
-                    <div class="story-image-wrapper">
+                    <a class="story-image-link" href="media_detail.php?title=Adventure%20Activities&amp;desc=From%20paragliding%20to%20white-water%20rafting%2C%20find%20your%20next%20adrenaline-pumping%20experience.&amp;img=../img/5.jpeg&amp;alt=Adventure%20Activities&amp;topic=activity" aria-label="View Adventure Activities details"><div class="story-image-wrapper">
                         <img src="../img/5.jpeg" alt="Story 3">
                         <span class="story-badge">Trending</span>
-                    </div>
+                    </div></a>
                     <div class="story-content">
                         <span class="story-date">May 10, 2026</span>
                         <h3>Adventure Activities</h3>
@@ -276,6 +278,38 @@ try {
 
     <!-- Footer -->
     <?php if ($websiteGallery): ?>
+        <section class="tour-packages-section" id="tour-packages" tabindex="-1" hidden>
+            <div class="container">
+                <div class="section-header package-section-header">
+                    <h2>Tour Packages</h2>
+                    <p>Choose from more than 100 destinations and find a package that fits your travel time.</p>
+                </div>
+
+                <div class="tour-filters" aria-label="Tour package filters">
+                    <label>Destination
+                        <select id="packageDestination"><option value="">All 100+ destinations</option></select>
+                    </label>
+                    <label>Tour category
+                        <select id="packageCategory">
+                            <option value="">All categories</option>
+                            <option value="Adventure">Adventure</option><option value="Cultural">Cultural</option>
+                            <option value="Family">Family</option><option value="Honeymoon">Honeymoon</option>
+                            <option value="Pilgrimage">Pilgrimage</option><option value="Nature">Nature &amp; Wildlife</option>
+                        </select>
+                    </label>
+                    <label>Duration
+                        <select id="packageDuration">
+                            <option value="">Any duration</option><option value="2">1–3 days</option>
+                            <option value="5">4–7 days</option><option value="9">8–12 days</option><option value="14">13+ days</option>
+                        </select>
+                    </label>
+                </div>
+                <p id="selectedDestination" class="selected-destination" aria-live="polite">Showing packages for all destinations.</p>
+                <div id="tourPackagesGrid" class="tour-packages-grid" aria-live="polite"></div>
+                <div class="package-actions-bar"><button id="loadMorePackages" type="button" class="package-load-more">Show more packages</button></div>
+            </div>
+        </section>
+
         <section class="latest-stories" id="website-gallery">
             <div class="container">
                 <h2 class="section-title">Website Gallery</h2>
@@ -355,5 +389,6 @@ try {
 
     <button id="scrollToTop" class="scroll-to-top" style="display:none;"><i class="fa-solid fa-chevron-up"></i></button>
     <script src="script.js?v=<?php echo time(); ?>"></script>
+    <script src="booking-form.js"></script>
 </body>
 </html>

@@ -38,7 +38,7 @@ $adminCsrf = $_SESSION['admin_csrf'];
 try {
     $userCount = (int) $pdo->query("SELECT COUNT(*) FROM customers WHERE archived_at IS NULL")->fetchColumn();
     $travelPlanCount = (int) $pdo->query("SELECT COUNT(*) FROM travel_plans WHERE archived_at IS NULL")->fetchColumn();
-    $bookingCount = (int) $pdo->query("SELECT COUNT(*) FROM bookings WHERE archived_at IS NULL")->fetchColumn();
+    $bookingCount = (int) $pdo->query("SELECT COUNT(*) FROM service_bookings WHERE archived_at IS NULL")->fetchColumn();
 
     $recentPlans = $pdo->query("
         SELECT tp.title, tp.destination, tp.status, tp.created_at, u.name AS user_name
@@ -51,7 +51,7 @@ try {
 
     $recentBookings = $pdo->query("
         SELECT service_name, service_category, full_name, status, created_at
-        FROM bookings
+        FROM service_bookings
         WHERE archived_at IS NULL
         ORDER BY created_at DESC
         LIMIT 5
@@ -75,8 +75,8 @@ try {
 
 try {
     $adminPackages = $pdo->query("SELECT id, title, destination, category, duration, price, status, image_url FROM tour_packages ORDER BY created_at DESC")->fetchAll();
-    $adminBookings = $pdo->query("SELECT id, full_name AS customer, service_name AS destination, travel_date AS date, CONCAT(UCASE(LEFT(status, 1)), SUBSTRING(status, 2)) AS status, 0 AS amount FROM bookings WHERE archived_at IS NULL ORDER BY created_at DESC")->fetchAll();
-    $adminCustomers = $pdo->query("SELECT c.id, c.name, c.email, '' AS phone, COUNT(b.id) AS totalBookings FROM customers c LEFT JOIN bookings b ON b.user_id = c.id AND b.archived_at IS NULL WHERE c.archived_at IS NULL GROUP BY c.id ORDER BY c.created_at DESC")->fetchAll();
+    $adminBookings = $pdo->query("SELECT id, full_name AS customer, email, phone, service_name AS destination, travel_date AS date, CONCAT(UCASE(LEFT(status, 1)), SUBSTRING(status, 2)) AS status, 0 AS amount FROM service_bookings WHERE archived_at IS NULL ORDER BY created_at DESC")->fetchAll();
+    $adminCustomers = $pdo->query("SELECT c.id, c.name, c.email, COALESCE(MAX(b.phone), '') AS phone, COUNT(b.id) AS totalBookings FROM customers c LEFT JOIN service_bookings b ON b.user_id = c.id AND b.archived_at IS NULL WHERE c.archived_at IS NULL GROUP BY c.id, c.name, c.email ORDER BY c.created_at DESC")->fetchAll();
     $adminGallery = $pdo->query("SELECT id, title, image_url AS url, alt_text FROM gallery WHERE is_visible = 1 ORDER BY created_at DESC")->fetchAll();
     $adminPayments = $pdo->query("SELECT id, booking_id AS bookingId, customer_name AS customer, type, amount, status, payment_date AS date FROM payments ORDER BY created_at DESC")->fetchAll();
     $adminMessages = $pdo->query("SELECT id, name AS customer, email, subject, message, status, created_at FROM contact_messages ORDER BY created_at DESC")->fetchAll();
@@ -311,7 +311,13 @@ function adminJson($value): string
             async changeBookingStatus(id, nextStatus) {
                 let target = this.bookings.find(b => b.id === id);
                 if (!target) return;
-                try { await this.callAdminApi('update_booking_status', { id, status: nextStatus.toLowerCase() }); target.status = nextStatus; this.logActivity(`Update Booking State to ${nextStatus}`, id); } catch (error) { alert(error.message); }
+                try {
+                    const result = await this.callAdminApi('update_booking_status', { id, status: nextStatus.toLowerCase() });
+                    target.status = nextStatus;
+                    this.logActivity(`Update Booking State to ${nextStatus}${result.emailSent ? ' and sent email notification' : ''}`, id);
+                } catch (error) {
+                    alert(error.message);
+                }
             },
 
             selectPackage(packageId) {
@@ -389,9 +395,9 @@ function adminJson($value): string
                         <i x-show="sidebarOpen" :class="open ? 'rotate-180 text-blue-400' : 'text-slate-500'" class="bi bi-chevron-down text-xs transition-transform duration-200"></i>
                     </button>
                     <div x-show="open && sidebarOpen" x-collapse class="pl-9 pr-2 space-y-1" x-cloak>
-                        <button @click="bookingFilter = 'New'; currentView = 'bookings'" class="w-full text-left py-1.5 px-3 text-sm rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center justify-between"><span>New</span><span class="bg-blue-600/20 text-blue-400 px-1.5 py-0.5 rounded text-[10px]" x-text="bookings.filter(b => b.status === 'New').length"></span></button>
+                            <button @click="bookingFilter = 'Pending'; currentView = 'bookings'" class="w-full text-left py-1.5 px-3 text-sm rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center justify-between"><span>Pending</span><span class="bg-blue-600/20 text-blue-400 px-1.5 py-0.5 rounded text-[10px]" x-text="bookings.filter(b => b.status === 'Pending').length"></span></button>
                         <button @click="bookingFilter = 'Confirmed'; currentView = 'bookings'" class="w-full text-left py-1.5 px-3 text-sm rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors">Confirmed</button>
-                        <button @click="bookingFilter = 'Completed'; currentView = 'bookings'" class="w-full text-left py-1.5 px-3 text-sm rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors">Completed</button>
+                            <button @click="bookingFilter = 'Hold'; currentView = 'bookings'" class="w-full text-left py-1.5 px-3 text-sm rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors">Hold</button>
                         <button @click="bookingFilter = 'Cancelled'; currentView = 'bookings'" class="w-full text-left py-1.5 px-3 text-sm rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors">Cancelled</button>
                          <button @click="bookingFilter = 'Add'; currentView = 'bookings'" class="w-full text-left py-1.5 px-3 text-sm rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors">Add</button>
                     </div>
@@ -687,9 +693,9 @@ function adminJson($value): string
                     <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
                         <div class="flex flex-wrap gap-1 bg-slate-200/60 p-1 rounded-xl">
                             <button @click="bookingFilter = 'all'" :class="bookingFilter === 'all' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600'" class="px-3 py-1.5 rounded-lg text-xs font-bold">All Bookings Pipeline</button>
-                            <button @click="bookingFilter = 'New'" :class="bookingFilter === 'New' ? 'bg-white text-slate-900' : 'text-slate-600'" class="px-3 py-1.5 rounded-lg text-xs font-bold">New Requests</button>
+                            <button @click="bookingFilter = 'Pending'" :class="bookingFilter === 'Pending' ? 'bg-white text-slate-900' : 'text-slate-600'" class="px-3 py-1.5 rounded-lg text-xs font-bold">Pending</button>
                             <button @click="bookingFilter = 'Confirmed'" :class="bookingFilter === 'Confirmed' ? 'bg-white text-slate-900' : 'text-slate-600'" class="px-3 py-1.5 rounded-lg text-xs font-bold">Confirmed</button>
-                            <button @click="bookingFilter = 'Completed'" :class="bookingFilter === 'Completed' ? 'bg-white text-slate-900' : 'text-slate-600'" class="px-3 py-1.5 rounded-lg text-xs font-bold">Completed</button>
+                            <button @click="bookingFilter = 'Hold'" :class="bookingFilter === 'Hold' ? 'bg-white text-slate-900' : 'text-slate-600'" class="px-3 py-1.5 rounded-lg text-xs font-bold">Hold</button>
                             <button @click="bookingFilter = 'Cancelled'" :class="bookingFilter === 'Cancelled' ? 'bg-white text-slate-900' : 'text-slate-600'" class="px-3 py-1.5 rounded-lg text-xs font-bold">Cancelled</button>
                         </div>
                     </div>
@@ -712,17 +718,15 @@ function adminJson($value): string
                                     <template x-for="(b,index) in bookings.filter(b => (selectedCustomerId ? b.customer === selectedCustomerName : true) && (bookingFilter === 'all' || b.status === bookingFilter))" :key="b.id">
                                         <tr class="hover:bg-slate-50/60">
                                             <td class="px-6 py-4 font-mono font-bold text-blue-600" x-text="index + 1"></td>
-                                            <td class="px-6 py-4 text-slate-900 font-medium" x-text="b.customer"></td>
+                                            <td class="px-6 py-4 text-slate-900 font-medium"><div x-text="b.customer"></div><div class="mt-1 text-xs font-normal text-slate-500" x-text="b.email + ' · ' + b.phone"></div></td>
                                             <td class="px-6 py-4 text-slate-600" x-text="b.destination"></td>
                                             <td class="px-6 py-4 text-slate-500 font-mono" x-text="b.date"></td>
                                             <td class="px-6 py-4 font-mono font-bold text-slate-900" x-text="'$'+b.amount"></td>
                                             <td class="px-6 py-4">
-                                                <span :class="{'bg-blue-100 text-blue-700': b.status==='New', 'bg-amber-100 text-amber-700': b.status==='Confirmed', 'bg-emerald-100 text-emerald-700': b.status==='Completed', 'bg-rose-100 text-rose-700': b.status==='Cancelled'}" class="px-2 py-0.5 rounded text-xs font-semibold" x-text="b.status"></span>
+                                                <span :class="{'bg-blue-100 text-blue-700': b.status==='Pending', 'bg-amber-100 text-amber-700': b.status==='Confirmed', 'bg-violet-100 text-violet-700': b.status==='Hold', 'bg-rose-100 text-rose-700': b.status==='Cancelled'}" class="px-2 py-0.5 rounded text-xs font-semibold" x-text="b.status"></span>
                                             </td>
                                             <td class="px-6 py-4 text-right space-x-1">
-                                                <button x-show="b.status === 'New'" @click="changeBookingStatus(b.id, 'Confirmed')" class="bg-amber-500 text-white px-2 py-1 rounded text-[10px] font-bold">Confirm</button>
-                                                <button x-show="b.status === 'Confirmed'" @click="changeBookingStatus(b.id, 'Completed')" class="bg-emerald-600 text-white px-2 py-1 rounded text-[10px] font-bold">Complete</button>
-                                                <button x-show="b.status !== 'Cancelled' && b.status !== 'Completed'" @click="changeBookingStatus(b.id, 'Cancelled')" class="text-rose-600 hover:bg-rose-50 px-2 py-1 rounded text-[10px] font-bold">Cancel</button>
+                                                <select :value="b.status" @change="changeBookingStatus(b.id, $event.target.value)" class="border border-slate-300 rounded px-2 py-1 text-[10px] font-bold text-slate-700 bg-white"><option>Pending</option><option>Confirmed</option><option>Hold</option><option>Cancelled</option></select>
                                             </td>
                                         </tr>
                                     </template>

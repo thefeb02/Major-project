@@ -150,6 +150,9 @@ ALTER TABLE service_bookings
   ADD COLUMN IF NOT EXISTS status ENUM('pending', 'approved', 'rejected', 'confirmed', 'cancelled') NOT NULL DEFAULT 'pending' AFTER message,
   ADD COLUMN IF NOT EXISTS archived_at DATETIME NULL AFTER status;
 
+ALTER TABLE service_bookings
+  MODIFY COLUMN status ENUM('pending', 'confirmed', 'hold', 'cancelled') NOT NULL DEFAULT 'pending';
+
 INSERT INTO users (name, email, password, role)
 VALUES (
   'Sujit Kumar Mandal',
