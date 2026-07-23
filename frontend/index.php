@@ -21,7 +21,11 @@ try {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=4">
+<<<<<<< HEAD
     <link rel="stylesheet" href="booking-form.css">
+=======
+    <link rel="stylesheet" href="profile.css">
+>>>>>>> 9c9cd5f68d9b16f2aa42fe91429cbc5a1889015e
 </head>
 <body>
     <nav class="navbar">
@@ -39,7 +43,23 @@ try {
                 <li><a href="about.php" class="nav-link">About</a></li>
                 
                 <?php if ($user): ?>
-                    <li><a href="logout.php" class="nav-link">Logout</a></li>
+                    <?php 
+                    $avatarUrl = '../img/default-avatar.png';
+                    if (!empty($user['profile_pic'])) {
+                        $avatarUrl = $user['profile_pic'];
+                    }
+                    ?>
+                    <li>
+                        <a href="profile.php" class="profile-direct-btn">
+                            <img src="<?= htmlspecialchars($avatarUrl) ?>" alt="Avatar" class="profile-avatar" onerror="this.src='https://ui-avatars.com/api/?name=<?= urlencode($user['name']) ?>&background=2a5298&color=fff'">
+                            <span><?= htmlspecialchars(explode(' ', $user['name'])[0]) ?></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="logout.php" class="logout-direct-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
                 <?php else: ?>
                     <li><a href="login.php" class="nav-link">Login</a></li>
                     <li><a href="signup.php" class="nav-link">Signup</a></li>

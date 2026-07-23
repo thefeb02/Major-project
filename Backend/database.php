@@ -1,8 +1,10 @@
 <?php
-ini_set('session.cookie_httponly', 1);
-ini_set('session.use_strict_mode', 1);
-session_name('nepal_tour_session');
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    ini_set('session.cookie_httponly', 1);
+    ini_set('session.use_strict_mode', 1);
+    session_name('nepal_tour_session');
+    session_start();
+}
 
 // Database credentials
 define('DB_HOST', 'localhost');

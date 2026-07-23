@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS users (
   role ENUM('user', 'admin') NOT NULL DEFAULT 'user',
   admin_status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
   archived_at DATETIME NULL,
+  is_verified TINYINT(1) NOT NULL DEFAULT 0,
+  verification_token VARCHAR(100) NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -140,7 +142,9 @@ ALTER TABLE users
 
 ALTER TABLE users
   ADD COLUMN IF NOT EXISTS admin_status ENUM('active', 'inactive') NOT NULL DEFAULT 'active' AFTER role,
-  ADD COLUMN IF NOT EXISTS archived_at DATETIME NULL AFTER admin_status;
+  ADD COLUMN IF NOT EXISTS archived_at DATETIME NULL AFTER admin_status,
+  ADD COLUMN IF NOT EXISTS is_verified TINYINT(1) NOT NULL DEFAULT 0 AFTER archived_at,
+  ADD COLUMN IF NOT EXISTS verification_token VARCHAR(100) NULL AFTER is_verified;
 
 ALTER TABLE travel_plans
   ADD COLUMN IF NOT EXISTS status ENUM('pending', 'approved', 'rejected', 'confirmed', 'cancelled') NOT NULL DEFAULT 'pending' AFTER notes,
@@ -150,17 +154,22 @@ ALTER TABLE service_bookings
   ADD COLUMN IF NOT EXISTS status ENUM('pending', 'approved', 'rejected', 'confirmed', 'cancelled') NOT NULL DEFAULT 'pending' AFTER message,
   ADD COLUMN IF NOT EXISTS archived_at DATETIME NULL AFTER status;
 
+<<<<<<< HEAD
 ALTER TABLE service_bookings
   MODIFY COLUMN status ENUM('pending', 'confirmed', 'hold', 'cancelled') NOT NULL DEFAULT 'pending';
 
 INSERT INTO users (name, email, password, role)
+=======
+INSERT INTO users (name, email, password, role, is_verified)
+>>>>>>> 9c9cd5f68d9b16f2aa42fe91429cbc5a1889015e
 VALUES (
   'Sujit Kumar Mandal',
   'admin@nepaltravel.com',
   '$2y$10$2r2YKxW2EgKQUOLlrjpmY.p9.dW3B8M3Qy0xoKCbZsdMPUf1.teG2',
-  'admin'
+  'admin',
+  1
 )
-ON DUPLICATE KEY UPDATE name = VALUES(name), password = VALUES(password), role = 'admin', admin_status = 'active';
+ON DUPLICATE KEY UPDATE name = VALUES(name), password = VALUES(password), role = 'admin', admin_status = 'active', is_verified = 1;
 
 -- Physical dashboard tables, synchronized from the live website tables.
 DROP VIEW IF EXISTS admins;
