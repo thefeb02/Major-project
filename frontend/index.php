@@ -3,16 +3,29 @@
 <?php
 require_once __DIR__ . '/../Backend/database.php';
 $user = getCurrentUser();
+$siteSettings = ['site_name' => 'AddNepalTour & Travel', 'seo_title' => 'Nepal Tour and Travel - Discover the Magic of Nepal', 'homepage_hero' => 'Discover the Magic of Nepal'];
+$websiteGallery = [];
+try {
+    $siteSettings = array_merge($siteSettings, $pdo->query('SELECT setting_key, setting_value FROM website_settings')->fetchAll(PDO::FETCH_KEY_PAIR));
+    $websiteGallery = $pdo->query('SELECT title, image_url, alt_text FROM gallery_images WHERE is_visible = 1 ORDER BY created_at DESC LIMIT 8')->fetchAll();
+} catch (Throwable $e) {
+    // The existing website stays available until the dashboard schema is imported.
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nepal Tour and Travel - Discover the Magic of Nepal</title>
+    <title><?= htmlspecialchars($siteSettings['seo_title']) ?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=4">
+<<<<<<< HEAD
+    <link rel="stylesheet" href="booking-form.css">
+=======
+    <link rel="stylesheet" href="profile.css">
+>>>>>>> 9c9cd5f68d9b16f2aa42fe91429cbc5a1889015e
 </head>
 <body>
     <nav class="navbar">
@@ -24,12 +37,29 @@ $user = getCurrentUser();
             <ul class="nav-menu">
                 <li><a href="#places" class="nav-link">Places</a></li>
                 <li><a href="#things" class="nav-link">Activities</a></li>
+                <li><a href="packages.php" class="nav-link">Packages</a></li>
                
 
                 <li><a href="about.php" class="nav-link">About</a></li>
                 
                 <?php if ($user): ?>
-                    <li><a href="logout.php" class="nav-link">Logout</a></li>
+                    <?php 
+                    $avatarUrl = '../img/default-avatar.png';
+                    if (!empty($user['profile_pic'])) {
+                        $avatarUrl = $user['profile_pic'];
+                    }
+                    ?>
+                    <li>
+                        <a href="profile.php" class="profile-direct-btn">
+                            <img src="<?= htmlspecialchars($avatarUrl) ?>" alt="Avatar" class="profile-avatar" onerror="this.src='https://ui-avatars.com/api/?name=<?= urlencode($user['name']) ?>&background=2a5298&color=fff'">
+                            <span><?= htmlspecialchars(explode(' ', $user['name'])[0]) ?></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="logout.php" class="logout-direct-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
                 <?php else: ?>
                     <li><a href="login.php" class="nav-link">Login</a></li>
                     <li><a href="signup.php" class="nav-link">Signup</a></li>
@@ -55,7 +85,7 @@ $user = getCurrentUser();
       <h2><b> ⭐⭐⭐⭐⭐ Trusted by 5,000+ Travelers</b></h2>
     </div>
 
-    <h1>Discover the Magic of Nepal</h1>
+    <h1><?= htmlspecialchars($siteSettings['homepage_hero']) ?></h1>
 
     <p>
         Explore breathtaking mountains, ancient temples,
@@ -88,10 +118,10 @@ $user = getCurrentUser();
           <b>  <p class="section-subtitle">Discover inspiring travel stories and experiences from our community</p></b>
             <div class="stories-grid">
                 <article class="story-card">
-                    <div class="story-image-wrapper">
+                    <a class="story-image-link" href="media_detail.php?title=Trekking%20in%20the%20Himalayas&amp;desc=Discover%20the%20best%20trekking%20routes%20and%20prepare%20for%20your%20mountain%20adventure%20with%20expert%20tips.&amp;img=../img/3.jpeg&amp;alt=Trekking%20in%20the%20Himalayas&amp;topic=peaks" aria-label="View Trekking in the Himalayas details"><div class="story-image-wrapper">
                         <img src="../img/3.jpeg" alt="Story 1">
                         <span class="story-badge">Featured</span>
-                    </div>
+                    </div></a>
                     <div class="story-content">
                         <span class="story-date">May 15, 2026</span>
                         <h3>Trekking in the Himalayas</h3>
@@ -100,10 +130,10 @@ $user = getCurrentUser();
                     </div>
                 </article>
                 <article class="story-card">
-                    <div class="story-image-wrapper">
+                    <a class="story-image-link" href="media_detail.php?title=Cultural%20Heritage%20Sites&amp;desc=Explore%20the%20ancient%20temples%20and%20cultural%20landmarks%20that%20define%20Nepal%27s%20rich%20history.&amp;img=../img/4.jpeg&amp;alt=Cultural%20Heritage%20Sites&amp;topic=heritage" aria-label="View Cultural Heritage Sites details"><div class="story-image-wrapper">
                         <img src="../img/4.jpeg" alt="Story 2">
                         <span class="story-badge">Popular</span>
-                    </div>
+                    </div></a>
                     <div class="story-content">
                         <span class="story-date">May 12, 2026</span>
                         <h3>Cultural Heritage Sites</h3>
@@ -112,10 +142,10 @@ $user = getCurrentUser();
                     </div>
                 </article>
                 <article class="story-card">
-                    <div class="story-image-wrapper">
+                    <a class="story-image-link" href="media_detail.php?title=Adventure%20Activities&amp;desc=From%20paragliding%20to%20white-water%20rafting%2C%20find%20your%20next%20adrenaline-pumping%20experience.&amp;img=../img/5.jpeg&amp;alt=Adventure%20Activities&amp;topic=activity" aria-label="View Adventure Activities details"><div class="story-image-wrapper">
                         <img src="../img/5.jpeg" alt="Story 3">
                         <span class="story-badge">Trending</span>
-                    </div>
+                    </div></a>
                     <div class="story-content">
                         <span class="story-date">May 10, 2026</span>
                         <h3>Adventure Activities</h3>
@@ -267,6 +297,55 @@ $user = getCurrentUser();
     </section>
 
     <!-- Footer -->
+    <?php if ($websiteGallery): ?>
+        <section class="tour-packages-section" id="tour-packages" tabindex="-1" hidden>
+            <div class="container">
+                <div class="section-header package-section-header">
+                    <h2>Tour Packages</h2>
+                    <p>Choose from more than 100 destinations and find a package that fits your travel time.</p>
+                </div>
+
+                <div class="tour-filters" aria-label="Tour package filters">
+                    <label>Destination
+                        <select id="packageDestination"><option value="">All 100+ destinations</option></select>
+                    </label>
+                    <label>Tour category
+                        <select id="packageCategory">
+                            <option value="">All categories</option>
+                            <option value="Adventure">Adventure</option><option value="Cultural">Cultural</option>
+                            <option value="Family">Family</option><option value="Honeymoon">Honeymoon</option>
+                            <option value="Pilgrimage">Pilgrimage</option><option value="Nature">Nature &amp; Wildlife</option>
+                        </select>
+                    </label>
+                    <label>Duration
+                        <select id="packageDuration">
+                            <option value="">Any duration</option><option value="2">1–3 days</option>
+                            <option value="5">4–7 days</option><option value="9">8–12 days</option><option value="14">13+ days</option>
+                        </select>
+                    </label>
+                </div>
+                <p id="selectedDestination" class="selected-destination" aria-live="polite">Showing packages for all destinations.</p>
+                <div id="tourPackagesGrid" class="tour-packages-grid" aria-live="polite"></div>
+                <div class="package-actions-bar"><button id="loadMorePackages" type="button" class="package-load-more">Show more packages</button></div>
+            </div>
+        </section>
+
+        <section class="latest-stories" id="website-gallery">
+            <div class="container">
+                <h2 class="section-title">Website Gallery</h2>
+                <p class="section-subtitle">Moments curated by <?= htmlspecialchars($siteSettings['site_name']) ?></p>
+                <div class="stories-grid">
+                    <?php foreach ($websiteGallery as $image): ?>
+                        <article class="story-card">
+                            <div class="story-image-wrapper"><img src="<?= htmlspecialchars($image['image_url']) ?>" alt="<?= htmlspecialchars($image['alt_text'] ?: $image['title']) ?>" loading="lazy"></div>
+                            <div class="story-content"><h3><?= htmlspecialchars($image['title']) ?></h3></div>
+                        </article>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </section>
+    <?php endif; ?>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-top">
@@ -330,5 +409,6 @@ $user = getCurrentUser();
 
     <button id="scrollToTop" class="scroll-to-top" style="display:none;"><i class="fa-solid fa-chevron-up"></i></button>
     <script src="script.js?v=<?php echo time(); ?>"></script>
+    <script src="booking-form.js"></script>
 </body>
 </html>

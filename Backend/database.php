@@ -1,13 +1,15 @@
 <?php
-ini_set('session.cookie_httponly', 1);
-ini_set('session.use_strict_mode', 1);
-session_name('nepal_tour_session');
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    ini_set('session.cookie_httponly', 1);
+    ini_set('session.use_strict_mode', 1);
+    session_name('nepal_tour_session');
+    session_start();
+}
 
 // Database credentials
 define('DB_HOST', 'localhost');
 define('DB_PORTS', [3307, 3306]);
-define('DB_NAME', 'tour_travel_db');
+define('DB_NAME', 'nepal_travel_db');
 define('DB_CREDENTIALS', [
     ['user' => 'tour_user', 'pass' => 'tour_pass_2026'],
     ['user' => 'root', 'pass' => ''],
