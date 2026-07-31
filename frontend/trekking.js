@@ -188,7 +188,9 @@ function createPackageCard(trek) {
     const card = document.createElement('div');
     card.className = 'package-card';
 
-    const starsHTML = Array(trek.rating).fill('<span class="star">★</span>').join('');
+    const starsHTML = Array(trek.rating)
+        .fill('<span class="star">★</span>')
+        .join('');
 
     card.innerHTML = `
         <div class="package-image">
@@ -201,40 +203,52 @@ function createPackageCard(trek) {
                 <span>${trek.duration} Days</span>
             </div>
         </div>
+
         <div class="package-content">
             <h3 class="package-title">${trek.title}</h3>
+
             <div class="package-rating">
                 <div class="stars">${starsHTML}</div>
                 <span class="review-count">based on ${trek.reviews} reviews</span>
             </div>
-<<<<<<< HEAD
-            <button type="button" class="booking-card-action" data-booking-package="${trek.title}" data-booking-image="${trek.image}">Book Now</button>
-=======
->>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
+
+            <button
+                type="button"
+                class="booking-card-action"
+                data-booking-package="${trek.title}"
+                data-booking-image="${trek.image}">
+                Book Now
+            </button>
+
             <a href="#" class="package-details-link" data-trek-id="${trek.id}">
                 Details <span>→</span>
             </a>
         </div>
     `;
 
-<<<<<<< HEAD
-    card.addEventListener('click', (event) => {
-        if (event.target.closest('.booking-card-action')) return;
-=======
-    card.addEventListener('click', () => {
->>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
+    // Open details when clicking the card (except Book Now)
+    card.addEventListener('click', function (event) {
+        if (event.target.closest('.booking-card-action')) {
+            return;
+        }
+
+        if (event.target.closest('.package-details-link')) {
+            return;
+        }
+
         showTrekDetails(trek.id);
     });
 
+    // Details link
     const detailsLink = card.querySelector('.package-details-link');
-    detailsLink.addEventListener('click', (e) => {
+
+    detailsLink.addEventListener('click', function (e) {
         e.preventDefault();
         showTrekDetails(trek.id);
     });
 
     return card;
 }
-
 // Show trek details page
 function showTrekDetails(trekId) {
     const trek = trekData[trekId];
@@ -373,11 +387,8 @@ function renderTrekDetails(trek) {
                     </div>
 
                     <div class="button-group">
-<<<<<<< HEAD
                         <button class="btn btn-primary booking-trigger" data-booking-package="${trek.title}" data-booking-image="${trek.image}">Book This Trek</button>
-=======
                         <button class="btn btn-primary">Book This Trek</button>
->>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
                         <button class="btn btn-secondary">Contact Guide</button>
                     </div>
                 </div>
@@ -397,7 +408,4 @@ function showDetailsPage() {
     packagesPage.classList.remove('active');
     detailsPage.classList.add('active');
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95

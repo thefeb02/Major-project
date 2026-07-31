@@ -9,18 +9,13 @@ $user = getCurrentUser();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nepal Paragliding Packages</title>
+    <title>Nepal Paragliding  Packages</title>
     <link rel="stylesheet" href="paragliding.css">
-<<<<<<< HEAD
     <link rel="stylesheet" href="booking-form.css">
 </head>
 
 <body data-booking-category="Paragliding">
-=======
-</head>
 
-<body>
->>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -44,7 +39,7 @@ $user = getCurrentUser();
         <div id="packagesPage" class="page active">
             <section class="packages-section">
                 <div class="container">
-                    <h2 class="section-title">Our Paragliding Packages</h2>
+                    <h2 class="section-title">Our Paragliding  Packages</h2>
                     <p class="section-subtitle">Soar above the Himalayas and experience Nepal from the sky</p>
 
                     <div class="packages-grid" id="packagesGrid">
@@ -67,11 +62,9 @@ $user = getCurrentUser();
             </section>
         </div>
     </div>
-<<<<<<< HEAD
     <script src="booking-form.js"></script>
-=======
->>>>>>> af3557d8175212cd0a4ca4e444059f13103f5e95
     <script src="paragliding.js"></script>
+  
 </body>
 
 </html>
