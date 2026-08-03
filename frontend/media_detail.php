@@ -244,11 +244,6 @@ $isAdventureActivity = $topic === 'activity';
                     <div class="detail-placeholder"><?= esc($pageTitle) ?></div>
                 <?php endif; ?>
             </div>
-            <aside class="detail-booking-card">
-                <p>Ready to travel?</p>
-                <h2>Book this experience</h2>
-                <button type="button" class="detail-book-button" data-booking-package="<?= esc($pageTitle) ?>" data-booking-image="<?= esc($img) ?>">Book Now</button>
-            </aside>
             </div>
         </section>
 

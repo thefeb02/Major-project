@@ -27,7 +27,6 @@ $user = getCurrentUser();
             <div class="nav-links">
                 <a href="trekking.php">Packages</a>
 
-                <button class="btn-book">Book Now</button>
             </div>
         </div>
     </nav>

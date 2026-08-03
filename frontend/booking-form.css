@@ -14,6 +14,10 @@
 .booking-form__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
 .booking-form__submit { padding: 13px 18px; border: 0; border-radius: 8px; background: #ea580c; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
 .booking-form__submit:hover { background: #c2410c; }
+.booking-bank-details { margin-top: 4px; padding: 12px 14px; border: 1px solid #fed7aa; border-radius: 10px; background: #fff7ed; color: #7c2d12; }
+.booking-bank-details h3 { margin: 0 0 8px; font-size: 1rem; }
+.booking-bank-details ul { margin: 0 0 8px 18px; padding: 0; display: grid; gap: 6px; }
+.booking-bank-details p { margin: 0; font-size: .9rem; }
 .booking-card-action { width: 100%; margin: 14px 0 2px; padding: 10px 14px; border: 0; border-radius: 8px; background: #ea580c; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
 .booking-card-action:hover { background: #c2410c; }
 .booking-modal-open { overflow: hidden; }

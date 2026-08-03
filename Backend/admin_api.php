@@ -97,8 +97,8 @@ try {
 
         $statusLabel = ucfirst($status);
         $subject = 'Booking status update: ' . $booking['service_name'];
-        $message = "Hello {$booking['full_name']},\n\nYour booking for {$booking['service_name']} on {$booking['travel_date']} is now: {$statusLabel}.\n\nThank you,\nAddNepalTour & Travel";
-        $headers = "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nFrom: AddNepalTour & Travel <no-reply@localhost>\r\n";
+        $message = "Hello {$booking['full_name']},\n\nYour booking for {$booking['service_name']} on {$booking['travel_date']} is now: {$statusLabel}.\n\nThank you,\nNepal Tour and Travel";
+        $headers = "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nFrom: Nepal Tour and Travel <no-reply@localhost>\r\n";
         $emailSent = filter_var($booking['email'], FILTER_VALIDATE_EMAIL) ? @mail($booking['email'], $subject, $message, $headers) : false;
         adminApiResponse(['emailSent' => $emailSent, 'phone' => $booking['phone']]);
     }

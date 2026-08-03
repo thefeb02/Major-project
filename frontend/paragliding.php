@@ -29,7 +29,6 @@ $user = getCurrentUser();
             <div class="nav-links">
                 <a href="Major-project/paragliding.php">Packages</a>
 
-                <button class="btn-book">Book Now</button>
             </div>
         </div>
     </nav>

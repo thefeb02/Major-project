@@ -3,7 +3,7 @@
 <?php
 require_once __DIR__ . '/../Backend/database.php';
 $user = getCurrentUser();
-$siteSettings = ['site_name' => 'AddNepalTour & Travel', 'seo_title' => 'Nepal Tour and Travel - Discover the Magic of Nepal', 'homepage_hero' => 'Discover the Magic of Nepal'];
+$siteSettings = ['site_name' => 'Nepal Tour and Travel', 'seo_title' => 'Nepal Tour and Travel - Discover the Magic of Nepal', 'homepage_hero' => 'Discover the Magic of Nepal'];
 $websiteGallery = [];
 try {
     $siteSettings = array_merge($siteSettings, $pdo->query('SELECT setting_key, setting_value FROM website_settings')->fetchAll(PDO::FETCH_KEY_PAIR));
@@ -21,13 +21,10 @@ try {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=4">
-<<<<<<< HEAD
     <link rel="stylesheet" href="booking-form.css">
-=======
     <link rel="stylesheet" href="profile.css">
->>>>>>> 9c9cd5f68d9b16f2aa42fe91429cbc5a1889015e
 </head>
-<body>
+<body data-logged-in="<?= $user ? '1' : '0' ?>">
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.php" class="logo">
@@ -37,7 +34,7 @@ try {
             <ul class="nav-menu">
                 <li><a href="#places" class="nav-link">Places</a></li>
                 <li><a href="#things" class="nav-link">Activities</a></li>
-                <li><a href="packages.php" class="nav-link">Packages</a></li>
+                <li><a href="<?= $user ? 'packages.php' : 'login.php?redirect=packages.php' ?>" class="nav-link">Packages</a></li>
                
 
                 <li><a href="about.php" class="nav-link">About</a></li>

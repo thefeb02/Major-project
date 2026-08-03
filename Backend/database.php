@@ -7,12 +7,12 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Database credentials
-define('DB_HOST', 'localhost');
+define('DB_HOST', '127.0.0.1');
 define('DB_PORTS', [3307, 3306]);
 define('DB_NAME', 'nepal_travel_db');
 define('DB_CREDENTIALS', [
-    ['user' => 'tour_user', 'pass' => 'tour_pass_2026'],
     ['user' => 'root', 'pass' => ''],
+    ['user' => 'tour_user', 'pass' => 'tour_pass_2026'],
 ]);
 
 $pdo = null;

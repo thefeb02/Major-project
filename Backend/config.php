@@ -18,11 +18,33 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/database.php';
 
 // Google Client Configuration Constants
-// IMPORTANT: Please fill in your Google Client ID and Secret obtained from Google Cloud Console
-define('GOOGLE_CLIENT_ID', '475309162996-261l3i771e87b4b57144p2c8f31074i0.apps.googleusercontent.com'); // Client ID
-define('GOOGLE_CLIENT_SECRET', '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'); // Client Secret
+// Set these values in your environment or in your local web server config.
+// Example on Windows PowerShell:
+// $env:GOOGLE_CLIENT_ID="your-client-id.apps.googleusercontent.com"
+// $env:GOOGLE_CLIENT_SECRET="your-client-secret"
+// $env:GOOGLE_REDIRECT_URI="http://localhost/tour%20and%20travelling/Major-project/Backend/callback.php"
 
-// Dynamically construct Redirect URI
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-define('GOOGLE_REDIRECT_URI', $protocol . '://' . $host . '/Major-project/Backend/callback.php');
+function buildGoogleRedirectUri(): string
+{
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $scriptPath = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? $_SERVER['PHP_SELF'] ?? '/tour and travelling/Major-project/Backend/google_login.php');
+    $scriptDir = rtrim(dirname($scriptPath), '/');
+
+    if (preg_match('#/Backend$#', $scriptDir) === 1) {
+        return $protocol . '://' . $host . $scriptDir . '/callback.php';
+    }
+
+    return $protocol . '://' . $host . '/tour and travelling/Major-project/Backend/callback.php';
+}
+
+$clientId = getenv('GOOGLE_CLIENT_ID') ?: 'your-google-client-id.apps.googleusercontent.com';
+$clientSecret = getenv('GOOGLE_CLIENT_SECRET') ?: 'your-google-client-secret';
+
+if (stripos($clientId, 'your-google-client') !== false || stripos($clientSecret, 'your-google-client') !== false) {
+    $_SESSION['flash_message'] = 'Google OAuth is not configured yet. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in your environment.';
+}
+
+define('GOOGLE_CLIENT_ID', $clientId);
+define('GOOGLE_CLIENT_SECRET', $clientSecret);
+define('GOOGLE_REDIRECT_URI', getenv('GOOGLE_REDIRECT_URI') ?: buildGoogleRedirectUri());

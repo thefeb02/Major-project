@@ -5,6 +5,13 @@
 
 require_once __DIR__ . '/config.php';
 
+$redirectTarget = trim($_GET['state'] ?? '');
+$allowedRedirects = ['index.php', 'packages.php', 'profile.php', 'about.php', 'travel_plan.php'];
+
+if ($redirectTarget !== '' && !in_array($redirectTarget, $allowedRedirects, true)) {
+    $redirectTarget = '';
+}
+
 // Check if authorization code is provided
 if (isset($_GET['code'])) {
     try {
@@ -74,8 +81,9 @@ if (isset($_GET['code'])) {
             'profile_pic' => $picture
         ];
 
-        // 3. Redirect to frontend/index.php
-        redirect('../frontend/index.php');
+        // 3. Redirect to the requested frontend page
+        $destination = $redirectTarget !== '' ? '../frontend/' . $redirectTarget : '../frontend/index.php';
+        redirect($destination);
 
     } catch (Exception $e) {
         $_SESSION['flash_message'] = "Google login failed: " . htmlspecialchars($e->getMessage());

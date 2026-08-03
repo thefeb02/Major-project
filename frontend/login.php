@@ -2,7 +2,13 @@
 require_once __DIR__ . '/../Backend/database.php';
 require_once __DIR__ . '/../Backend/email_verification.php';
 
+$redirectTarget = trim($_GET['redirect'] ?? '');
+$allowedRedirects = ['index.php', 'packages.php', 'profile.php', 'about.php', 'travel_plan.php'];
+
 if (isLoggedIn()) {
+    if ($redirectTarget !== '' && in_array($redirectTarget, $allowedRedirects, true)) {
+        redirect($redirectTarget);
+    }
     redirect('index.php');
 }
 
@@ -15,7 +21,8 @@ if (!empty($_SESSION['flash_message'])) {
     unset($_SESSION['flash_message']);
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+if ($requestMethod === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
@@ -28,10 +35,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        $stmt = $pdo->prepare('SELECT id, name, email, password, is_verified FROM users WHERE email = ?');
-        $stmt->execute([$email]);
-        $user = $stmt->fetch();
-        $isDirectAdminLogin = in_array(strtolower($email), ['admin@gmail.com', 'admin@nepaltravel.com'], true) && $password === 'Admin123';
+        // Older installations do not have the email-verification columns yet.
+        // Fall back to the original user fields so they can still log in.
+        try {
+            $stmt = $pdo->prepare('SELECT id, name, email, password, is_verified FROM users WHERE email = ?');
+            $stmt->execute([$email]);
+            $user = $stmt->fetch();
+        } catch (PDOException $e) {
+            if ($e->getCode() !== '42S22') {
+                throw $e;
+            }
+
+            $stmt = $pdo->prepare('SELECT id, name, email, password FROM users WHERE email = ?');
+            $stmt->execute([$email]);
+            $user = $stmt->fetch();
+        }
+        // Only the designated administrator may use the direct dashboard login.
+        // Every other email must match a registered user record and its password.
+        $isDirectAdminLogin = strtolower($email) === 'admin@nepaltravel.com'
+            && hash_equals('Admin@123', $password);
 
         if (($user && password_verify($password, $user['password'])) || $isDirectAdminLogin) {
             if (!$isDirectAdminLogin && isset($user['is_verified']) && (int)$user['is_verified'] === 0) {
@@ -59,6 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'email' => $user['email'],
                     'role' => $role,
                 ];
+                $redirectTarget = trim($_POST['redirect'] ?? ($_GET['redirect'] ?? ''));
+                $allowedRedirects = ['index.php', 'packages.php', 'profile.php', 'about.php', 'travel_plan.php'];
+                if ($redirectTarget !== '' && in_array($redirectTarget, $allowedRedirects, true)) {
+                    redirect($redirectTarget);
+                }
                 redirect($role === 'admin' ? '../Backend/admin.php' : 'index.php');
             }
         }
@@ -93,6 +120,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <form action="login.php" method="post" class="auth-form">
+                <?php $redirectValue = trim($_GET['redirect'] ?? ''); ?>
+                <?php if ($redirectValue !== ''): ?>
+                    <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirectValue) ?>">
+                <?php endif; ?>
                 <label>
                     <span>Email</span>
                     <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" required>
@@ -105,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <div class="auth-divider"><span>OR</span></div>
-            <a href="../Backend/google_login.php" class="google-btn">
+            <a href="../Backend/google_login.php?redirect=<?= urlencode(trim($_GET['redirect'] ?? '')) ?>" class="google-btn">
                 <img src="https://developers.google.com/static/identity/images/g-logo.png" alt="Google Logo" style="width: 18px; height: 18px; margin-right: 10px;">
                 Continue with Google
             </a>
