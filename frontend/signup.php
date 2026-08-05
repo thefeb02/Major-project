@@ -75,10 +75,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="auth-page">
-    <div class="auth-container">
-        <div class="auth-card">
-            <h1>Create an Account</h1>
-            <p class="auth-subtitle">Securely sign up and start exploring Nepal travel packages.</p>
+    <div class="auth-layout">
+        <div class="auth-image-panel">
+            <img src="../img/2.jpeg" alt="Travelista Tours">
+            <div class="auth-image-copy">
+                <div class="auth-image-brand">Travelista Tours</div>
+                <p>Travel is the only purchase that enriches you in ways beyond material wealth.</p>
+            </div>
+        </div>
+
+        <div class="auth-card auth-card-right">
+            <div class="auth-head">
+                <h1>Register</h1>
+                <p>Create your account</p>
+            </div>
 
             <?php if (!empty($errors)): ?>
                 <div class="alert alert-error">
@@ -95,26 +105,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <form action="signup.php" method="post" class="auth-form">
-                <label>
-                    <span>Name</span>
-                    <input type="text" name="name" value="<?= htmlspecialchars($name) ?>" required>
-                </label>
-                <label>
-                    <span>Email</span>
-                    <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" required>
-                </label>
-                <label>
-                    <span>Password</span>
-                    <input type="password" name="password" required>
-                </label>
-                <label>
-                    <span>Confirm Password</span>
-                    <input type="password" name="confirm_password" required>
-                </label>
-                <button type="submit" class="auth-submit">Sign Up</button>
+                <div class="input-group">
+                    <label>Name</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" name="name" value="<?= htmlspecialchars($name) ?>" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Email Id</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" name="password" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" name="confirm_password" required>
+                    </div>
+                </div>
+                <button type="submit" class="auth-submit">SIGN UP</button>
             </form>
 
-            <p class="auth-footer">Already have an account? <a href="login.php">Log in here</a>.</p>
+            
+
+            
+
+            <p class="auth-footer">Already have an account? <a href="login.php">Login Now</a></p>
         </div>
     </div>
     <script>

@@ -12,8 +12,8 @@
         'Makwanpur', 'Rupandehi', 'Kapilvastu', 'Arghakhanchi', 'Gulmi', 'Syangja', 'Kaski', 'Lamjung', 'Tanahun', 'Myagdi',
         'Baglung', 'Parbat', 'Ghandruk', 'Poon Hill', 'Damauli', 'Dhorpatan', 'Besisahar', 'Tinjure', 'Shivapuri', 'Godavari'
     ];
-    const categories = ['Adventure', 'Cultural', 'Family', 'Honeymoon', 'Pilgrimage', 'Nature'];
-    const images = ['../img/1.jpeg', '../img/2.jpeg', '../img/3.jpeg', '../img/4.jpeg', '../img/5.jpeg', '../img/6.jpeg', '../img/8.jpeg', '../img/9.jpeg'];
+    const categories = ['Adventure', 'Cultural', 'Family', 'Education', 'Pilgrimage', 'Nature', 'Honeymoon'];
+    const images = ['../img/8.jpeg', '../img/1.jpeg', '../img/2.jpeg', '../img/6.jpeg', '../img/4.jpeg', '../img/5.jpeg', '../img/9.jpeg', '../img/3.jpeg'];
     const destinationSelect = document.getElementById('packageDestination');
     const categorySelect = document.getElementById('packageCategory');
     const durationSelect = document.getElementById('packageDuration');
@@ -29,7 +29,7 @@
     const packages = destinations.map((destination, index) => {
         const category = categories[index % categories.length];
         const days = [2, 3, 4, 5, 6, 7, 9, 12, 14][index % 9];
-        return { destination, category, days, image: images[index % images.length], price: 12000 + (days * 6200) + ((index % 5) * 1800) };
+        return { destination, category, days, image: images[index % images.length], price: 8000 + (days * 2500) };
     });
     let visibleCount = 12;
     const escapeHtml = value => String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
@@ -54,10 +54,10 @@
             bookSelectedPackage.dataset.bookingImage = images[(Math.max(0, destinations.indexOf(selectedDestination))) % images.length];
         }
         grid.innerHTML = results.slice(0, visibleCount).map((item, index) => {
-            const title = `${item.destination} ${item.category} Escape`;
+            const title = item.category === 'Education' ? `${item.destination} Student Education Tour` : `${item.destination} ${item.category} Escape`;
             return `<article class="tour-card">
                 <img class="tour-card-image" src="${item.image}" alt="${escapeHtml(title)}">
-                <div class="tour-card-content"><span class="tour-card-badge">${escapeHtml(item.category)}</span><h3>${escapeHtml(title)}</h3>
+                <div class="tour-card-content"><span class="tour-card-badge">${item.category === 'Education' ? 'Education' : escapeHtml(item.category)}</span><h3>${escapeHtml(title)}</h3>
                 <p class="tour-card-destination"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(item.destination)}, Nepal</p>
                 <p>Guided travel, comfortable stays and a flexible itinerary for your group.</p>
                 <div class="tour-card-meta"><span>${item.days} Days / ${item.days - 1} Nights</span><strong>NPR ${item.price.toLocaleString()} / person</strong></div>
@@ -102,10 +102,10 @@
         if (!viewButton) return;
         const item = packages[Number(viewButton.dataset.packageIndex)];
         if (!item) return;
-        const title = `${item.destination} ${item.category} Escape`;
+        const title = item.category === 'Education' ? `${item.destination} Student Education Tour` : `${item.destination} ${item.category} Escape`;
         const modal = document.createElement('div');
         modal.className = 'package-details-modal';
-        modal.innerHTML = `<div class="package-details-backdrop"></div><section class="package-details-dialog" role="dialog" aria-modal="true"><button class="package-details-close" aria-label="Close">&times;</button><img src="${item.image}" alt="${escapeHtml(title)}"><div><span>${escapeHtml(item.category)} package</span><h2>${escapeHtml(title)}</h2><p>Explore ${escapeHtml(item.destination)} with local guides, transport planning, accommodation support and flexible departure dates.</p><p><strong>${item.days} Days / ${item.days - 1} Nights</strong> · NPR ${item.price.toLocaleString()} per person</p><button type="button" class="package-book" data-booking-package="${escapeHtml(title)}" data-booking-image="${item.image}">Book this package</button></div></section>`;
+        modal.innerHTML = `<div class="package-details-backdrop"></div><section class="package-details-dialog" role="dialog" aria-modal="true"><button class="package-details-close" aria-label="Close">&times;</button><img src="${item.image}" alt="${escapeHtml(title)}"><div><span>${item.category === 'Education' ? 'Education' : escapeHtml(item.category)} package</span><h2>${escapeHtml(title)}</h2><p>Explore ${escapeHtml(item.destination)} with local guides, transport planning, accommodation support and flexible departure dates.</p><p><strong>${item.days} Days / ${item.days - 1} Nights</strong> · NPR ${item.price.toLocaleString()} per person</p><button type="button" class="package-book" data-booking-package="${escapeHtml(title)}" data-booking-image="${item.image}">Book this package</button></div></section>`;
         document.body.appendChild(modal);
         modal.addEventListener('click', closeEvent => { if (closeEvent.target === modal || closeEvent.target.closest('.package-details-backdrop, .package-details-close')) modal.remove(); });
     });
