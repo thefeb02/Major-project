@@ -43,6 +43,12 @@
         const results = filteredPackages();
         const destinationText = destinationSelect.value ? `Selected destination: ${destinationSelect.value}.` : 'Showing packages for all destinations.';
         selected.textContent = `${destinationText} ${results.length} package${results.length === 1 ? '' : 's'} available.`;
+        const currentQuery = new URLSearchParams(window.location.search);
+        if (!currentQuery.get('destination') && destinationSelect.value) {
+            currentQuery.set('destination', destinationSelect.value);
+            const newUrl = `${window.location.pathname}?${currentQuery.toString()}${window.location.hash}`;
+            window.history.replaceState({}, '', newUrl);
+        }
         if (selectedPackageBooking && selectedPackageSummary && bookSelectedPackage) {
             const selectedDestination = destinationSelect.value || 'Nepal';
             const selectedCategory = categorySelect.value || 'Custom Tour';
@@ -52,6 +58,7 @@
             selectedPackageSummary.title = packageName;
             bookSelectedPackage.dataset.bookingPackage = packageName;
             bookSelectedPackage.dataset.bookingImage = images[(Math.max(0, destinations.indexOf(selectedDestination))) % images.length];
+            bookSelectedPackage.dataset.bookingPrice = results[0]?.price ? String(results[0].price) : '12000';
         }
         grid.innerHTML = results.slice(0, visibleCount).map((item, index) => {
             const title = item.category === 'Education' ? `${item.destination} Student Education Tour` : `${item.destination} ${item.category} Escape`;
@@ -61,12 +68,18 @@
                 <p class="tour-card-destination"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(item.destination)}, Nepal</p>
                 <p>Guided travel, comfortable stays and a flexible itinerary for your group.</p>
                 <div class="tour-card-meta"><span>${item.days} Days / ${item.days - 1} Nights</span><strong>NPR ${item.price.toLocaleString()} / person</strong></div>
-                <div class="tour-actions"><button type="button" class="package-view" data-package-index="${packages.indexOf(item)}">View Package</button><button type="button" class="package-book" data-booking-package="${escapeHtml(title)}" data-booking-image="${item.image}">Book Package</button></div></div></article>`;
+                <div class="tour-card-duration">Duration: ${item.days} Days / ${item.days - 1} Nights</div>
+                <div class="tour-actions"><button type="button" class="package-view" data-package-index="${packages.indexOf(item)}">View Package</button><button type="button" class="package-book" data-booking-package="${escapeHtml(title)}" data-booking-image="${item.image}" data-booking-price="${item.price}" data-booking-destination="${escapeHtml(item.destination)}" data-booking-category="${escapeHtml(item.category)}" data-booking-duration="${item.days} Days / ${item.days - 1} Nights">Book Package</button></div></div></article>`;
         }).join('') || '<p class="package-empty">No packages match these filters. Choose another destination or duration.</p>';
         loadMore.hidden = visibleCount >= results.length || results.length === 0;
     }
 
     [destinationSelect, categorySelect, durationSelect].forEach(control => control.addEventListener('change', () => { visibleCount = 12; render(); }));
+    const params = new URLSearchParams(window.location.search);
+    const initialDestination = params.get('destination');
+    if (initialDestination) {
+        destinationSelect.value = initialDestination;
+    }
     loadMore.addEventListener('click', () => { visibleCount += 12; render(); });
     const packageNav = document.querySelector('.package-nav-item');
     const packageToggle = document.querySelector('.package-nav-toggle');
@@ -105,7 +118,7 @@
         const title = item.category === 'Education' ? `${item.destination} Student Education Tour` : `${item.destination} ${item.category} Escape`;
         const modal = document.createElement('div');
         modal.className = 'package-details-modal';
-        modal.innerHTML = `<div class="package-details-backdrop"></div><section class="package-details-dialog" role="dialog" aria-modal="true"><button class="package-details-close" aria-label="Close">&times;</button><img src="${item.image}" alt="${escapeHtml(title)}"><div><span>${item.category === 'Education' ? 'Education' : escapeHtml(item.category)} package</span><h2>${escapeHtml(title)}</h2><p>Explore ${escapeHtml(item.destination)} with local guides, transport planning, accommodation support and flexible departure dates.</p><p><strong>${item.days} Days / ${item.days - 1} Nights</strong> · NPR ${item.price.toLocaleString()} per person</p><button type="button" class="package-book" data-booking-package="${escapeHtml(title)}" data-booking-image="${item.image}">Book this package</button></div></section>`;
+        modal.innerHTML = `<div class="package-details-backdrop"></div><section class="package-details-dialog" role="dialog" aria-modal="true"><button class="package-details-close" aria-label="Close">&times;</button><img src="${item.image}" alt="${escapeHtml(title)}"><div><span>${item.category === 'Education' ? 'Education' : escapeHtml(item.category)} package</span><h2>${escapeHtml(title)}</h2><p>Explore ${escapeHtml(item.destination)} with local guides, transport planning, accommodation support and flexible departure dates.</p><p><strong>${item.days} Days / ${item.days - 1} Nights</strong> · NPR ${item.price.toLocaleString()} per person</p><button type="button" class="package-book" data-booking-package="${escapeHtml(title)}" data-booking-image="${item.image}" data-booking-price="${item.price}" data-booking-destination="${escapeHtml(item.destination)}" data-booking-category="${escapeHtml(item.category)}" data-booking-duration="${item.days} Days / ${item.days - 1} Nights">Book this package</button></div></section>`;
         document.body.appendChild(modal);
         modal.addEventListener('click', closeEvent => { if (closeEvent.target === modal || closeEvent.target.closest('.package-details-backdrop, .package-details-close')) modal.remove(); });
     });

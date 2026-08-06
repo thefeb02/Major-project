@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../Backend/database.php';
 $user = getCurrentUser();
+if (!$user) {
+    redirect('login.php?redirect=packages.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +16,7 @@ $user = getCurrentUser();
     <link rel="stylesheet" href="style.css?v=5">
     <link rel="stylesheet" href="booking-form.css">
 </head>
-<body data-booking-category="Tour package">
+<body data-booking-category="Tour package" data-logged-in="1">
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.php" class="logo"><img src="../img/logo.png?v=2" alt="Nepal Tour & Travel" class="logo-icon"></a>
@@ -44,10 +47,6 @@ $user = getCurrentUser();
                     <label>Destination<select id="packageDestination"><option value="">All 100+ destinations</option></select></label>
                     <label>Tour package<select id="packageCategory"><option value="">Choose a tour package</option><option value="Adventure">Adventure</option><option value="Cultural">Cultural</option><option value="Family">Family</option><option value="Honeymoon">Honeymoon</option><option value="Pilgrimage">Pilgrimage</option><option value="Nature">Nature &amp; Wildlife</option></select></label>
                     <label>Duration<select id="packageDuration"><option value="">Any duration</option><option value="2">1–3 days</option><option value="5">4–7 days</option><option value="9">8–12 days</option><option value="14">13+ days</option></select></label>
-                    <div class="selected-package-booking" id="selectedPackageBooking">
-                        <span id="selectedPackageSummary">Book your package</span>
-                        <button type="button" id="bookSelectedPackage" class="package-book">Book Package</button>
-                    </div>
                 </div>
                 <p id="selectedDestination" class="selected-destination" aria-live="polite">Showing packages for all destinations.</p>
                 <div id="tourPackagesGrid" class="tour-packages-grid" aria-live="polite"></div>

@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS website_settings (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO website_settings (setting_key, setting_value) VALUES
-  ('site_name', 'AddNepalTour & Travel'),
+  ('site_name', 'Nepal Tour and Travel'),
   ('contact_email', 'info@nepalitourtravel.com'),
   ('contact_phone', '+9779763658085'),
   ('address', 'Butwal, Nepal'),
@@ -154,14 +154,10 @@ ALTER TABLE service_bookings
   ADD COLUMN IF NOT EXISTS status ENUM('pending', 'approved', 'rejected', 'confirmed', 'cancelled') NOT NULL DEFAULT 'pending' AFTER message,
   ADD COLUMN IF NOT EXISTS archived_at DATETIME NULL AFTER status;
 
-<<<<<<< HEAD
 ALTER TABLE service_bookings
   MODIFY COLUMN status ENUM('pending', 'confirmed', 'hold', 'cancelled') NOT NULL DEFAULT 'pending';
 
-INSERT INTO users (name, email, password, role)
-=======
 INSERT INTO users (name, email, password, role, is_verified)
->>>>>>> 9c9cd5f68d9b16f2aa42fe91429cbc5a1889015e
 VALUES (
   'Sujit Kumar Mandal',
   'admin@nepaltravel.com',

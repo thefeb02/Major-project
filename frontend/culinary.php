@@ -30,7 +30,6 @@ $user = getCurrentUser();
             <div class="nav-links">
                 <a href="Major-project/culinary.php">Packages</a>
 
-                <button class="btn-book">Book Now</button>
             </div>
         </div>
     </nav>
