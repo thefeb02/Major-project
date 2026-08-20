@@ -1,9 +1,6 @@
 <?php
 require_once __DIR__ . '/../Backend/database.php';
 $user = getCurrentUser();
-if (!$user) {
-    redirect('login.php?redirect=packages.php');
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,8 +12,9 @@ if (!$user) {
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=5">
     <link rel="stylesheet" href="booking-form.css">
+    <link rel="stylesheet" href="profile.css">
 </head>
-<body data-booking-category="Tour package" data-logged-in="1">
+<body data-booking-category="Tour package" data-logged-in="<?= $user ? '1' : '0' ?>" data-user-name="<?= htmlspecialchars($user['name'] ?? '') ?>" data-user-email="<?= htmlspecialchars($user['email'] ?? '') ?>">
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.php" class="logo"><img src="../img/logo.png?v=2" alt="Nepal Tour & Travel" class="logo-icon"></a>
@@ -26,7 +24,23 @@ if (!$user) {
                 <li><a href="packages.php" class="nav-link active">Packages</a></li>
                 <li><a href="about.php" class="nav-link">About</a></li>
                 <?php if ($user): ?>
-                    <li><a href="logout.php" class="nav-link">Logout</a></li>
+                    <?php 
+                    $avatarUrl = '../img/default-avatar.png';
+                    if (!empty($user['profile_pic'])) {
+                        $avatarUrl = $user['profile_pic'];
+                    }
+                    ?>
+                    <li>
+                        <a href="profile.php" class="profile-direct-btn">
+                            <img src="<?= htmlspecialchars($avatarUrl) ?>" alt="Avatar" class="profile-avatar" onerror="this.src='https://ui-avatars.com/api/?name=<?= urlencode($user['name']) ?>&background=2a5298&color=fff'">
+                            <span><?= htmlspecialchars(explode(' ', $user['name'])[0]) ?></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="logout.php" class="logout-direct-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
                 <?php else: ?>
                     <li><a href="login.php" class="nav-link">Login</a></li>
                     <li><a href="signup.php" class="nav-link">Signup</a></li>

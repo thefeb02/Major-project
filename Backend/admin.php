@@ -34,10 +34,25 @@ $websiteImages = [];
 $adminPayments = [];
 $adminMessages = [];
 $adminReviews = [];
+$adminPlaces = [];
+$homepageSections = [];
+$adminCategories = [];
+$adminCategoryNames = ['Student Education Tour', 'Honeymoon', 'Pilgrimage', 'Cultural', 'Adventure', 'Nature & Wildlife'];
 $adminSettings = [
-    'site_name' => 'Nepal Tour and Travel', 'contact_email' => 'info@nepalitourtravel.com',
-    'contact_phone' => '+9779763658085', 'address' => 'Butwal, Nepal', 'facebook_url' => '',
-    'twitter_url' => '', 'seo_title' => 'Nepal Tour and Travel', 'seo_keywords' => 'Nepal, tours, travel, trekking',
+    'site_name' => 'Nepal Tour and Travel',
+    'logo_url' => '',
+    'favicon_url' => '',
+    'contact_email' => 'info@nepalitourtravel.com',
+    'contact_phone' => '+9779763658085',
+    'address' => 'Butwal, Nepal',
+    'facebook_url' => '',
+    'twitter_url' => '',
+    'instagram_url' => '',
+    'youtube_url' => '',
+    'seo_title' => 'Nepal Tour and Travel',
+    'seo_description' => 'Nepal travel packages, places, and experiences.',
+    'seo_keywords' => 'Nepal, tours, travel, trekking',
+    'footer_text' => 'Curated tours, mountain adventures, cultural escapes, and trusted local guidance for an unforgettable Nepal experience.',
     'homepage_hero' => 'Discover Nepal with confidence',
 ];
 
@@ -47,24 +62,17 @@ if (empty($_SESSION['admin_csrf'])) {
 $adminCsrf = $_SESSION['admin_csrf'];
 
 try {
-    $userCount = (int) $pdo->query("SELECT COUNT(*) FROM customers WHERE archived_at IS NULL")->fetchColumn();
-    $travelPlanCount = (int) $pdo->query("SELECT COUNT(*) FROM travel_plans WHERE archived_at IS NULL")->fetchColumn();
-    $bookingCount = (int) $pdo->query("SELECT COUNT(*) FROM service_bookings WHERE archived_at IS NULL")->fetchColumn();
+    $userCount = (int) $pdo->query("SELECT COUNT(*) FROM admins")->fetchColumn();
+    $travelPlanCount = (int) $pdo->query("SELECT COUNT(*) FROM packages")->fetchColumn();
+    $bookingCount = (int) $pdo->query("SELECT COUNT(*) FROM bookings")->fetchColumn();
 
-    $recentPlans = $pdo->query("
-        SELECT tp.title, tp.destination, tp.status, tp.created_at, u.name AS user_name
-        FROM travel_plans tp
-        JOIN users u ON u.id = tp.user_id
-        WHERE tp.archived_at IS NULL
-        ORDER BY tp.created_at DESC
-        LIMIT 5
-    ")->fetchAll();
+    $recentPlans = [];
 
     $recentBookings = $pdo->query("
-        SELECT service_name, service_category, full_name, status, created_at
-        FROM service_bookings
-        WHERE archived_at IS NULL
-        ORDER BY created_at DESC
+        SELECT p.title as service_name, 'Package' as service_category, b.full_name, b.status, b.created_at
+        FROM bookings b
+        LEFT JOIN packages p ON b.package_id = p.id
+        ORDER BY b.created_at DESC
         LIMIT 5
     ")->fetchAll();
 
@@ -85,13 +93,17 @@ try {
 }
 
 try {
-    $adminPackages = $pdo->query("SELECT id, title, destination, category, duration, price, status, image_url FROM tour_packages ORDER BY created_at DESC")->fetchAll();
-    $adminBookings = $pdo->query("SELECT id, full_name AS customer, email, phone, service_name AS destination, travel_date AS date, CONCAT(UCASE(LEFT(status, 1)), SUBSTRING(status, 2)) AS status, 0 AS amount FROM service_bookings WHERE archived_at IS NULL ORDER BY created_at DESC")->fetchAll();
-    $adminCustomers = $pdo->query("SELECT c.id, c.name, c.email, COALESCE(MAX(b.phone), '') AS phone, COUNT(b.id) AS totalBookings FROM customers c LEFT JOIN service_bookings b ON b.user_id = c.id AND b.archived_at IS NULL WHERE c.archived_at IS NULL GROUP BY c.id, c.name, c.email ORDER BY c.created_at DESC")->fetchAll();
-    $adminGallery = $pdo->query("SELECT id, title, image_url AS url, alt_text FROM gallery WHERE is_visible = 1 ORDER BY created_at DESC")->fetchAll();
-    $adminPayments = $pdo->query("SELECT id, booking_id AS bookingId, customer_name AS customer, type, amount, status, payment_date AS date FROM payments ORDER BY created_at DESC")->fetchAll();
-    $adminMessages = $pdo->query("SELECT id, name AS customer, email, subject, message, status, created_at FROM contact_messages ORDER BY created_at DESC")->fetchAll();
-    $adminReviews = $pdo->query("SELECT id, customer_name AS customer, package_name AS target, rating, comment, status FROM reviews ORDER BY created_at DESC")->fetchAll();
+    $adminPackages = $pdo->query("SELECT p.id, p.title, p.destination, c.name as category, p.duration, p.price, p.status, p.is_featured, p.main_image AS image_url, p.short_description, p.full_description FROM packages p LEFT JOIN categories c ON p.category_id = c.id ORDER BY p.created_at DESC")->fetchAll();
+    $adminBookings = $pdo->query("SELECT b.id, b.full_name AS customer, b.email, b.phone, p.title AS destination, b.travel_date AS date, CONCAT(UCASE(LEFT(b.status, 1)), SUBSTRING(b.status, 2)) AS status, 0 AS amount FROM bookings b LEFT JOIN packages p ON b.package_id = p.id ORDER BY b.created_at DESC")->fetchAll();
+    $adminCustomers = $pdo->query("SELECT MAX(id) as id, full_name as name, email, MAX(phone) AS phone, COUNT(id) AS totalBookings FROM bookings GROUP BY email, full_name ORDER BY MAX(created_at) DESC")->fetchAll();
+    $adminGallery = $pdo->query("SELECT id, title, image_url AS url, category as alt_text FROM gallery ORDER BY created_at DESC")->fetchAll();
+    $adminPayments = [];
+    $adminMessages = $pdo->query("SELECT id, name AS customer, email, subject, message, status, created_at FROM contacts ORDER BY created_at DESC")->fetchAll();
+    $adminReviews = $pdo->query("SELECT id, name AS customer, '' AS target, rating, review as comment, IF(is_approved, 'Approved', 'Pending') as status FROM testimonials ORDER BY created_at DESC")->fetchAll();
+    $adminPlaces = $pdo->query("SELECT id, name, province, district, description, history, best_time_to_visit, entry_fee, google_map, main_image AS image_url, is_featured, status FROM places ORDER BY created_at DESC")->fetchAll();
+    $homepageSections = $pdo->query("SELECT section_key, title, subtitle, is_enabled, sort_order FROM homepage_sections ORDER BY sort_order, section_key")->fetchAll();
+    $adminCategories = $pdo->query("SELECT id, name, slug, image_url, description, sort_order, is_featured, status FROM categories WHERE type = 'package' ORDER BY is_featured DESC, sort_order ASC, name ASC")->fetchAll();
+    $adminCategoryNames = array_values(array_filter(array_map(static fn ($row) => $row['name'] ?? '', $adminCategories)));
     $savedSettings = $pdo->query("SELECT setting_key, setting_value FROM website_settings")->fetchAll(PDO::FETCH_KEY_PAIR);
     $adminSettings = array_merge($adminSettings, $savedSettings);
 } catch (Throwable $e) {
@@ -166,10 +178,12 @@ function adminJson($value): string
 
             // 2. Mock Data Stores
             packages: <?= adminJson($adminPackages) ?>,
-            categories: ['Luxury Travel', 'Cultural Exploration', 'Beach Resort', 'Adventure Trekking', 'Wildlife Safari'],
+            categories: <?= adminJson($adminCategories) ?>,
+            categoryNames: <?= adminJson($adminCategoryNames) ?>,
             destinations: ['Paris, France', 'Kyoto, Japan', 'Maui, Hawaii', 'Cairo, Egypt', 'Reykjavik, Iceland'],
             
             bookings: <?= adminJson($adminBookings) ?>,
+            places: <?= adminJson($adminPlaces) ?>,
             
             customers: <?= adminJson($adminCustomers) ?>,
 
@@ -190,12 +204,51 @@ function adminJson($value): string
             reviews: <?= adminJson($adminReviews) ?>,
             messages: <?= adminJson($adminMessages) ?>,
 
-            companySettings: { name: 'Nepal Tour and Travel', email: <?= adminJson($adminSettings['contact_email']) ?>, phone: <?= adminJson($adminSettings['contact_phone']) ?>, address: <?= adminJson($adminSettings['address']) ?>, facebook: <?= adminJson($adminSettings['facebook_url']) ?>, twitter: <?= adminJson($adminSettings['twitter_url']) ?>, seoTitle: 'Nepal Tour and Travel', seoKeywords: <?= adminJson($adminSettings['seo_keywords']) ?>, homepageHero: <?= adminJson($adminSettings['homepage_hero']) ?> },
+            homepageSections: <?= adminJson($homepageSections) ?>,
+
+            siteSettings: {
+                site_name: <?= adminJson($adminSettings['site_name']) ?>,
+                logo_url: <?= adminJson($adminSettings['logo_url']) ?>,
+                favicon_url: <?= adminJson($adminSettings['favicon_url']) ?>,
+                contact_email: <?= adminJson($adminSettings['contact_email']) ?>,
+                contact_phone: <?= adminJson($adminSettings['contact_phone']) ?>,
+                address: <?= adminJson($adminSettings['address']) ?>,
+                facebook_url: <?= adminJson($adminSettings['facebook_url']) ?>,
+                twitter_url: <?= adminJson($adminSettings['twitter_url']) ?>,
+                instagram_url: <?= adminJson($adminSettings['instagram_url']) ?>,
+                youtube_url: <?= adminJson($adminSettings['youtube_url']) ?>,
+                seo_title: <?= adminJson($adminSettings['seo_title']) ?>,
+                seo_description: <?= adminJson($adminSettings['seo_description']) ?>,
+                seo_keywords: <?= adminJson($adminSettings['seo_keywords']) ?>,
+                footer_text: <?= adminJson($adminSettings['footer_text']) ?>,
+                homepage_hero: <?= adminJson($adminSettings['homepage_hero']) ?>,
+            },
             auditLogs: [],
 
             // Modals Configuration Context variables
             activeModal: null, 
             modalForm: {},
+
+            normalizeCategoryName(value) {
+                if (typeof value === 'string') {
+                    const trimmed = value.trim();
+                    if (!trimmed) return '';
+                    try {
+                        const parsed = JSON.parse(trimmed);
+                        if (parsed && typeof parsed === 'object' && typeof parsed.name === 'string') {
+                            return parsed.name.trim();
+                        }
+                    } catch (error) {
+                    }
+                    return trimmed;
+                }
+
+                if (value && typeof value === 'object' && typeof value.name === 'string') {
+                    return value.name.trim();
+                }
+
+                return '';
+            },
 
             // Helper actions
             logActivity(action, refId) {
@@ -209,15 +262,34 @@ function adminJson($value): string
                 return result;
             },
 
+            async saveWebsiteSettings() {
+                await this.callAdminApi('save_settings', { settings: this.siteSettings });
+                this.logActivity('Save Website Settings', 'site-settings');
+                alert('Website settings saved.');
+            },
+
+            async saveHomepageSections() {
+                const sections = Object.fromEntries(this.homepageSections.map(section => [section.section_key, section]));
+                await this.callAdminApi('save_homepage_sections', { sections });
+                this.logActivity('Save Homepage Sections', 'homepage-sections');
+                alert('Homepage sections saved.');
+            },
+
             async executeSave() {
-                if (this.activeModal === 'add-package') {
+                if (this.activeModal === 'add-package' || this.activeModal === 'edit-package') {
                     try {
-                        await this.callAdminApi('create_package', { title: this.modalForm.title || this.modalForm.destination, destination: this.modalForm.destination, category: this.modalForm.category, duration: this.modalForm.duration, price: this.modalForm.price, imageUrl: this.modalForm.imageUrl || '', description: this.modalForm.description || '' });
+                        const imageFile = document.getElementById('packageImageFile')?.files[0];
+                        const imageData = imageFile ? await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(imageFile); }) : '';
+                        await this.callAdminApi(this.activeModal === 'edit-package' ? 'update_package' : 'create_package', { id: this.modalForm.id, title: this.modalForm.title || this.modalForm.destination, destination: this.modalForm.destination, category: this.normalizeCategoryName(this.modalForm.category), duration: this.modalForm.duration, price: this.modalForm.price, imageUrl: this.modalForm.imageUrl || '', imageData, shortDescription: this.modalForm.shortDescription || '', fullDescription: this.modalForm.fullDescription || '', status: this.modalForm.status || 'active', isFeatured: this.modalForm.isFeatured ? 1 : 0 });
                         window.location.reload(); return;
                     } catch (error) { alert(error.message); return; }
-                } else if (this.activeModal === 'add-category') {
-                    this.categories.push(this.modalForm.name);
-                    this.logActivity('Create Package Category', this.modalForm.name);
+                } else if (this.activeModal === 'add-category' || this.activeModal === 'edit-category') {
+                    try {
+                        const imageFile = document.getElementById('categoryImageFile')?.files[0];
+                        const imageData = imageFile ? await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(imageFile); }) : '';
+                        await this.callAdminApi(this.activeModal === 'edit-category' ? 'update_category' : 'create_category', { id: this.modalForm.id, name: this.modalForm.name, slug: this.modalForm.slug || this.modalForm.name, description: this.modalForm.description || '', imageUrl: this.modalForm.imageUrl || '', imageData, sortOrder: this.modalForm.sortOrder || 0, isFeatured: this.modalForm.isFeatured ? 1 : 0, status: this.modalForm.status || 'active' });
+                        window.location.reload(); return;
+                    } catch (error) { alert(error.message); return; }
                 } else if (this.activeModal === 'add-destination') {
                     this.destinations.push(this.modalForm.name);
                     this.logActivity('Register Destination Geolocation', this.modalForm.name);
@@ -225,11 +297,18 @@ function adminJson($value): string
                     let newCst = { id: 'CST-' + Math.floor(100 + Math.random() * 900), name: this.modalForm.name, email: this.modalForm.email, phone: this.modalForm.phone, totalBookings: 0 };
                     this.customers.push(newCst);
                     this.logActivity('Register Customer Profile', newCst.id);
-                } else if (this.activeModal === 'add-gallery') {
+                } else if (this.activeModal === 'add-gallery' || this.activeModal === 'edit-gallery') {
                     try {
                         const imageFile = document.getElementById('galleryImageFile')?.files[0];
                         const imageData = imageFile ? await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(imageFile); }) : '';
-                        await this.callAdminApi('create_gallery', { title: this.modalForm.title, imageUrl: this.modalForm.url || '', imageData, altText: this.modalForm.altText || '' });
+                        await this.callAdminApi(this.activeModal === 'edit-gallery' ? 'update_gallery' : 'create_gallery', { id: this.modalForm.id, title: this.modalForm.title, imageUrl: this.modalForm.url || '', imageData, altText: this.modalForm.altText || '' });
+                        window.location.reload(); return;
+                    } catch (error) { alert(error.message); return; }
+                } else if (this.activeModal === 'add-place' || this.activeModal === 'edit-place') {
+                    try {
+                        const imageFile = document.getElementById('placeImageFile')?.files[0];
+                        const imageData = imageFile ? await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(imageFile); }) : '';
+                        await this.callAdminApi(this.activeModal === 'edit-place' ? 'update_place' : 'create_place', { id: this.modalForm.id, name: this.modalForm.name, province: this.modalForm.province, district: this.modalForm.district, description: this.modalForm.description || '', history: this.modalForm.history || '', bestTimeToVisit: this.modalForm.bestTimeToVisit || '', entryFee: this.modalForm.entryFee || 0, googleMap: this.modalForm.googleMap || '', imageUrl: this.modalForm.imageUrl || '', imageData, isFeatured: this.modalForm.isFeatured ? 1 : 0, status: this.modalForm.status || 'active' });
                         window.location.reload(); return;
                     } catch (error) { alert(error.message); return; }
                 } else if (this.activeModal === 'add-payment') {
@@ -271,8 +350,44 @@ function adminJson($value): string
             editGallery(galleryId) {
                 const img = this.gallery.find(item => item.id === galleryId);
                 if (img) {
-                    this.modalForm = { id: img.id, title: img.title, url: img.url };
+                    this.modalForm = { id: img.id, title: img.title, url: img.url, altText: img.alt_text || '' };
                     this.activeModal = 'edit-gallery';
+                }
+            },
+
+            editCategory(categoryId) {
+                const item = this.categories.find(category => category.id === categoryId);
+                if (item) {
+                    this.modalForm = { id: item.id, name: item.name, slug: item.slug || '', description: item.description || '', imageUrl: item.image_url || '', sortOrder: item.sort_order || 0, isFeatured: !!item.is_featured, status: item.status || 'active' };
+                    this.activeModal = 'edit-category';
+                }
+            },
+
+            async deleteCategory(categoryId) {
+                if (!confirm('Delete this category? Packages using it will keep their package records but the category link will be removed.')) return;
+                try {
+                    await this.callAdminApi('delete_category', { id: categoryId });
+                    this.categories = this.categories.filter(category => category.id !== categoryId);
+                    this.categoryNames = this.categoryNames.filter(categoryName => categoryName !== (this.categories.find(category => category.id === categoryId)?.name || ''));
+                    this.logActivity('Delete Package Category', categoryId);
+                } catch (error) {
+                    alert(error.message);
+                }
+            },
+
+            editPackage(packageId) {
+                const item = this.packages.find(packageItem => packageItem.id === packageId);
+                if (item) {
+                    this.modalForm = { id: item.id, title: item.title, destination: item.destination, category: this.normalizeCategoryName(item.category), duration: item.duration, price: item.price, imageUrl: item.image_url || '', shortDescription: item.short_description || '', fullDescription: item.full_description || '', status: item.status || 'active', isFeatured: !!item.is_featured };
+                    this.activeModal = 'edit-package';
+                }
+            },
+
+            editPlace(placeId) {
+                const item = this.places.find(placeItem => placeItem.id === placeId);
+                if (item) {
+                    this.modalForm = { id: item.id, name: item.name, province: item.province, district: item.district, description: item.description || '', history: item.history || '', bestTimeToVisit: item.best_time_to_visit || '', entryFee: item.entry_fee || 0, googleMap: item.google_map || '', imageUrl: item.image_url || '', status: item.status || 'active', isFeatured: !!item.is_featured };
+                    this.activeModal = 'edit-place';
                 }
             },
 
@@ -322,18 +437,32 @@ function adminJson($value): string
 
             removeSelectedPackage() {
                 if (!this.selectedPackageId) return;
-                const packageId = this.selectedPackageId;
-                this.packages = this.packages.filter(p => p.id !== packageId);
-                this.selectedPackageId = null;
-                this.logActivity('Evict Tour Package Record', packageId);
+                this.deletePackage(this.selectedPackageId);
             },
 
-            deletePackage(id) {
-                this.packages = this.packages.filter(p => p.id !== id);
-                if (this.selectedPackageId === id) {
-                    this.selectedPackageId = null;
+            async deletePackage(id) {
+                if (!confirm('Delete this package from the website?')) return;
+                try {
+                    await this.callAdminApi('delete_package', { id });
+                    this.packages = this.packages.filter(packageItem => packageItem.id !== id);
+                    if (this.selectedPackageId === id) {
+                        this.selectedPackageId = null;
+                    }
+                    this.logActivity('Evict Tour Package Record', id);
+                } catch (error) {
+                    alert(error.message);
                 }
-                this.logActivity('Evict Tour Package Record', id);
+            },
+
+            async deletePlace(id) {
+                if (!confirm('Delete this place from the website?')) return;
+                try {
+                    await this.callAdminApi('delete_place', { id });
+                    this.places = this.places.filter(placeItem => placeItem.id !== id);
+                    this.logActivity('Evict Place Record', id);
+                } catch (error) {
+                    alert(error.message);
+                }
             }
          }">
 
@@ -380,6 +509,16 @@ function adminJson($value): string
                         <button type="button" @click.stop="open = true; packageFilter = 'destinations'; currentView = 'packages'" class="w-full text-left py-2 px-3 text-sm rounded-lg hover:text-white hover:bg-slate-800 transition-colors">Manage Destinations</button>
                     </div>
                 </div>
+
+                <button @click="currentView = 'places'" :class="currentView === 'places' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-slate-800/60 hover:text-slate-200'" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl transition-all group">
+                    <i class="bi bi-geo-alt text-lg"></i>
+                    <span x-show="sidebarOpen" class="font-medium whitespace-nowrap">Places</span>
+                </button>
+
+                <button @click="currentView = 'website'" :class="currentView === 'website' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-slate-800/60 hover:text-slate-200'" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl transition-all group">
+                    <i class="bi bi-sliders text-lg"></i>
+                    <span x-show="sidebarOpen" class="font-medium whitespace-nowrap">Website Settings</span>
+                </button>
 
                 <!-- Bookings Processing Pipe -->
                 <div x-data="{ open: false }" class="space-y-1">
@@ -614,17 +753,18 @@ function adminJson($value): string
                                             <th class="px-6 py-4">Classification Category</th>
                                             <th class="px-6 py-4">Duration</th>
                                             <th class="px-6 py-4">Base Cost</th>
-                                            <th class="px-6 py-4 text-right">Actions</th>
+                                            <th class="px-6 py-4 text-right sticky right-0 bg-slate-50 z-10">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100">
                                         <template x-for="p in packages" :key="p.id">
                                             <tr @click="selectPackage(p.id)" :class="selectedPackageId === p.id ? 'bg-blue-50' : 'hover:bg-slate-50/60'" class="cursor-pointer">
                                                 <td class="px-6 py-4 font-semibold text-slate-900" x-text="p.destination"></td>
-                                                <td class="px-6 py-4 text-slate-600" x-text="p.category"></td>
+                                                <td class="px-6 py-4 text-slate-600" x-text="normalizeCategoryName(p.category)"></td>
                                                 <td class="px-6 py-4 text-slate-600" x-text="p.duration"></td>
                                                 <td class="px-6 py-4 font-mono font-bold text-slate-900" x-text="'$'+p.price"></td>
-                                                <td class="px-6 py-4 text-right">
+                                                <td class="px-6 py-4 text-right sticky right-0 bg-white">
+                                                    <button @click.stop="editPackage(p.id)" class="text-slate-700 bg-slate-100 hover:bg-slate-200 p-1.5 rounded-lg text-xs font-bold transition-colors mr-1">Edit</button>
                                                     <button @click.stop="deletePackage(p.id)" class="text-rose-600 p-1.5 hover:bg-rose-50 rounded-lg text-xs font-bold transition-colors">Evict</button>
                                                 </td>
                                             </tr>
@@ -663,6 +803,104 @@ function adminJson($value): string
                                 </div>
                             </div>
                         </template>
+                    </div>
+                </div>
+
+                <!-- PANEL B1: PLACE CONTENT MANAGER -->
+                <div x-show="currentView === 'places'" x-transition class="space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900">Places Content Manager</h3>
+                            <p class="text-sm text-slate-500">Control destination pages, hero images, and featured place entries from one place.</p>
+                        </div>
+                        <button @click="activeModal = 'add-place'" class="bg-blue-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow hover:bg-blue-700 flex items-center space-x-1"><i class="bi bi-plus-lg"></i><span>Add Place</span></button>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase text-slate-500">
+                                    <tr>
+                                        <th class="px-6 py-4">Place</th>
+                                        <th class="px-6 py-4">Province</th>
+                                        <th class="px-6 py-4">District</th>
+                                        <th class="px-6 py-4">Status</th>
+                                        <th class="px-6 py-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <template x-for="place in places" :key="place.id">
+                                        <tr class="hover:bg-slate-50/60">
+                                            <td class="px-6 py-4 text-slate-900 font-semibold"><div x-text="place.name"></div><div class="text-xs text-slate-500" x-text="place.best_time_to_visit || 'Best time not set'"></div></td>
+                                            <td class="px-6 py-4 text-slate-600" x-text="place.province"></td>
+                                            <td class="px-6 py-4 text-slate-600" x-text="place.district"></td>
+                                            <td class="px-6 py-4"><span class="px-2 py-0.5 rounded text-xs font-semibold" :class="place.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'" x-text="place.status"></span></td>
+                                            <td class="px-6 py-4 text-right">
+                                                <button @click.stop="editPlace(place.id)" class="text-slate-700 bg-slate-100 hover:bg-slate-200 p-1.5 rounded-lg text-xs font-bold transition-colors mr-1">Edit</button>
+                                                <button @click.stop="deletePlace(place.id)" class="text-rose-600 bg-rose-50 hover:bg-rose-100 p-1.5 rounded-lg text-xs font-bold transition-colors">Delete</button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL B2: WEBSITE SETTINGS CONTROL CENTER -->
+                <div x-show="currentView === 'website'" x-transition class="space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900">Website Settings</h3>
+                            <p class="text-sm text-slate-500">Update branding, SEO, social links, hero copy, and homepage section titles.</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button @click="saveHomepageSections()" class="bg-slate-100 text-slate-800 px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-slate-200">Save Sections</button>
+                            <button @click="saveWebsiteSettings()" class="bg-blue-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow hover:bg-blue-700">Save Settings</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+                            <h4 class="text-sm font-bold text-slate-900">Core Site Settings</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Site Name</label><input type="text" x-model="siteSettings.site_name" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Homepage Hero</label><input type="text" x-model="siteSettings.homepage_hero" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Contact Email</label><input type="email" x-model="siteSettings.contact_email" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Contact Phone</label><input type="text" x-model="siteSettings.contact_phone" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div class="sm:col-span-2"><label class="block text-xs font-bold text-slate-500 uppercase">Address</label><input type="text" x-model="siteSettings.address" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Logo URL</label><input type="text" x-model="siteSettings.logo_url" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Favicon URL</label><input type="text" x-model="siteSettings.favicon_url" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">SEO Title</label><input type="text" x-model="siteSettings.seo_title" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">SEO Description</label><input type="text" x-model="siteSettings.seo_description" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div class="sm:col-span-2"><label class="block text-xs font-bold text-slate-500 uppercase">SEO Keywords</label><input type="text" x-model="siteSettings.seo_keywords" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Facebook URL</label><input type="text" x-model="siteSettings.facebook_url" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Twitter URL</label><input type="text" x-model="siteSettings.twitter_url" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Instagram URL</label><input type="text" x-model="siteSettings.instagram_url" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">YouTube URL</label><input type="text" x-model="siteSettings.youtube_url" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div class="sm:col-span-2"><label class="block text-xs font-bold text-slate-500 uppercase">Footer Text</label><textarea x-model="siteSettings.footer_text" rows="3" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></textarea></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+                            <h4 class="text-sm font-bold text-slate-900">Homepage Sections</h4>
+                            <div class="space-y-3 max-h-[34rem] overflow-y-auto pr-1 custom-scrollbar">
+                                <template x-for="section in homepageSections" :key="section.section_key">
+                                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+                                        <div class="flex items-center justify-between gap-3">
+                                            <div>
+                                                <p class="text-xs font-bold text-slate-900 uppercase tracking-wide" x-text="section.section_key"></p>
+                                                <p class="text-[11px] text-slate-500" x-text="'Sort order: ' + section.sort_order"></p>
+                                            </div>
+                                            <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700"><input type="checkbox" x-model="section.is_enabled" class="rounded border-slate-300"><span>Enabled</span></label>
+                                        </div>
+                                        <input type="text" x-model="section.title" placeholder="Section title" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm">
+                                        <input type="text" x-model="section.subtitle" placeholder="Section subtitle" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm">
+                                        <div><label class="block text-[11px] font-bold text-slate-500 uppercase">Sort Order</label><input type="number" x-model="section.sort_order" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -975,7 +1213,7 @@ function adminJson($value): string
                         <div class="flex items-center space-x-4">
                             <img class="w-16 h-16 rounded-2xl object-contain bg-blue-50 p-2 ring-4 ring-slate-100 shadow-sm" src="../img/logo.png" alt="Nepal Tour and Travel logo">
                             <div>
-                                <h3 class="text-lg font-black text-slate-900">Sujit Kumar Mandal</h3>
+                                <h3 class="text-lg font-black text-slate-900">Nepal Tours and Travel</h3>
                                 <p class="text-xs font-mono text-blue-600 font-bold">Website Administrator</p>
                             </div>
                         </div>
@@ -994,20 +1232,20 @@ function adminJson($value): string
         <!-- DIALOG FORM MODAL CONTEXT CANVAS WINDOWS -->
         <div 
             x-show="activeModal !== null" 
-            class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
+            class="fixed inset-0 z-50 flex items-start justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto"
             x-transition.opacity
             x-cloak
         >
-            <div @click.outside="activeModal = null" class="bg-white w-full max-w-md rounded-2xl shadow-xl border border-slate-200 overflow-hidden transform transition-all">
+            <div @click.outside="activeModal = null" class="bg-white w-full max-w-md rounded-2xl shadow-xl border border-slate-200 overflow-hidden transform transition-all max-h-[calc(100vh-2rem)] flex flex-col">
                 <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
                     <h3 class="font-bold text-sm uppercase tracking-wide text-slate-900" x-text="'Register System Data Object / ' + activeModal"></h3>
                     <button @click="activeModal = null" class="text-slate-400 hover:text-slate-600 p-1"><i class="bi bi-x-lg"></i></button>
                 </div>
                 
-                <form @submit.prevent="executeSave()" class="p-6 space-y-4">
+                <form @submit.prevent="executeSave()" class="p-6 space-y-4 overflow-y-auto custom-scrollbar flex-1 min-h-0">
                     
                     <!-- Form Fields Conditionals Block -->
-                    <template x-if="activeModal === 'add-package'">
+                    <template x-if="activeModal === 'add-package' || activeModal === 'edit-package'">
                         <div class="space-y-3">
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">Package title</label><input type="text" x-model="modalForm.title" required maxlength="190" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">Destination Hub Label</label><input type="text" x-model="modalForm.destination" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
@@ -1015,14 +1253,56 @@ function adminJson($value): string
                                 <label class="block text-xs font-bold text-slate-500 uppercase">Classification Tag</label>
                                 <select x-model="modalForm.category" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none">
                                     <option value="">Choose Tag...</option>
-                                    <template x-for="cat in categories" :key="cat"><option :value="cat" x-text="cat"></option></template>
+                                    <template x-for="cat in categoryNames" :key="cat"><option :value="cat" x-text="cat"></option></template>
                                 </select>
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div><label class="block text-xs font-bold text-slate-500 uppercase">Duration Window</label><input type="text" x-model="modalForm.duration" placeholder="e.g. 7 Days" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
                                 <div><label class="block text-xs font-bold text-slate-500 uppercase">Base Cost ($ USD)</label><input type="number" x-model="modalForm.price" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
                             </div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Short Description</label><textarea x-model="modalForm.shortDescription" rows="2" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></textarea></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Full Itinerary / Description</label><textarea x-model="modalForm.fullDescription" rows="3" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></textarea></div>
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">Website image URL</label><input type="url" x-model="modalForm.imageUrl" placeholder="https://..." class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Or upload image</label><input id="packageImageFile" type="file" accept="image/*" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase">Status</label>
+                                    <select x-model="modalForm.status" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none">
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </div>
+                                <label class="flex items-center gap-2 mt-6 text-sm font-semibold text-slate-700"><input type="checkbox" x-model="modalForm.isFeatured" class="rounded border-slate-300"> Featured</label>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template x-if="activeModal === 'add-place' || activeModal === 'edit-place'">
+                        <div class="space-y-3">
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Place name</label><input type="text" x-model="modalForm.name" required maxlength="150" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Province</label><input type="text" x-model="modalForm.province" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">District</label><input type="text" x-model="modalForm.district" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            </div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Description</label><textarea x-model="modalForm.description" rows="2" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></textarea></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">History</label><textarea x-model="modalForm.history" rows="2" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></textarea></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Best time to visit</label><input type="text" x-model="modalForm.bestTimeToVisit" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Entry fee</label><input type="number" x-model="modalForm.entryFee" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Google map URL</label><input type="url" x-model="modalForm.googleMap" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            </div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Image URL</label><input type="url" x-model="modalForm.imageUrl" placeholder="https://..." class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Or upload image</label><input id="placeImageFile" type="file" accept="image/*" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase">Status</label>
+                                    <select x-model="modalForm.status" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none">
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </div>
+                                <label class="flex items-center gap-2 mt-6 text-sm font-semibold text-slate-700"><input type="checkbox" x-model="modalForm.isFeatured" class="rounded border-slate-300"> Featured</label>
+                            </div>
                         </div>
                     </template>
 
@@ -1045,6 +1325,7 @@ function adminJson($value): string
                         <div class="space-y-3">
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">Media Caption Title</label><input type="text" x-model="modalForm.title" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">Asset source URL</label><input type="url" x-model="modalForm.url" placeholder="https://..." class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Alt text</label><input type="text" x-model="modalForm.altText" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
                             <div x-show="activeModal === 'add-gallery'"><label class="block text-xs font-bold text-slate-500 uppercase">Or upload image (max 5 MB)</label><input id="galleryImageFile" type="file" accept="image/png,image/jpeg,image/gif,image/webp" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
                         </div>
                     </template>

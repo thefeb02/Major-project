@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Backend/database.php';
+$user = getCurrentUser();
 
 $title = trim($_GET['title'] ?? '');
 $desc = trim($_GET['desc'] ?? '');
@@ -215,7 +216,7 @@ $isAdventureActivity = $topic === 'activity';
     @media (max-width:500px){.adventure-grid{grid-template-columns:1fr}}
     </style>
 </head>
-<body data-booking-category="<?= esc($bookingCategory) ?>">
+<body data-booking-category="<?= esc($bookingCategory) ?>" data-logged-in="<?= $user ? '1' : '0' ?>" data-user-name="<?= htmlspecialchars($user['name'] ?? '') ?>" data-user-email="<?= htmlspecialchars($user['email'] ?? '') ?>">
     <main class="detail-shell">
         <a class="detail-back" href="index.php">&larr; Back to home</a>
 

@@ -5,9 +5,19 @@ require_once __DIR__ . '/../Backend/database.php';
 $user = getCurrentUser();
 $siteSettings = ['site_name' => 'Nepal Tour and Travel', 'seo_title' => 'Nepal Tour and Travel - Discover the Magic of Nepal', 'homepage_hero' => 'Discover the Magic of Nepal'];
 $websiteGallery = [];
+$homepageSections = [];
+$featuredPlaces = [];
 try {
     $siteSettings = array_merge($siteSettings, $pdo->query('SELECT setting_key, setting_value FROM website_settings')->fetchAll(PDO::FETCH_KEY_PAIR));
-    $websiteGallery = $pdo->query('SELECT title, image_url, alt_text FROM gallery_images WHERE is_visible = 1 ORDER BY created_at DESC LIMIT 8')->fetchAll();
+    $websiteGallery = $pdo->query('SELECT title, image_url, category FROM gallery WHERE is_featured = 1 ORDER BY created_at DESC LIMIT 8')->fetchAll();
+    $homepageSectionsRows = $pdo->query('SELECT section_key, title, subtitle, is_enabled, sort_order FROM homepage_sections ORDER BY sort_order, section_key')->fetchAll();
+    foreach ($homepageSectionsRows as $row) {
+        $homepageSections[$row['section_key']] = $row;
+    }
+    $featuredPlaces = $pdo->query('SELECT id, name, province, district, main_image FROM places WHERE status = "active" AND is_featured = 1 ORDER BY created_at DESC LIMIT 7')->fetchAll();
+    if (!$featuredPlaces) {
+        $featuredPlaces = $pdo->query('SELECT id, name, province, district, main_image FROM places WHERE status = "active" ORDER BY created_at DESC LIMIT 7')->fetchAll();
+    }
 } catch (Throwable $e) {
     // The existing website stays available until the dashboard schema is imported.
 }
@@ -18,17 +28,18 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($siteSettings['seo_title']) ?></title>
+    <meta name="description" content="<?= htmlspecialchars($siteSettings['seo_description'] ?? 'Nepal travel packages, places, and experiences.') ?>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=4">
     <link rel="stylesheet" href="booking-form.css">
     <link rel="stylesheet" href="profile.css">
 </head>
-<body data-logged-in="<?= $user ? '1' : '0' ?>">
+<body data-logged-in="<?= $user ? '1' : '0' ?>" data-user-name="<?= htmlspecialchars($user['name'] ?? '') ?>" data-user-email="<?= htmlspecialchars($user['email'] ?? '') ?>">
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.php" class="logo">
-                <img src="../img/logo.png?v=2" alt="Logo" class="logo-icon">
+                <img src="<?= htmlspecialchars($siteSettings['logo_url'] ?: '../img/logo.png?v=2') ?>" alt="Logo" class="logo-icon">
                
             </a>
             <ul class="nav-menu">
@@ -38,6 +49,9 @@ try {
                
 
                 <li><a href="about.php" class="nav-link">About</a></li>
+                <?php if ($user && isAdmin()): ?>
+                    <li><a href="../Backend/admin.php" class="nav-link">Admin</a></li>
+                <?php endif; ?>
                 
                 <?php if ($user): ?>
                     <?php 
@@ -78,9 +92,9 @@ try {
         <div class="hero-content">
             <div class="hero-content">
 
-    <div class="hero-badge">
-      <h2><b> ⭐⭐⭐⭐⭐ Trusted by 5,000+ Travelers</b></h2>
-    </div>
+                        <div class="hero-badge">
+            <h2><b> ⭐⭐⭐⭐⭐ Trusted by 5,000+ Travelers</b></h2>
+        </div>
 
     <h1><?= htmlspecialchars($siteSettings['homepage_hero']) ?></h1>
 
@@ -108,11 +122,12 @@ try {
 </div>
         </div>
     </section>
+    <?php if (!empty($homepageSections['stories']['is_enabled'])): ?>
     <!-- Latest Stories Section -->
     <section class="latest-stories" id="stories">
         <div class="container">
-            <h2 class="section-title">Latest Stories</h2>
-          <b>  <p class="section-subtitle">Discover inspiring travel stories and experiences from our community</p></b>
+                        <h2 class="section-title"><?= htmlspecialchars($homepageSections['stories']['title'] ?? 'Latest Stories') ?></h2>
+                    <b>  <p class="section-subtitle"><?= htmlspecialchars($homepageSections['stories']['subtitle'] ?? 'Discover inspiring travel stories and experiences from our community') ?></p></b>
             <div class="stories-grid">
                 <article class="story-card">
                     <a class="story-image-link" href="media_detail.php?title=Trekking%20in%20the%20Himalayas&amp;desc=Discover%20the%20best%20trekking%20routes%20and%20prepare%20for%20your%20mountain%20adventure%20with%20expert%20tips.&amp;img=../img/3.jpeg&amp;alt=Trekking%20in%20the%20Himalayas&amp;topic=peaks" aria-label="View Trekking in the Himalayas details"><div class="story-image-wrapper">
@@ -152,12 +167,14 @@ try {
                 </article>
            
     </section>
+    <?php endif; ?>
 
+    <?php if (!empty($homepageSections['featured_places']['is_enabled'])): ?>
     <!-- Places to Go Section -->
     <section class="places" id="places">
         <div class="container">
-            <h2 class="section-title">Places to Go</h2>
-            <p class="section-subtitle"><B>Explore the most stunning destinations across Nepal</b></p>
+            <h2 class="section-title"><?= htmlspecialchars($homepageSections['featured_places']['title'] ?? 'Places to Go') ?></h2>
+            <p class="section-subtitle"><B><?= htmlspecialchars($homepageSections['featured_places']['subtitle'] ?? 'Explore the most stunning destinations across Nepal') ?></b></p>
             
             <!-- Category Filter Buttons -->
             <div class="places-categories">
@@ -172,72 +189,27 @@ try {
             
             <!-- Places Grid -->
             <div class="places-grid" id="places-grid">
-                <!-- Provinces Category -->
-             
-                     <a href="places/koshi" class="place-card" data-category="provinces">
-                    <div class="place-image">
-                        <img src="https://i.pinimg.com/736x/38/7a/21/387a21d7763974798937d09cecf7418f.jpg" alt="Koshi">
-                        <div class="place-overlay">
-                            <h3>Koshi</h3>
+                <?php foreach ($featuredPlaces as $place): ?>
+                    <a href="places/<?= htmlspecialchars(strtolower(str_replace(' ', '-', $place['province']))) ?>" class="place-card" data-category="provinces">
+                        <div class="place-image">
+                            <img src="<?= htmlspecialchars($place['main_image'] ? (str_starts_with($place['main_image'], '../') ? $place['main_image'] : '../img/places/' . $place['main_image']) : '../img/1.jpeg') ?>" alt="<?= htmlspecialchars($place['name']) ?>">
+                            <div class="place-overlay">
+                                <h3><?= htmlspecialchars($place['name']) ?></h3>
+                            </div>
                         </div>
-                    </div>
-                </a>
-                <a href="places/madhesh" class="place-card" data-category="provinces">
-                    <div class="place-image">
-                        <img src="https://chinarinepal.com/wp-content/uploads/2022/03/JANAKI-MANDIR-1024x386.png" alt="Madhesh">
-                        <div class="place-overlay">
-                            <h3>Madhesh</h3>
-                        </div>
-                    </div>
-                </a>
-                <a href="places/bagmati" class="place-card" data-category="provinces">
-                    <div class="place-image">
-                        <img src="https://i.pinimg.com/1200x/be/a3/e5/bea3e57e5abd2abb4d3ada67e7c200dc.jpg" alt="Bagmati">
-                        <div class="place-overlay">
-                            <h3>Bagmati</h3>
-                        </div>
-                    </div>
-                </a>
-                <a href="places/gandaki" class="place-card" data-category="provinces">
-                    <div class="place-image">
-                        <img src="https://i.pinimg.com/736x/56/3e/91/563e9142137cad48487a45b9bba77d62.jpg" alt="Gandaki">
-                        <div class="place-overlay">
-                            <h3>Gandaki</h3>
-                        </div>
-                    </div>
-                </a>
-                <a href="places/lumbini" class="place-card" data-category="provinces">
-                    <div class="place-image">
-                        <img src="https://i.pinimg.com/1200x/b3/83/c2/b383c22c9aa6854d763a9cbbbe1daed9.jpg" alt="Lumbini">
-                        <div class="place-overlay">
-                            <h3>Lumbini</h3>
-                        </div>
-                    </div>
-                </a>
-                <a href="places/karnali" class="place-card" data-category="provinces">
-                    <div class="place-image">
-                        <img src="https://i.pinimg.com/736x/4e/ba/4a/4eba4a5546a3525b36808a0f35aecf15.jpg" alt="Karnali">
-                        <div class="place-overlay">
-                            <h3>Karnali</h3>
-                        </div>
-                    </div>
-                </a>
-                <a href="places/sudurpashchim" class="place-card" data-category="provinces">
-                    <div class="place-image">
-                        <img src="https://i.pinimg.com/736x/f2/8f/12/f28f121913883f59a3fa9e466f56ee7e.jpg" alt="Sudurpashchim">
-                        <div class="place-overlay">
-                            <h3>Sudurpashchim</h3>
-                        </div>
-                    </div>
-                </a>
-           
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
     </section>
+    <?php endif; ?>
   
-     <!-- Things to Do Section -->
+    <?php if (!empty($homepageSections['activities']['is_enabled'])): ?>
+    <!-- Things to Do Section -->
     <section class="things-to-do" id="things">
         <div class="container">
-            <h2 class="section-title">Things to Do</h2>
-            <p class="section-subtitle"><b>Endless activities and experiences for every type of traveler</b></p>
+            <h2 class="section-title"><?= htmlspecialchars($homepageSections['activities']['title'] ?? 'Things to Do') ?></h2>
+            <p class="section-subtitle"><b><?= htmlspecialchars($homepageSections['activities']['subtitle'] ?? 'Endless activities and experiences for every type of traveler') ?></b></p>
             <div class="activities-grid">
                 <a href="trekking.php" class="activity-link">
                     <article class="activity-card">
@@ -292,70 +264,24 @@ try {
             </div>
         </div>
     </section>
+    <?php endif; ?>
 
     <!-- Footer -->
-    <?php if ($websiteGallery): ?>
-        <section class="tour-packages-section" id="tour-packages" tabindex="-1" hidden>
-            <div class="container">
-                <div class="section-header package-section-header">
-                    <h2>Tour Packages</h2>
-                    <p>Choose from more than 100 destinations and find a package that fits your travel time.</p>
-                </div>
-
-                <div class="tour-filters" aria-label="Tour package filters">
-                    <label>Destination
-                        <select id="packageDestination"><option value="">All 100+ destinations</option></select>
-                    </label>
-                    <label>Tour category
-                        <select id="packageCategory">
-                            <option value="">All categories</option>
-                            <option value="Adventure">Adventure</option><option value="Cultural">Cultural</option>
-                            <option value="Family">Family</option><option value="Honeymoon">Honeymoon</option>
-                            <option value="Pilgrimage">Pilgrimage</option><option value="Nature">Nature &amp; Wildlife</option>
-                        </select>
-                    </label>
-                    <label>Duration
-                        <select id="packageDuration">
-                            <option value="">Any duration</option><option value="2">1–3 days</option>
-                            <option value="5">4–7 days</option><option value="9">8–12 days</option><option value="14">13+ days</option>
-                        </select>
-                    </label>
-                </div>
-                <p id="selectedDestination" class="selected-destination" aria-live="polite">Showing packages for all destinations.</p>
-                <div id="tourPackagesGrid" class="tour-packages-grid" aria-live="polite"></div>
-                <div class="package-actions-bar"><button id="loadMorePackages" type="button" class="package-load-more">Show more packages</button></div>
-            </div>
-        </section>
-
-        <section class="latest-stories" id="website-gallery">
-            <div class="container">
-                <h2 class="section-title">Website Gallery</h2>
-                <p class="section-subtitle">Moments curated by <?= htmlspecialchars($siteSettings['site_name']) ?></p>
-                <div class="stories-grid">
-                    <?php foreach ($websiteGallery as $image): ?>
-                        <article class="story-card">
-                            <div class="story-image-wrapper"><img src="<?= htmlspecialchars($image['image_url']) ?>" alt="<?= htmlspecialchars($image['alt_text'] ?: $image['title']) ?>" loading="lazy"></div>
-                            <div class="story-content"><h3><?= htmlspecialchars($image['title']) ?></h3></div>
-                        </article>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </section>
-    <?php endif; ?>
+    
 
     <footer class="footer">
         <div class="container">
             <div class="footer-top">
                 <a href="index.php" class="footer-brand">
-                    <img src="../img/logo.png?v=3" alt="Nepal Tour & Travel Logo">
+                    <img src="<?= htmlspecialchars($siteSettings['logo_url'] ?: '../img/logo.png?v=3') ?>" alt="Nepal Tour & Travel Logo">
                     <div>
-                        <h3>Nepal Tour & Travel</h3>
-                        <span>Discover Nepal with comfort and confidence</span>
+                        <h3><?= htmlspecialchars($siteSettings['site_name'] ?? 'Nepal Tour & Travel') ?></h3>
+                        <span><?= htmlspecialchars($siteSettings['homepage_hero'] ?? 'Discover Nepal with comfort and confidence') ?></span>
                     </div>
                 </a>
 
                 <p class="footer-description">
-                    Curated tours, mountain adventures, cultural escapes, and trusted local guidance for an unforgettable Nepal experience.
+                    <?= htmlspecialchars($siteSettings['footer_text'] ?? 'Curated tours, mountain adventures, cultural escapes, and trusted local guidance for an unforgettable Nepal experience.') ?>
                 </p>
 
                 <div class="footer-badges" aria-label="Highlights">
@@ -382,18 +308,18 @@ try {
                         Stay connected for travel inspiration, updates, and destination highlights.
                     </p>
                     <div class="social-links">
-                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="<?= htmlspecialchars($siteSettings['facebook_url'] ?: '#') ?>" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="<?= htmlspecialchars($siteSettings['twitter_url'] ?: '#') ?>" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="<?= htmlspecialchars($siteSettings['instagram_url'] ?: '#') ?>" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="<?= htmlspecialchars($siteSettings['youtube_url'] ?: '#') ?>" title="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
 
                 <div class="footer-section">
                     <h4>Contact Us</h4>
-                    <p><i class="fas fa-envelope"></i> info@nepalitourtravel.com</p>
-                    <p><i class="fas fa-phone"></i> +977 9763658085</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Butwal, Nepal</p>
+                    <p><i class="fas fa-envelope"></i> <?= htmlspecialchars($siteSettings['contact_email'] ?? 'info@nepalitourtravel.com') ?></p>
+                    <p><i class="fas fa-phone"></i> <?= htmlspecialchars($siteSettings['contact_phone'] ?? '+977 9763658085') ?></p>
+                    <p><i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($siteSettings['address'] ?? 'Butwal, Nepal') ?></p>
                 </div>
             </div>
 

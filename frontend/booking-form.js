@@ -42,7 +42,7 @@
                     <input name="travelers" type="number" min="1" max="50" value="1" required>
                 </label>
                 <label>Notes (optional)
-                    <textarea name="message" rows="3" maxlength="2000" placeholder="Questions, pickup location, dietary needs, or anything else"></textarea>
+                    <textarea name="message" rows="3" maxlength="2000" placeholder="Questions, dietary needs, or anything else. All tours start from Butwal."></textarea>
                 </label>
                 <div class="booking-form__row">
                     <label>Payment option
@@ -78,6 +78,8 @@
     document.body.appendChild(modal);
 
     const serviceInput = modal.querySelector('#bookingServiceName');
+    const fullNameInput = modal.querySelector('input[name="full_name"]');
+    const emailInput = modal.querySelector('input[name="email"]');
     const phoneInput = modal.querySelector('#bookingPhone');
     const amountInput = modal.querySelector('#bookingAmount');
     const paymentMethodSelect = modal.querySelector('select[name="payment_method"]');
@@ -111,6 +113,14 @@
         const currentTitle = document.querySelector('.details-title')?.textContent?.trim();
         serviceInput.value = serviceName || currentTitle || '';
         const selectedImage = imageUrl || document.querySelector('.details-hero')?.src || '';
+        const userName = document.body.dataset.userName || '';
+        const userEmail = document.body.dataset.userEmail || '';
+        if (fullNameInput && !fullNameInput.value && userName) {
+            fullNameInput.value = userName;
+        }
+        if (emailInput && !emailInput.value && userEmail) {
+            emailInput.value = userEmail;
+        }
         const priceValue = packagePrice && Number(packagePrice) > 0 ? String(packagePrice) : '100';
         if (amountInput) amountInput.value = priceValue;
         const bookingSummary = [destination, category, duration].filter(Boolean).join(' • ');
@@ -152,6 +162,7 @@
             const currentPage = `${window.location.pathname.split('/').pop() || 'index.php'}${window.location.search}${window.location.hash}`;
             const loginUrl = new URL('login.php', window.location.href);
             loginUrl.searchParams.set('redirect', currentPage);
+            loginUrl.searchParams.set('message', 'Please log in first to book this tour.');
             window.location.href = loginUrl.pathname + loginUrl.search;
             return;
         }
@@ -247,9 +258,7 @@
         phoneInput.setCustomValidity('');
 
         const paymentMethod = paymentMethodSelect?.value || 'pay_later';
-        if (paymentMethod === 'esewa') {
-            window.open('https://esewa.com.np/#/home', '_blank', 'noopener,noreferrer');
-        } else if (paymentMethod === 'khalti') {
+        if (paymentMethod === 'khalti') {
             window.open('https://khalti.com/', '_blank', 'noopener,noreferrer');
         }
     });

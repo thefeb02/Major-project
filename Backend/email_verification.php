@@ -151,3 +151,36 @@ function sendVerificationEmailLocal($email, $token)
 
     return true;
 }
+
+/**
+ * Logs the password reset request locally and attempts to send via PHP mail.
+ */
+function sendPasswordResetEmailLocal($email, $token)
+{
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $resetUrl = $protocol . '://' . $host . '/Major-project/frontend/reset_password.php?token=' . urlencode($token);
+
+    $subject = 'Reset Your Password - Nepal Tour and Travel';
+    $message = "Hello,\n\nWe received a request to reset the password for your Nepal Tour and Travel account.\n\n";
+    $message .= "Use the link below to choose a new password:\n" . $resetUrl . "\n\n";
+    $message .= "If you did not request this, you can ignore this email.\n\nBest regards,\nNepal Tour and Travel Team";
+
+    $headers = "From: no-reply@nepaltravel.com\r\n";
+    $headers .= "Reply-To: no-reply@nepaltravel.com\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion();
+
+    $logDir = __DIR__;
+    $logFile = $logDir . '/password_reset_emails.log';
+    $logContent = "================================================\n";
+    $logContent .= "Timestamp: " . date('Y-m-d H:i:s') . "\n";
+    $logContent .= "To: " . $email . "\n";
+    $logContent .= "Subject: " . $subject . "\n";
+    $logContent .= "Reset link: " . $resetUrl . "\n";
+    $logContent .= "================================================\n\n";
+
+    file_put_contents($logFile, $logContent, FILE_APPEND);
+    @mail($email, $subject, $message, $headers);
+
+    return true;
+}

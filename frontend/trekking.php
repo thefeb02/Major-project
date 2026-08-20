@@ -12,21 +12,37 @@ $user = getCurrentUser();
     <title>Nepal Trekking Packages</title>
     <link rel="stylesheet" href="trekking.css">
     <link rel="stylesheet" href="booking-form.css">
+    <link rel="stylesheet" href="profile.css">
 </head>
-<body data-booking-category="Trekking">
+<body data-booking-category="Trekking" data-logged-in="<?= $user ? '1' : '0' ?>" data-user-name="<?= htmlspecialchars($user['name'] ?? '') ?>" data-user-email="<?= htmlspecialchars($user['email'] ?? '') ?>">
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
            <a href="index.php" class="logo">
                 <img src="../img/logo.png?v=2" alt="Logo" class="logo-icon">
-                <span class="logo-text">
-                    Nepal
-                    <span class="logo-subtitle">Tour & Travel</span>
+           
                 </span>
             </a>
             <div class="nav-links">
                 <a href="trekking.php">Packages</a>
-
+                <?php if ($user): ?>
+                    <?php 
+                    $avatarUrl = '../img/default-avatar.png';
+                    if (!empty($user['profile_pic'])) {
+                        $avatarUrl = $user['profile_pic'];
+                    }
+                    ?>
+                    <a href="profile.php" class="profile-direct-btn">
+                        <img src="<?= htmlspecialchars($avatarUrl) ?>" alt="Avatar" class="profile-avatar" onerror="this.src='https://ui-avatars.com/api/?name=<?= urlencode($user['name']) ?>&background=2a5298&color=fff'">
+                        <span><?= htmlspecialchars(explode(' ', $user['name'])[0]) ?></span>
+                    </a>
+                    <a href="logout.php" class="logout-direct-btn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                <?php else: ?>
+                    <a href="login.php">Login</a>
+                    <a href="signup.php">Signup</a>
+                <?php endif; ?>
             </div>
         </div>
     </nav>

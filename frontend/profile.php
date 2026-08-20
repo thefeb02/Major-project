@@ -13,10 +13,18 @@ $userId = $user['id'];
 $stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
 $stmt->execute([$userId]);
 $userProfile = $stmt->fetch();
+if (!is_array($userProfile)) {
+    $userProfile = [
+        'name' => $user['name'] ?? 'Guest',
+        'email' => $user['email'] ?? '',
+        'created_at' => date('Y-m-d H:i:s'),
+        'profile_pic' => null,
+    ];
+}
 
 // Fetch Bookings
-$bookingsStmt = $pdo->prepare('SELECT * FROM service_bookings WHERE user_id = ? ORDER BY created_at DESC');
-$bookingsStmt->execute([$userId]);
+$bookingsStmt = $pdo->prepare('SELECT b.*, p.title as service_name, c.name as service_category FROM bookings b LEFT JOIN packages p ON b.package_id = p.id LEFT JOIN categories c ON p.category_id = c.id WHERE b.email = ? ORDER BY b.created_at DESC');
+$bookingsStmt->execute([$userProfile['email']]);
 $bookings = $bookingsStmt->fetchAll();
 
 // Fetch Travel Plans
@@ -26,13 +34,14 @@ $travelPlans = $plansStmt->fetchAll();
 
 // Fetch Payments related to user's bookings
 $paymentsStmt = $pdo->prepare('
-    SELECT p.*, b.service_name 
-    FROM payments p 
-    JOIN service_bookings b ON p.booking_id = b.id 
-    WHERE b.user_id = ? 
-    ORDER BY p.payment_date DESC
+    SELECT py.*, p.title as service_name 
+    FROM payments py 
+    JOIN bookings b ON py.booking_id = b.id 
+    JOIN packages p ON b.package_id = p.id
+    WHERE b.email = ? 
+    ORDER BY py.created_at DESC
 ');
-$paymentsStmt->execute([$userId]);
+$paymentsStmt->execute([$userProfile['email']]);
 $payments = $paymentsStmt->fetchAll();
 
 // Determine avatar
@@ -70,6 +79,9 @@ try {
             <ul class="nav-menu">
                 <li><a href="index.php" class="nav-link">Home</a></li>
                 <li><a href="places.php" class="nav-link">Places</a></li>
+                <?php if (isAdmin()): ?>
+                    <li><a href="../Backend/admin.php" class="nav-link">Admin</a></li>
+                <?php endif; ?>
                 
                 <li>
                     <a href="profile.php" class="profile-direct-btn">
@@ -95,6 +107,10 @@ try {
                     <h1><?= htmlspecialchars($userProfile['name']) ?></h1>
                     <p><i class="fas fa-envelope"></i> <?= htmlspecialchars($userProfile['email']) ?></p>
                     <p><i class="fas fa-calendar-alt"></i> Joined: <?= date('F j, Y', strtotime($userProfile['created_at'])) ?></p>
+                    <?php if (isAdmin()): ?>
+                        <p><i class="fas fa-shield-alt"></i> Admin access enabled</p>
+                        <a href="../Backend/admin.php" class="btn-action btn-secondary-action" style="margin-top: 12px; display: inline-flex;">Open admin dashboard</a>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -195,7 +211,7 @@ try {
                             <tbody>
                                 <?php foreach ($payments as $payment): ?>
                                     <tr>
-                                        <td><?= date('M j, Y', strtotime($payment['payment_date'])) ?></td>
+                                        <td><?= date('M j, Y', strtotime($payment['created_at'])) ?></td>
                                         <td><?= htmlspecialchars($payment['service_name']) ?></td>
                                         <td><?= htmlspecialchars($payment['type']) ?></td>
                                         <td>$<?= number_format($payment['amount'], 2) ?></td>

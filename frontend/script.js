@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function loadDestinations() {
         if (destinationsCached) return destinationsCached;
         try {
-            const response = await fetch(scriptDir + 'destinations.json');
+            const response = await fetch(scriptDir + 'api/places.php');
             const data = await response.json();
             destinationsCached = data.destinations;
             return destinationsCached;

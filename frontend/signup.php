@@ -51,14 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = 'Email is already registered. Please log in instead.';
         } else {
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-            $token = bin2hex(random_bytes(32));
             
-            $stmt = $pdo->prepare('INSERT INTO users (name, email, password, verification_token, is_verified, created_at) VALUES (?, ?, ?, ?, 0, NOW())');
-            $stmt->execute([$name, $email, $passwordHash, $token]);
+            $stmt = $pdo->prepare('INSERT INTO users (name, email, password, is_verified, created_at) VALUES (?, ?, ?, 1, NOW())');
+            $stmt->execute([$name, $email, $passwordHash]);
 
-            sendVerificationEmailLocal($email, $token);
-
-            $success = 'Registration successful. A verification link has been sent to your email. (Developers: Check Backend/verification_emails.log)';
+            $success = 'Registration successful. You can now log in.';
             $name = '';
             $email = '';
         }

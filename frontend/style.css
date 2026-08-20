@@ -1993,10 +1993,17 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
 .auth-page {
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     background: linear-gradient(135deg, #f8fafc 0%, #eef4ff 100%);
-    padding: 40px 20px;
+    padding: 24px 20px 40px;
+}
+
+.auth-page .navbar {
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 24px;
 }
 
 .auth-layout {
@@ -2214,6 +2221,14 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
     color: #0d94ff;
     font-weight: 700;
     text-decoration: none;
+}
+
+.auth-form-panel[hidden] {
+    display: none !important;
+}
+
+.auth-toggle-link {
+    cursor: pointer;
 }
 
 @media (max-width: 980px) {

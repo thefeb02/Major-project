@@ -74,8 +74,9 @@ if ($destination) {
     
     <link rel="stylesheet" href="style.css?v=4">
     <link rel="stylesheet" href="places.css?v=3">
+    <link rel="stylesheet" href="profile.css">
 </head>
-<body>
+<body data-logged-in="<?= $user ? '1' : '0' ?>" data-user-name="<?= htmlspecialchars($user['name'] ?? '') ?>" data-user-email="<?= htmlspecialchars($user['email'] ?? '') ?>">
     <!-- Navigation Bar (Identical to Homepage) -->
     <nav class="navbar">
         <div class="nav-container">
@@ -92,7 +93,23 @@ if ($destination) {
                 <li><a href="index.php#festivals" class="nav-link">Festivals</a></li>
                 <li><a href="about.php" class="nav-link">About</a></li>
                 <?php if ($user): ?>
-                    <li><a href="logout.php" class="nav-link">Logout</a></li>
+                    <?php 
+                    $avatarUrl = '../img/default-avatar.png';
+                    if (!empty($user['profile_pic'])) {
+                        $avatarUrl = $user['profile_pic'];
+                    }
+                    ?>
+                    <li>
+                        <a href="profile.php" class="profile-direct-btn">
+                            <img src="<?= htmlspecialchars($avatarUrl) ?>" alt="Avatar" class="profile-avatar" onerror="this.src='https://ui-avatars.com/api/?name=<?= urlencode($user['name']) ?>&background=2a5298&color=fff'">
+                            <span><?= htmlspecialchars(explode(' ', $user['name'])[0]) ?></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="logout.php" class="logout-direct-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
                 <?php else: ?>
                     <li><a href="login.php" class="nav-link">Login</a></li>
                     <li><a href="signup.php" class="nav-link">Signup</a></li>

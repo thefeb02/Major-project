@@ -1,19 +1,5 @@
-(() => {
-    const destinations = [
-        'Kathmandu', 'Pokhara', 'Chitwan', 'Lumbini', 'Bhaktapur', 'Patan', 'Nagarkot', 'Dhulikhel', 'Bandipur', 'Gorkha',
-        'Ilam', 'Dharan', 'Biratnagar', 'Janakpur', 'Hetauda', 'Butwal', 'Tansen', 'Nepalgunj', 'Dhangadhi', 'Mahendranagar',
-        'Mustang', 'Jomsom', 'Muktinath', 'Manang', 'Annapurna', 'Everest', 'Namche Bazaar', 'Lukla', 'Phaplu', 'Salleri',
-        'Langtang', 'Rasuwa', 'Gosaikunda', 'Helambu', 'Melamchi', 'Dolakha', 'Charikot', 'Kalinchowk', 'Sindhuli', 'Bardibas',
-        'Bardiya', 'Koshi Tappu', 'Sauraha', 'Meghauli', 'Nawalparasi', 'Devghat', 'Palpa', 'Rara Lake', 'Jumla', 'Mugu',
-        'Dolpa', 'Shey Phoksundo', 'Surkhet', 'Dailekh', 'Rukum', 'Rolpa', 'Jajarkot', 'Humla', 'Simikot', 'Bajura',
-        'Khaptad', 'Api Nampa', 'Baitadi', 'Dadeldhura', 'Kanchanpur', 'Damak', 'Kakarbhitta', 'Taplejung', 'Kanchenjunga', 'Pathibhara',
-        'Sankhuwasabha', 'Makalu Barun', 'Bhojpur', 'Khotang', 'Okhaldhunga', 'Solukhumbu', 'Udayapur', 'Saptari', 'Siraha', 'Dhanusha',
-        'Mahottari', 'Sarlahi', 'Rautahat', 'Bara', 'Parsa', 'Nuwakot', 'Trishuli', 'Kavrepalanchok', 'Panauti', 'Chitlang',
-        'Makwanpur', 'Rupandehi', 'Kapilvastu', 'Arghakhanchi', 'Gulmi', 'Syangja', 'Kaski', 'Lamjung', 'Tanahun', 'Myagdi',
-        'Baglung', 'Parbat', 'Ghandruk', 'Poon Hill', 'Damauli', 'Dhorpatan', 'Besisahar', 'Tinjure', 'Shivapuri', 'Godavari'
-    ];
-    const categories = ['Adventure', 'Cultural', 'Family', 'Education', 'Pilgrimage', 'Nature', 'Honeymoon'];
-    const images = ['../img/8.jpeg', '../img/1.jpeg', '../img/2.jpeg', '../img/6.jpeg', '../img/4.jpeg', '../img/5.jpeg', '../img/9.jpeg', '../img/3.jpeg'];
+(async () => {
+    let packages = [];
     const destinationSelect = document.getElementById('packageDestination');
     const categorySelect = document.getElementById('packageCategory');
     const durationSelect = document.getElementById('packageDuration');
@@ -25,12 +11,20 @@
     const bookSelectedPackage = document.getElementById('bookSelectedPackage');
     if (!destinationSelect || !grid || !categorySelect || !durationSelect || !selected || !loadMore) return;
 
-    destinations.forEach(destination => destinationSelect.add(new Option(destination, destination)));
-    const packages = destinations.map((destination, index) => {
-        const category = categories[index % categories.length];
-        const days = [2, 3, 4, 5, 6, 7, 9, 12, 14][index % 9];
-        return { destination, category, days, image: images[index % images.length], price: 8000 + (days * 2500) };
-    });
+    try {
+        const response = await fetch('api/packages.php');
+        const json = await response.json();
+        if (json.success) {
+            packages = json.data;
+        }
+    } catch (e) {
+        console.error('Failed to fetch packages:', e);
+    }
+    
+    // Populate dynamic destination dropdown
+    const uniqueDestinations = [...new Set(packages.map(p => p.destination))];
+    uniqueDestinations.forEach(dest => destinationSelect.add(new Option(dest, dest)));
+
     let visibleCount = 12;
     const escapeHtml = value => String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
     const durationMatches = (days, filter) => !filter || (filter === '2' && days <= 3) || (filter === '5' && days >= 4 && days <= 7) || (filter === '9' && days >= 8 && days <= 12) || (filter === '14' && days >= 13);

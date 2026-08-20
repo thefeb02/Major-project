@@ -206,15 +206,14 @@ try {
                         <?php endif; ?>
                         <div class="form-row">
                             <label>
-                                Sources
-                                <input type="text" name="title" value="<?= htmlspecialchars($trip['title'] ?? $formValues['title']) ?>" required>
+                                Start Location
+                                <input type="text" name="title" value="Butwal" readonly>
                             </label>
                             <label>
                                 Destination
                                 <input type="text" name="destination" value="<?= htmlspecialchars($trip['destination'] ?? $formValues['destination']) ?>" required>
                             </label>
                         </div>
-                        <div class="form-row">
                             <label>
                                 Start Date
                                 <input type="date" name="start_date" value="<?= htmlspecialchars($trip['start_date'] ?? $formValues['start_date']) ?>" required>
