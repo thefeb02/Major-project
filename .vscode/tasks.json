@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Nepal Tour and Travel",
+            "type": "shell",
+            "command": "& 'C:\\xampp\\php\\php.exe' -S 127.0.0.1:8000 -t '${workspaceFolder}'",
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "php-server",
+                "pattern": [
+                    {
+                        "regexp": ".*"
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "PHP.*Development Server",
+                    "endsPattern": "Development Server.*started"
+                }
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        }
+    ]
+}
