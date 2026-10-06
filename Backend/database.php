@@ -48,6 +48,74 @@ if (!$pdo) {
     exit;
 }
 
+function resolveFrontendImageUrl(?string $imageUrl, string $imageDirectory, string $fallback): string
+{
+    $imageUrl = trim((string) $imageUrl);
+    if ($imageUrl === '') {
+        return $fallback;
+    }
+
+    if (preg_match('#^(?:https?:)?//#i', $imageUrl)
+        || str_starts_with($imageUrl, '/')
+        || str_starts_with($imageUrl, '../')
+        || str_starts_with($imageUrl, './')) {
+        return $imageUrl;
+    }
+
+    if (str_starts_with($imageUrl, 'img/')) {
+        return '../' . $imageUrl;
+    }
+
+    if (str_starts_with($imageUrl, $imageDirectory . '/')) {
+        return '../img/' . $imageUrl;
+    }
+
+    return '../img/' . $imageDirectory . '/' . $imageUrl;
+}
+
+/** Keep older local databases compatible with the current authentication pages. */
+function ensureUsersTable(): void
+{
+    global $pdo;
+
+    try {
+        $pdo->exec(
+            "CREATE TABLE IF NOT EXISTS users (
+                id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                name VARCHAR(120) NOT NULL,
+                email VARCHAR(190) NOT NULL UNIQUE,
+                password VARCHAR(255) NOT NULL,
+                role VARCHAR(30) NOT NULL DEFAULT 'user',
+                is_verified TINYINT(1) NOT NULL DEFAULT 1,
+                verification_token VARCHAR(100) NULL,
+                google_id VARCHAR(255) NULL,
+                profile_pic VARCHAR(255) NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+        );
+
+        $columns = [
+            'is_verified' => 'ALTER TABLE users ADD COLUMN is_verified TINYINT(1) NOT NULL DEFAULT 1',
+            'verification_token' => 'ALTER TABLE users ADD COLUMN verification_token VARCHAR(100) NULL',
+            'google_id' => 'ALTER TABLE users ADD COLUMN google_id VARCHAR(255) NULL',
+            'profile_pic' => 'ALTER TABLE users ADD COLUMN profile_pic VARCHAR(255) NULL',
+        ];
+
+        foreach ($columns as $sql) {
+            try {
+                $pdo->exec($sql);
+            } catch (Throwable $e) {
+                // The column already exists or the database is read-only.
+            }
+        }
+    } catch (Throwable $e) {
+        // Login pages can still show a controlled database error if MySQL is unavailable.
+    }
+}
+
+ensureUsersTable();
+
 function ensurePasswordResetTable(): void
 {
     global $pdo;
@@ -76,6 +144,150 @@ function ensurePasswordResetTable(): void
 }
 
 ensurePasswordResetTable();
+
+/**
+ * Core catalogue tables are required by package browsing and booking. Older
+ * local databases may contain only the users table, so create these tables
+ * before the optional seed and repair routines run.
+ */
+function ensureCoreTravelTables(): void
+{
+    global $pdo;
+
+    try {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS categories (
+            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+            name VARCHAR(100) NOT NULL,
+            slug VARCHAR(100) NOT NULL UNIQUE,
+            type ENUM('package', 'blog') NOT NULL DEFAULT 'package',
+            image_url VARCHAR(255) NULL,
+            description TEXT NULL,
+            sort_order INT NOT NULL DEFAULT 0,
+            is_featured TINYINT(1) NOT NULL DEFAULT 0,
+            status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+        $pdo->exec("CREATE TABLE IF NOT EXISTS packages (
+            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+            title VARCHAR(190) NOT NULL,
+            destination VARCHAR(150) NOT NULL,
+            category_id INT UNSIGNED NULL,
+            duration VARCHAR(50) NOT NULL,
+            price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+            discount_price DECIMAL(10,2) NULL,
+            short_description TEXT NOT NULL,
+            full_description LONGTEXT NOT NULL,
+            included_services TEXT NULL,
+            excluded_services TEXT NULL,
+            itinerary LONGTEXT NULL,
+            map_location TEXT NULL,
+            main_image VARCHAR(255) NULL,
+            is_featured TINYINT(1) NOT NULL DEFAULT 0,
+            status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+        // Destinations managed from the administrator Places screen.  This
+        // must exist on fresh installations before the dashboard can add a
+        // place or the homepage can list it.
+        $pdo->exec("CREATE TABLE IF NOT EXISTS places (
+            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+            name VARCHAR(150) NOT NULL,
+            province VARCHAR(100) NOT NULL,
+            place_category VARCHAR(50) NOT NULL DEFAULT 'provinces',
+            district VARCHAR(100) NOT NULL,
+            description TEXT NULL,
+            history TEXT NULL,
+            best_time_to_visit VARCHAR(150) NULL,
+            entry_fee DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+            google_map TEXT NULL,
+            main_image VARCHAR(500) NULL,
+            is_featured TINYINT(1) NOT NULL DEFAULT 0,
+            status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            KEY idx_places_public (status, is_featured, created_at)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+        try {
+            $pdo->exec("ALTER TABLE places ADD COLUMN place_category VARCHAR(50) NOT NULL DEFAULT 'provinces' AFTER province");
+        } catch (Throwable $e) {
+            // Existing installations already have this column.
+        }
+
+        $placeImageColumn = $pdo->query("SHOW COLUMNS FROM places LIKE 'main_image'")->fetch();
+        if ($placeImageColumn && preg_match('/^varchar\((\d+)\)$/i', $placeImageColumn['Type'] ?? '', $matches) && (int) $matches[1] < 500) {
+            try {
+                $pdo->exec('ALTER TABLE places MODIFY COLUMN main_image VARCHAR(500) NULL');
+            } catch (Throwable $e) {
+                error_log('Unable to expand places.main_image for managed image URLs: ' . $e->getMessage());
+            }
+        }
+
+        $pdo->exec("CREATE TABLE IF NOT EXISTS activities (
+            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+            name VARCHAR(150) NOT NULL,
+            category VARCHAR(100) NOT NULL,
+            description TEXT NOT NULL,
+            image_url VARCHAR(500) NULL,
+            page_url VARCHAR(500) NULL,
+            status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            KEY idx_activities_public (status, created_at)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+        $pdo->exec("CREATE TABLE IF NOT EXISTS bookings (
+            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+            full_name VARCHAR(120) NOT NULL,
+            email VARCHAR(190) NOT NULL,
+            phone VARCHAR(50) NOT NULL,
+            package_id INT UNSIGNED NULL,
+            service_name VARCHAR(190) NULL,
+            service_category VARCHAR(100) NULL,
+            travelers INT UNSIGNED NOT NULL DEFAULT 1,
+            travel_date DATE NOT NULL,
+            message TEXT NULL,
+            status ENUM('pending', 'confirmed', 'hold', 'cancelled', 'completed') NOT NULL DEFAULT 'pending',
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+        try {
+            $pdo->exec("ALTER TABLE bookings MODIFY COLUMN status ENUM('pending', 'confirmed', 'hold', 'cancelled', 'completed') NOT NULL DEFAULT 'pending'");
+        } catch (Throwable $e) {
+            // Existing installations may already have the older enum or a different status set.
+        }
+
+        // Upgrade the earlier bookings table used by the first version of the
+        // project. It used service_name fields but did not have package_id or
+        // traveler count, which caused booking inserts to fail.
+        foreach ([
+            'package_id' => 'ALTER TABLE bookings ADD COLUMN package_id INT UNSIGNED NULL AFTER phone',
+            'service_name' => 'ALTER TABLE bookings ADD COLUMN service_name VARCHAR(190) NULL AFTER package_id',
+            'service_category' => 'ALTER TABLE bookings ADD COLUMN service_category VARCHAR(100) NULL AFTER service_name',
+            'travelers' => 'ALTER TABLE bookings ADD COLUMN travelers INT UNSIGNED NOT NULL DEFAULT 1 AFTER package_id',
+            'updated_at' => 'ALTER TABLE bookings ADD COLUMN updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER created_at',
+        ] as $sql) {
+            try {
+                $pdo->exec($sql);
+            } catch (Throwable $e) {
+                // The column already exists in newer databases.
+            }
+        }
+    } catch (Throwable $e) {
+        // Individual pages return a friendly error if the database is unavailable.
+    }
+}
+
+ensureCoreTravelTables();
 
 function ensurePaymentsTable(): void
 {

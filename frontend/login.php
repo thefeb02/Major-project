@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../Backend/database.php';
 require_once __DIR__ . '/../Backend/email_verification.php';
+require_once __DIR__ . '/../Backend/config.php';
 
 function resolveSafeRedirectTarget($value)
 {
@@ -26,6 +27,7 @@ $errors = [];
 $email = '';
 $redirectPath = resolveSafeRedirectTarget($_GET['redirect'] ?? '');
 $loginMessage = trim((string) ($_GET['message'] ?? ''));
+$googleLoginAvailable = googleOAuthIsConfigured();
 if ($loginMessage !== '') {
     $errors[] = $loginMessage;
 }
@@ -39,7 +41,9 @@ if (!empty($_SESSION['flash_message'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'login') {
         $redirectPath = resolveSafeRedirectTarget($_POST['redirect'] ?? $_GET['redirect'] ?? '');
-        $email = trim($_POST['email'] ?? '');
+        // Store and look up email addresses consistently, regardless of the
+        // capitalization a visitor uses when signing in.
+        $email = strtolower(trim($_POST['email'] ?? ''));
         $password = $_POST['password'] ?? '';
 
         $emailErrorMsg = '';
@@ -51,26 +55,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (empty($errors)) {
-            $stmt = $pdo->prepare('SELECT id, name, email, password, is_verified FROM users WHERE email = ?');
+            $stmt = $pdo->prepare('SELECT id, name, email, password, role, is_verified FROM users WHERE email = ? LIMIT 1');
             $stmt->execute([$email]);
             $user = $stmt->fetch();
-            $isDirectAdminLogin = in_array(strtolower($email), ['admin@gmail.com', 'admin@nepaltravel.com'], true) && $password === 'Admin123';
 
-            if (($user && password_verify($password, $user['password'])) || $isDirectAdminLogin) {
-                $role = 'user';
-                if (strtolower($user['email'] ?? '') === 'admin@nepaltravel.com') {
-                        $role = 'admin';
-                    }
-
-                    if ($isDirectAdminLogin) {
-                        $role = 'admin';
-                        $user = $user ?: [
-                            'id' => 0,
-                            'name' => 'Admin',
-                            'email' => $email,
-                            'role' => 'admin',
-                        ];
-                    }
+            if ($user && password_verify($password, $user['password'])) {
+                if (!(bool) $user['is_verified']) {
+                    $errors[] = 'Please verify your email address before logging in.';
+                } else {
+                    $role = strtolower($user['role'] ?? 'user') === 'admin' ? 'admin' : 'user';
 
                     session_regenerate_id(true);
                     $_SESSION['user'] = [
@@ -80,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'role' => $role,
                     ];
                     redirect($role === 'admin' ? '../Backend/admin.php' : $redirectPath);
+                }
             } else {
                 $errors[] = 'Invalid email or password.';
             }
@@ -142,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label>Email Id</label>
                         <div class="input-wrapper">
                             <i class="fa-solid fa-envelope"></i>
-                            <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="thisisab@mail.com" required>
+                            <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="thisisab@mail.com" maxlength="190" autocomplete="email" required>
                         </div>
                     </div>
 
@@ -150,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label>Password</label>
                         <div class="input-wrapper">
                             <i class="fa-solid fa-lock"></i>
-                            <input type="password" name="password" placeholder="•••••••••••••" required>
+                            <input type="password" name="password" placeholder="•••••••••••••" autocomplete="current-password" required>
                         </div>
                     </div>
 
@@ -204,7 +198,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="submit" class="auth-submit">REGISTER</button>
                 </form>
 
-                <p class="auth-footer">Already have an account? <a href="#" class="auth-toggle-link" onclick="toggleForm('login'); return false;">Login Now</a></p>
+                <?php if ($googleLoginAvailable): ?>
+                    <p class="auth-footer">
+                        <a href="../Backend/google_login.php?redirect=<?= urlencode($redirectPath) ?>" class="auth-toggle-link">Register with Google</a>
+                    </p>
+                <?php endif; ?>
             </div>
         </div>
     </div>

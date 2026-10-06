@@ -24,10 +24,39 @@
     // Populate dynamic destination dropdown
     const uniqueDestinations = [...new Set(packages.map(p => p.destination))];
     uniqueDestinations.forEach(dest => destinationSelect.add(new Option(dest, dest)));
+    const existingCategories = new Set([...categorySelect.options].map(option => option.value));
+    [...new Set(packages.map(p => p.category).filter(Boolean))].forEach(category => {
+        if (!existingCategories.has(category)) {
+            categorySelect.add(new Option(category, category));
+        }
+    });
 
     let visibleCount = 12;
     const escapeHtml = value => String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
     const durationMatches = (days, filter) => !filter || (filter === '2' && days <= 3) || (filter === '5' && days >= 4 && days <= 7) || (filter === '9' && days >= 8 && days <= 12) || (filter === '14' && days >= 13);
+    const imageCreditMarkup = item => item.image_credit && item.image_credit_url
+        ? `<a class="tour-card-image-credit" href="${escapeHtml(item.image_credit_url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.image_credit)}</a>`
+        : '';
+    const fallbackImageFor = item => {
+        const destination = String(item.destination || '').toLowerCase();
+        if (/chitwan|bardia|shuklaphanta/.test(destination)) return '../img/2.jpeg';
+        if (/everest|sagarmatha|solukhumbu|annapurna|mustang|manang/.test(destination)) return '../img/3.jpeg';
+        if (/kathmandu|bhaktapur|patan|janakpur|lumbini|temple|durbar|monastery/.test(destination)) return '../img/4.jpeg';
+        if (/pokhara|phewa|rara|phoksundo|bandipur|lake/.test(destination)) return '../img/1.jpeg';
+
+        return item.category === 'Nature' ? '../img/2.jpeg' :
+            item.category === 'Adventure' ? '../img/3.jpeg' :
+            ['Cultural', 'Pilgrimage'].includes(item.category) ? '../img/4.jpeg' :
+            '../img/9.jpeg';
+    };
+    const addImageFallback = image => {
+        image.addEventListener('error', () => {
+            const fallbackImage = image.dataset.fallbackImage;
+            if (fallbackImage && image.src !== new URL(fallbackImage, window.location.href).href) {
+                image.src = fallbackImage;
+            }
+        }, { once: true });
+    };
 
     function filteredPackages() {
         return packages.filter(item => (!destinationSelect.value || item.destination === destinationSelect.value) && (!categorySelect.value || item.category === categorySelect.value) && durationMatches(item.days, durationSelect.value));
@@ -44,27 +73,32 @@
             window.history.replaceState({}, '', newUrl);
         }
         if (selectedPackageBooking && selectedPackageSummary && bookSelectedPackage) {
-            const selectedDestination = destinationSelect.value || 'Nepal';
-            const selectedCategory = categorySelect.value || 'Custom Tour';
-            const durationText = durationSelect.value ? durationSelect.options[durationSelect.selectedIndex].text : 'Flexible duration';
-            const packageName = `${selectedDestination} ${selectedCategory} Package — ${durationText}`;
-            selectedPackageSummary.textContent = 'Book your package';
-            selectedPackageSummary.title = packageName;
-            bookSelectedPackage.dataset.bookingPackage = packageName;
-            bookSelectedPackage.dataset.bookingImage = images[(Math.max(0, destinations.indexOf(selectedDestination))) % images.length];
-            bookSelectedPackage.dataset.bookingPrice = results[0]?.price ? String(results[0].price) : '12000';
+            const selectedPackage = results[0];
+            selectedPackageSummary.textContent = selectedPackage ? 'Book your package' : 'No matching packages';
+            selectedPackageSummary.title = selectedPackage?.title || '';
+            bookSelectedPackage.disabled = !selectedPackage;
+            bookSelectedPackage.dataset.bookingPackage = selectedPackage?.title || '';
+            bookSelectedPackage.dataset.bookingImage = selectedPackage?.image || '';
+            bookSelectedPackage.dataset.bookingPrice = selectedPackage?.price ? String(selectedPackage.price) : '';
+            bookSelectedPackage.dataset.bookingDestination = selectedPackage?.destination || '';
+            bookSelectedPackage.dataset.bookingCategory = selectedPackage?.category || '';
+            bookSelectedPackage.dataset.bookingDuration = selectedPackage?.duration_text || '';
+            bookSelectedPackage.dataset.bookingPackageId = /^\d+$/.test(String(selectedPackage?.id ?? '')) ? String(selectedPackage.id) : '';
         }
         grid.innerHTML = results.slice(0, visibleCount).map((item, index) => {
-            const title = item.category === 'Education' ? `${item.destination} Student Education Tour` : `${item.destination} ${item.category} Escape`;
+            const title = item.title || `${item.destination} ${item.category} Package`;
+            const fallbackImage = fallbackImageFor(item);
             return `<article class="tour-card">
-                <img class="tour-card-image" src="${item.image}" alt="${escapeHtml(title)}">
+                <img class="tour-card-image" src="${escapeHtml(item.image || fallbackImage)}" data-fallback-image="${escapeHtml(fallbackImage)}" alt="${escapeHtml(title)}" loading="lazy">
+                ${imageCreditMarkup(item)}
                 <div class="tour-card-content"><span class="tour-card-badge">${item.category === 'Education' ? 'Education' : escapeHtml(item.category)}</span><h3>${escapeHtml(title)}</h3>
                 <p class="tour-card-destination"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(item.destination)}, Nepal</p>
-                <p>Guided travel, comfortable stays and a flexible itinerary for your group.</p>
+                <p>${escapeHtml(item.description || 'Guided travel, comfortable stays and a flexible itinerary for your group.')}</p>
                 <div class="tour-card-meta"><span>${item.days} Days / ${item.days - 1} Nights</span><strong>NPR ${item.price.toLocaleString()} / person</strong></div>
                 <div class="tour-card-duration">Duration: ${item.days} Days / ${item.days - 1} Nights</div>
-                <div class="tour-actions"><button type="button" class="package-view" data-package-index="${packages.indexOf(item)}">View Package</button><button type="button" class="package-book" data-booking-package="${escapeHtml(title)}" data-booking-image="${item.image}" data-booking-price="${item.price}" data-booking-destination="${escapeHtml(item.destination)}" data-booking-category="${escapeHtml(item.category)}" data-booking-duration="${item.days} Days / ${item.days - 1} Nights">Book Package</button></div></div></article>`;
+                <div class="tour-actions"><button type="button" class="package-view" data-package-index="${packages.indexOf(item)}">View Package</button><button type="button" class="package-book" data-booking-package="${escapeHtml(title)}" data-booking-image="${escapeHtml(item.image)}" data-booking-price="${item.price}" data-booking-destination="${escapeHtml(item.destination)}" data-booking-category="${escapeHtml(item.category)}" data-booking-duration="${escapeHtml(item.duration_text || `${item.days} Days`)}" data-booking-package-id="${/^\d+$/.test(String(item.id ?? '')) ? escapeHtml(item.id) : ''}">Book Package</button></div></div></article>`;
         }).join('') || '<p class="package-empty">No packages match these filters. Choose another destination or duration.</p>';
+        grid.querySelectorAll('.tour-card-image').forEach(addImageFallback);
         loadMore.hidden = visibleCount >= results.length || results.length === 0;
     }
 
@@ -109,10 +143,12 @@
         if (!viewButton) return;
         const item = packages[Number(viewButton.dataset.packageIndex)];
         if (!item) return;
-        const title = item.category === 'Education' ? `${item.destination} Student Education Tour` : `${item.destination} ${item.category} Escape`;
+        const title = item.title || `${item.destination} ${item.category} Package`;
+        const fallbackImage = fallbackImageFor(item);
         const modal = document.createElement('div');
         modal.className = 'package-details-modal';
-        modal.innerHTML = `<div class="package-details-backdrop"></div><section class="package-details-dialog" role="dialog" aria-modal="true"><button class="package-details-close" aria-label="Close">&times;</button><img src="${item.image}" alt="${escapeHtml(title)}"><div><span>${item.category === 'Education' ? 'Education' : escapeHtml(item.category)} package</span><h2>${escapeHtml(title)}</h2><p>Explore ${escapeHtml(item.destination)} with local guides, transport planning, accommodation support and flexible departure dates.</p><p><strong>${item.days} Days / ${item.days - 1} Nights</strong> · NPR ${item.price.toLocaleString()} per person</p><button type="button" class="package-book" data-booking-package="${escapeHtml(title)}" data-booking-image="${item.image}" data-booking-price="${item.price}" data-booking-destination="${escapeHtml(item.destination)}" data-booking-category="${escapeHtml(item.category)}" data-booking-duration="${item.days} Days / ${item.days - 1} Nights">Book this package</button></div></section>`;
+        modal.innerHTML = `<div class="package-details-backdrop"></div><section class="package-details-dialog" role="dialog" aria-modal="true"><button class="package-details-close" aria-label="Close">&times;</button><img data-fallback-image="${escapeHtml(fallbackImage)}" src="${escapeHtml(item.image || fallbackImage)}" alt="${escapeHtml(title)}"><div><span>${item.category === 'Education' ? 'Education' : escapeHtml(item.category)} package</span><h2>${escapeHtml(title)}</h2>${imageCreditMarkup(item)}<p>${escapeHtml(item.full_description || item.description || `Explore ${item.destination} with local guides, transport planning, accommodation support and flexible departure dates.`)}</p><p><strong>${escapeHtml(item.duration_text || `${item.days} Days / ${item.days - 1} Nights`)}</strong> · NPR ${Number(item.price).toLocaleString()}</p><button type="button" class="package-book" data-booking-package="${escapeHtml(title)}" data-booking-image="${escapeHtml(item.image)}" data-booking-price="${item.price}" data-booking-destination="${escapeHtml(item.destination)}" data-booking-category="${escapeHtml(item.category)}" data-booking-duration="${escapeHtml(item.duration_text || `${item.days} Days`)}" data-booking-package-id="${/^\d+$/.test(String(item.id ?? '')) ? escapeHtml(item.id) : ''}">Book this package</button></div></section>`;
+        addImageFallback(modal.querySelector('img'));
         document.body.appendChild(modal);
         modal.addEventListener('click', closeEvent => { if (closeEvent.target === modal || closeEvent.target.closest('.package-details-backdrop, .package-details-close')) modal.remove(); });
     });

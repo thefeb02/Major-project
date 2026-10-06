@@ -31,6 +31,18 @@ $destinations = array_filter($provinces_data['destinations'], function($dest) us
     return strtolower($dest['province_id']) === $province_id;
 });
 
+// Places created by an administrator belong to their selected province page.
+// The built-in JSON destinations remain available, so dashboard content adds
+// to the catalogue instead of replacing it.
+$managedPlaces = [];
+try {
+    $managedStmt = $pdo->prepare('SELECT id, name, province, district, description, best_time_to_visit, entry_fee, google_map, main_image FROM places WHERE status = "active" AND LOWER(REPLACE(province, " ", "-")) = ? ORDER BY is_featured DESC, created_at DESC');
+    $managedStmt->execute([$province_id]);
+    $managedPlaces = $managedStmt->fetchAll();
+} catch (Throwable $e) {
+    // The static catalogue continues to work if dashboard tables are absent.
+}
+
 // 4. Resolve destination details parameter (by slug)
 $destination_slug = isset($_GET['destination']) ? strtolower(trim($_GET['destination'])) : '';
 $destination = null;
@@ -143,7 +155,7 @@ if ($destination) {
 
                 <!-- 1. Hero Banner Section -->
                 <div class="details-hero-banner">
-                    <img src="<?php echo htmlspecialchars($destination['heroImage']); ?>" alt="<?php echo htmlspecialchars($destination['name']); ?>" loading="lazy">
+                    <img src="<?php echo htmlspecialchars($destination['heroImage']); ?>" alt="<?php echo htmlspecialchars($destination['name']); ?>" loading="lazy" onerror="this.onerror=null; this.src='../img/4.jpeg';">
                     <div class="details-hero-overlay">
                         <div class="details-hero-meta">
                             <?php 
@@ -157,6 +169,9 @@ if ($destination) {
                             <span><i class="fa-solid fa-star"></i> <?php echo number_format($destination['rating'], 1); ?> (45 reviews)</span>
                             <span><i class="fa-solid fa-clock"></i> <?php echo htmlspecialchars($destination['duration']); ?></span>
                         </div>
+                        <?php if (!empty($destination['heroImageCredit'])): ?>
+                            <a class="details-image-credit" href="<?php echo htmlspecialchars($destination['heroImageCreditUrl'] ?? 'https://creativecommons.org/licenses/by-sa/4.0/'); ?>" target="_blank" rel="noopener noreferrer"><?php echo htmlspecialchars($destination['heroImageCredit']); ?></a>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -391,8 +406,11 @@ if ($destination) {
                                 <div class="related-list">
                                     <?php 
                                     $related_found = false;
+                                    $nearby_attractions = isset($destination['nearbyAttractions']) && is_array($destination['nearbyAttractions'])
+                                        ? $destination['nearbyAttractions']
+                                        : [];
                                     foreach ($provinces_data['destinations'] as $rel_dest) {
-                                        if (in_array($rel_dest['slug'], $destination['nearbyAttractions'])) {
+                                        if (in_array($rel_dest['slug'], $nearby_attractions, true)) {
                                             $related_found = true;
                                             ?>
                                             <a href="places/<?php echo $rel_dest['province_id']; ?>/<?php echo $rel_dest['slug']; ?>" class="related-item">
@@ -444,7 +462,7 @@ if ($destination) {
                 <h1><?php echo htmlspecialchars($province['name']); ?></h1>
                 <p><?php echo htmlspecialchars($province['shortDescription']); ?></p>
                 <div class="province-stats">
-                    <span><i class="fa-solid fa-map-location-dot"></i> <?php echo count($destinations); ?> Destinations</span>
+                    <span><i class="fa-solid fa-map-location-dot"></i> <?php echo count($destinations) + count($managedPlaces); ?> Destinations</span>
                     <span><i class="fa-solid fa-compass"></i> Nepal Tourism Guide</span>
                 </div>
             </div>
@@ -454,6 +472,30 @@ if ($destination) {
         <section class="destinations-section">
             <div class="container">
                 <div class="destinations-grid">
+                    <?php foreach ($managedPlaces as $place):
+                        $managedImage = resolveFrontendImageUrl($place['main_image'] ?? null, 'places', $province['featuredImage']);
+                    ?>
+                        <div class="destination-card">
+                            <div class="dest-image-wrapper">
+                                <img src="<?php echo htmlspecialchars($managedImage); ?>" alt="<?php echo htmlspecialchars($place['name']); ?>" loading="lazy" referrerpolicy="no-referrer">
+                                <div class="badge-top-right">Dashboard place</div>
+                            </div>
+                            <div class="dest-content">
+                                <div class="dest-meta-row">
+                                    <div class="dest-location"><i class="fa-solid fa-location-dot"></i><span><?php echo htmlspecialchars($place['district']); ?></span></div>
+                                    <?php if ((float) $place['entry_fee'] > 0): ?><span class="reviews-count">Entry: NPR <?php echo htmlspecialchars(number_format((float) $place['entry_fee'], 0)); ?></span><?php endif; ?>
+                                </div>
+                                <h3 class="dest-title"><?php echo htmlspecialchars($place['name']); ?></h3>
+                                <p class="dest-desc"><?php echo htmlspecialchars($place['description'] ?: 'Discover this destination in ' . $province['name'] . '.'); ?></p>
+                                <div class="dest-footer-row">
+                                    <div class="dest-info-pill"><span>Best Time</span> <?php echo htmlspecialchars($place['best_time_to_visit'] ?: 'Any season'); ?></div>
+                                    <?php if (!empty($place['google_map'])): ?>
+                                        <a href="<?php echo htmlspecialchars($place['google_map']); ?>" target="_blank" rel="noopener" class="btn-view-details">View Map <i class="fa-solid fa-arrow-right"></i></a>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                     <?php foreach ($destinations as $dest): 
                         // Assign difficulty class
                         $diff_class = 'difficulty-moderate';
@@ -465,7 +507,7 @@ if ($destination) {
                     ?>
                         <div class="destination-card">
                             <div class="dest-image-wrapper">
-                                <img src="<?php echo htmlspecialchars($dest['heroImage']); ?>" alt="<?php echo htmlspecialchars($dest['name']); ?>" loading="lazy">
+                                <img src="<?php echo htmlspecialchars($dest['heroImage']); ?>" alt="<?php echo htmlspecialchars($dest['name']); ?>" loading="lazy" onerror="this.onerror=null; this.src='../img/4.jpeg';">
                                 <!-- Duration Badge -->
                                 <div class="badge-top-left">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:0.9rem;height:0.9rem;color:var(--accent-orange);margin-right:0.2rem;">
@@ -531,7 +573,7 @@ if ($destination) {
                 <a href="index.php" class="footer-brand">
                     <img src="../img/logo.png?v=3" alt="Nepal Tour & Travel Logo">
                     <div>
-                        <h3>Nepal Tour & Travel</h3>
+                        <h3>Nepal Tour and Travels</h3>
                         <span>Discover Nepal with comfort and confidence</span>
                     </div>
                 </a>
@@ -580,7 +622,7 @@ if ($destination) {
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 Nepal Tour and Travel. All rights reserved.</p>
+                <p>&copy; 2026 Nepal Tour and Travels. All rights reserved.</p>
                 <p><a href="#">Privacy Policy</a> <span>•</span> <a href="#">Terms of Service</a></p>
             </div>
         </div>

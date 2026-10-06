@@ -3,24 +3,63 @@
 <?php
 require_once __DIR__ . '/../Backend/database.php';
 $user = getCurrentUser();
-$siteSettings = ['site_name' => 'Nepal Tour and Travel', 'seo_title' => 'Nepal Tour and Travel - Discover the Magic of Nepal', 'homepage_hero' => 'Discover the Magic of Nepal'];
+$siteSettings = [
+    'site_name' => 'Nepal Tour and Travels',
+    'seo_title' => 'Nepal Tour and Travels - Discover the Magic of Nepal',
+    'seo_description' => 'Nepal travel packages, places, and experiences.',
+    'homepage_hero' => 'Discover the Magic of Nepal',
+    'logo_url' => '',
+    'hero_image_url' => '',
+    'facebook_url' => '',
+    'twitter_url' => '',
+    'instagram_url' => '',
+    'youtube_url' => '',
+];
 $websiteGallery = [];
-$homepageSections = [];
-$featuredPlaces = [];
+$managedActivities = [];
+$homepageSections = [
+    'stories' => ['is_enabled' => 1, 'title' => 'Latest Stories', 'subtitle' => 'Discover inspiring travel stories and experiences from our community'],
+    'featured_places' => ['is_enabled' => 1, 'title' => 'Places to Go', 'subtitle' => 'Explore the most stunning destinations across Nepal'],
+    'activities' => ['is_enabled' => 1, 'title' => 'Things to Do', 'subtitle' => 'Endless activities and experiences for every type of traveler'],
+];
+$featuredPlaces = [
+    ['name' => 'Koshi', 'province' => 'Koshi', 'main_image' => '../img/1.jpeg'],
+    ['name' => 'Madhesh', 'province' => 'Madhesh', 'main_image' => '../img/2.jpeg'],
+    ['name' => 'Bagmati', 'province' => 'Bagmati', 'main_image' => '../img/3.jpeg'],
+    ['name' => 'Gandaki', 'province' => 'Gandaki', 'main_image' => '../img/4.jpeg'],
+    ['name' => 'Lumbini', 'province' => 'Lumbini', 'main_image' => '../img/5.jpeg'],
+    ['name' => 'Karnali', 'province' => 'Karnali', 'main_image' => '../img/6.jpeg'],
+    ['name' => 'Sudurpashchim', 'province' => 'Sudurpashchim', 'main_image' => '../img/8.jpeg'],
+];
 try {
     $siteSettings = array_merge($siteSettings, $pdo->query('SELECT setting_key, setting_value FROM website_settings')->fetchAll(PDO::FETCH_KEY_PAIR));
+} catch (Throwable $e) {
+    // Settings are optional; the defaults above keep the public homepage usable.
+}
+
+try {
     $websiteGallery = $pdo->query('SELECT title, image_url, category FROM gallery WHERE is_featured = 1 ORDER BY created_at DESC LIMIT 8')->fetchAll();
+} catch (Throwable $e) {
+    // Gallery is optional.
+}
+
+try {
+    $managedActivities = $pdo->query('SELECT name, category, description, image_url, page_url FROM activities WHERE status = "active" ORDER BY created_at DESC')->fetchAll();
+} catch (Throwable $e) {
+    // The built-in activity cards remain available until dashboard activities exist.
+}
+
+try {
     $homepageSectionsRows = $pdo->query('SELECT section_key, title, subtitle, is_enabled, sort_order FROM homepage_sections ORDER BY sort_order, section_key')->fetchAll();
     foreach ($homepageSectionsRows as $row) {
-        $homepageSections[$row['section_key']] = $row;
-    }
-    $featuredPlaces = $pdo->query('SELECT id, name, province, district, main_image FROM places WHERE status = "active" AND is_featured = 1 ORDER BY created_at DESC LIMIT 7')->fetchAll();
-    if (!$featuredPlaces) {
-        $featuredPlaces = $pdo->query('SELECT id, name, province, district, main_image FROM places WHERE status = "active" ORDER BY created_at DESC LIMIT 7')->fetchAll();
+        $homepageSections[$row['section_key']] = array_merge($homepageSections[$row['section_key']] ?? [], $row);
     }
 } catch (Throwable $e) {
-    // The existing website stays available until the dashboard schema is imported.
+    // Keep the default public sections visible until the dashboard schema is imported.
 }
+
+// Destination cards are loaded by the homepage filter from the complete
+// catalogue, including places registered from the dashboard.
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +70,7 @@ try {
     <meta name="description" content="<?= htmlspecialchars($siteSettings['seo_description'] ?? 'Nepal travel packages, places, and experiences.') ?>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=8">
     <link rel="stylesheet" href="booking-form.css">
     <link rel="stylesheet" href="profile.css">
 </head>
@@ -175,10 +214,11 @@ try {
         <div class="container">
             <h2 class="section-title"><?= htmlspecialchars($homepageSections['featured_places']['title'] ?? 'Places to Go') ?></h2>
             <p class="section-subtitle"><B><?= htmlspecialchars($homepageSections['featured_places']['subtitle'] ?? 'Explore the most stunning destinations across Nepal') ?></b></p>
-            
+
             <!-- Category Filter Buttons -->
             <div class="places-categories">
-                <button class="category-btn active" data-category="provinces">Provinces</button>
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="provinces">Provinces</button>
                 <button class="category-btn" data-category="heritage">World Heritage (UNESCO)</button>
                 <button class="category-btn" data-category="protected">Protected Area</button>
                 <button class="category-btn" data-category="cities">Cities and Towns</button>
@@ -190,12 +230,15 @@ try {
             <!-- Places Grid -->
             <div class="places-grid" id="places-grid">
                 <?php foreach ($featuredPlaces as $place): ?>
-                    <a href="places/<?= htmlspecialchars(strtolower(str_replace(' ', '-', $place['province']))) ?>" class="place-card" data-category="provinces">
+                    <a href="places/<?= htmlspecialchars(strtolower(str_replace(' ', '-', $place['province']))) ?>" class="place-card static-card" data-category="provinces">
                         <div class="place-image">
-                            <img src="<?= htmlspecialchars($place['main_image'] ? (str_starts_with($place['main_image'], '../') ? $place['main_image'] : '../img/places/' . $place['main_image']) : '../img/1.jpeg') ?>" alt="<?= htmlspecialchars($place['name']) ?>">
-                            <div class="place-overlay">
-                                <h3><?= htmlspecialchars($place['name']) ?></h3>
-                            </div>
+                            <img src="<?= htmlspecialchars($place['main_image'] ? (preg_match('#^https?://#i', $place['main_image']) || str_starts_with($place['main_image'], '../') ? $place['main_image'] : '../img/places/' . $place['main_image']) : '../img/1.jpeg') ?>" alt="<?= htmlspecialchars($place['name']) ?>">
+                        </div>
+                        <div class="place-content">
+                            <span class="place-meta"><?= htmlspecialchars($place['name']) ?> Province</span>
+                            <h3><?= htmlspecialchars($place['name']) ?> Province</h3>
+                            <p>Discover memorable places, culture, and natural beauty across <?= htmlspecialchars($place['name']) ?>.</p>
+                            <span class="place-read-more">Explore →</span>
                         </div>
                     </a>
                 <?php endforeach; ?>
@@ -213,7 +256,7 @@ try {
             <div class="activities-grid">
                 <a href="trekking.php" class="activity-link">
                     <article class="activity-card">
-                        <div class="activity-image" style="background-image: url('https://www.andbeyond.com/wp-content/uploads/sites/5/trekking-annapurnas-nepal.jpg');"></div>
+                        <div class="activity-image" style="background-image: url('../img/3.jpeg');"></div>
                         <div class="activity-body">
                             <span class="activity-tag">Adventure</span>
                             <h3>Trekking</h3>
@@ -223,7 +266,7 @@ try {
                 </a>
                 <a href="yoga.php" class="activity-link">
                     <article class="activity-card">
-                        <div class="activity-image" style="background-image: url('https://wallpaperaccess.com/full/654400.jpg');"></div>
+                        <div class="activity-image" style="background-image: url('https://www.ekamyogashala.com/images/main/nepal-5.webp');"></div>
                         <div class="activity-body">
                             <span class="activity-tag">Wellness</span>
                             <h3>Meditation & Yoga</h3>
@@ -233,7 +276,7 @@ try {
                 </a>
                 <a href="paragliding.php" class="activity-link">
                     <article class="activity-card">
-                        <div class="activity-image" style="background-image: url('https://th.bing.com/th/id/R.779148d67bf705d4c90c65d79e7684bb?rik=otLE%2fHnp7NmJWQ&riu=http%3a%2f%2fhdqwalls.com%2fwallpapers%2fparagliding-wide.jpg&ehk=l4Tdcb3EapUNN3thR%2fzBmzRi6%2fYRcTu2RVCLXOt6mQo%3d&risl=&pid=ImgRaw&r=0');"></div>
+                        <div class="activity-image" style="background-image: url('https://www.asiaodysseytravel.com/images/asia-tours/nepal-tours/pokhara-paragliding-700-3.jpg');"></div>
                         <div class="activity-body">
                             <span class="activity-tag">Thrill</span>
                             <h3>Paragliding</h3>
@@ -243,7 +286,7 @@ try {
                 </a>
                 <a href="photography.php" class="activity-link">
                     <article class="activity-card">
-                        <div class="activity-image" style="background-image: url('https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=900&q=80');"></div>
+                        <div class="activity-image" style="background-image: url('https://cdn.tourradar.com/s3/tour/750x400/193218_5e3c11d03e57e.jpg');"></div>
                         <div class="activity-body">
                             <span class="activity-tag">Creative</span>
                             <h3>Photography</h3>
@@ -253,7 +296,7 @@ try {
                 </a>
                 <a href="culinary.php" class="activity-link">
                     <article class="activity-card">
-                        <div class="activity-image" style="background-image: url('https://images.squarespace-cdn.com/content/v1/53ecd1bde4b0a6f9524254f8/1753609193026-HTNI4HYQ404GS83BTJWD/Savoring+Kathmandu-shankerhotel_com_np.png');"></div>
+                        <div class="activity-image" style="background-image: url('https://cdn.moja-travel.net/image/resize/1200x-/ce3b37d1-61ee-4528-9c8d-2ec1b74d7ba7/nepal-dal-bhat.jpeg');"></div>
                         <div class="activity-body">
                             <span class="activity-tag">Taste</span>
                             <h3>Culinary Tours</h3>
@@ -261,6 +304,21 @@ try {
                         </div>
                     </article>
                 </a>
+                <?php foreach ($managedActivities as $activity):
+                    $activityImage = resolveFrontendImageUrl($activity['image_url'] ?? null, 'activities', '../img/1.jpeg');
+                    $activityUrl = $activity['page_url'] ?: '#things';
+                ?>
+                    <a href="<?= htmlspecialchars($activityUrl) ?>" class="activity-link">
+                        <article class="activity-card">
+                            <div class="activity-image"><img src="<?= htmlspecialchars($activityImage) ?>" alt="<?= htmlspecialchars($activity['name']) ?>" loading="lazy" referrerpolicy="no-referrer"></div>
+                            <div class="activity-body">
+                                <span class="activity-tag"><?= htmlspecialchars($activity['category']) ?></span>
+                                <h3><?= htmlspecialchars($activity['name']) ?></h3>
+                                <p><?= htmlspecialchars($activity['description']) ?></p>
+                            </div>
+                        </article>
+                    </a>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
@@ -273,7 +331,7 @@ try {
         <div class="container">
             <div class="footer-top">
                 <a href="index.php" class="footer-brand">
-                    <img src="<?= htmlspecialchars($siteSettings['logo_url'] ?: '../img/logo.png?v=3') ?>" alt="Nepal Tour & Travel Logo">
+                    <img src="<?= htmlspecialchars($siteSettings['logo_url'] ?: '../img/logo.png?v=3') ?>" alt=" Nepal Tour & Travel Logo">
                     <div>
                         <h3><?= htmlspecialchars($siteSettings['site_name'] ?? 'Nepal Tour & Travel') ?></h3>
                         <span><?= htmlspecialchars($siteSettings['homepage_hero'] ?? 'Discover Nepal with comfort and confidence') ?></span>
@@ -324,7 +382,7 @@ try {
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 Nepal Tour and Travel. All rights reserved.</p>
+                <p>&copy; 2026 Nepal Tour and Travels. All rights reserved.</p>
                 <p><a href="#">Privacy Policy</a> <span>•</span> <a href="#">Terms of Service</a></p>
             </div>
         </div>

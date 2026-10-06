@@ -5,42 +5,78 @@
 
 require_once __DIR__ . '/config.php';
 
-$redirectTarget = trim($_GET['state'] ?? '');
-$allowedRedirects = ['index.php', 'packages.php', 'profile.php', 'about.php', 'travel_plan.php'];
+function googleOAuthRequest(string $url, array $fields = []): array
+{
+    $curl = curl_init($url);
+    $options = [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 15,
+        CURLOPT_CONNECTTIMEOUT => 10,
+        CURLOPT_HTTPHEADER => ['Accept: application/json'],
+    ];
 
-if ($redirectTarget !== '' && !in_array($redirectTarget, $allowedRedirects, true)) {
-    $redirectTarget = '';
+    if ($fields) {
+        $options[CURLOPT_POST] = true;
+        $options[CURLOPT_POSTFIELDS] = http_build_query($fields, '', '&', PHP_QUERY_RFC3986);
+        $options[CURLOPT_HTTPHEADER] = ['Accept: application/json', 'Content-Type: application/x-www-form-urlencoded'];
+    }
+
+    curl_setopt_array($curl, $options);
+    $response = curl_exec($curl);
+    $status = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    $error = curl_error($curl);
+    curl_close($curl);
+
+    if ($response === false || $status < 200 || $status >= 300) {
+        throw new RuntimeException('Google could not complete the sign-in request' . ($error ? ': ' . $error : '.') );
+    }
+
+    $data = json_decode($response, true);
+    if (!is_array($data)) {
+        throw new RuntimeException('Google returned an invalid sign-in response.');
+    }
+
+    return $data;
+}
+
+if (!googleOAuthIsConfigured()) {
+    $_SESSION['flash_message'] = 'Google login is not configured yet.';
+    redirect('../frontend/login.php');
+}
+
+$state = (string) ($_GET['state'] ?? '');
+$expectedState = (string) ($_SESSION['google_oauth_state'] ?? '');
+$redirectTarget = (string) ($_SESSION['google_oauth_redirect'] ?? '');
+unset($_SESSION['google_oauth_state'], $_SESSION['google_oauth_redirect']);
+
+if ($expectedState === '' || !hash_equals($expectedState, $state)) {
+    $_SESSION['flash_message'] = 'Google login request expired or was invalid. Please try again.';
+    redirect('../frontend/login.php');
 }
 
 // Check if authorization code is provided
 if (isset($_GET['code'])) {
     try {
-        // Initialize Google Client
-        $client = new Google\Client();
-        $client->setClientId(GOOGLE_CLIENT_ID);
-        $client->setClientSecret(GOOGLE_CLIENT_SECRET);
-        $client->setRedirectUri(GOOGLE_REDIRECT_URI);
+        $token = googleOAuthRequest('https://oauth2.googleapis.com/token', [
+            'code' => (string) $_GET['code'],
+            'client_id' => GOOGLE_CLIENT_ID,
+            'client_secret' => GOOGLE_CLIENT_SECRET,
+            'redirect_uri' => GOOGLE_REDIRECT_URI,
+            'grant_type' => 'authorization_code',
+        ]);
 
-        // Exchange code for Access Token
-        $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-        
-        if (isset($token['error'])) {
-            throw new Exception("Error fetching access token: " . $token['error_description']);
+        if (empty($token['access_token'])) {
+            throw new RuntimeException('Google did not provide an access token.');
         }
 
-        $client->setAccessToken($token['access_token']);
+        $googleUser = googleOAuthRequest('https://www.googleapis.com/oauth2/v3/userinfo?access_token=' . rawurlencode($token['access_token']));
+        $googleId = (string) ($googleUser['sub'] ?? '');
+        $email = strtolower(trim((string) ($googleUser['email'] ?? '')));
+        $name = trim((string) ($googleUser['name'] ?? ''));
+        $picture = (string) ($googleUser['picture'] ?? '');
 
-        // Get user profile information from Google
-        $googleService = new Google\Service\Oauth2($client);
-        $googleUser = $googleService->userinfo->get();
-
-        $googleId = $googleUser->id;
-        $email = $googleUser->email;
-        $name = $googleUser->name;
-        $picture = $googleUser->picture; // URL of Google profile picture
-
-        if (empty($email)) {
-            throw new Exception("Could not retrieve email from Google Account.");
+        if ($googleId === '' || $email === '' || empty($googleUser['email_verified'])) {
+            throw new RuntimeException('Google did not return a verified email address.');
         }
 
         // 1. Search database by google_id or email
@@ -85,8 +121,8 @@ if (isset($_GET['code'])) {
         $destination = $redirectTarget !== '' ? '../frontend/' . $redirectTarget : '../frontend/index.php';
         redirect($destination);
 
-    } catch (Exception $e) {
-        $_SESSION['flash_message'] = "Google login failed: " . htmlspecialchars($e->getMessage());
+    } catch (Throwable $e) {
+        $_SESSION['flash_message'] = 'Google login failed. Please try again.';
         redirect('../frontend/login.php');
     }
 } else {

@@ -11,9 +11,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Autoload Composer dependencies
-require_once __DIR__ . '/../vendor/autoload.php';
-
 // Reuse existing database connection
 require_once __DIR__ . '/database.php';
 
@@ -41,10 +38,14 @@ function buildGoogleRedirectUri(): string
 $clientId = getenv('GOOGLE_CLIENT_ID') ?: 'your-google-client-id.apps.googleusercontent.com';
 $clientSecret = getenv('GOOGLE_CLIENT_SECRET') ?: 'your-google-client-secret';
 
-if (stripos($clientId, 'your-google-client') !== false || stripos($clientSecret, 'your-google-client') !== false) {
-    $_SESSION['flash_message'] = 'Google OAuth is not configured yet. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in your environment.';
-}
-
 define('GOOGLE_CLIENT_ID', $clientId);
 define('GOOGLE_CLIENT_SECRET', $clientSecret);
 define('GOOGLE_REDIRECT_URI', getenv('GOOGLE_REDIRECT_URI') ?: buildGoogleRedirectUri());
+
+function googleOAuthIsConfigured(): bool
+{
+    return GOOGLE_CLIENT_ID !== ''
+        && GOOGLE_CLIENT_SECRET !== ''
+        && stripos(GOOGLE_CLIENT_ID, 'your-google-client') === false
+        && stripos(GOOGLE_CLIENT_SECRET, 'your-google-client') === false;
+}

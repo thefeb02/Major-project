@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../Backend/database.php';
 require_once __DIR__ . '/../Backend/email_verification.php';
+require_once __DIR__ . '/../Backend/config.php';
+
+$googleLoginAvailable = googleOAuthIsConfigured();
 
 if (isLoggedIn()) {
     redirect('index.php');
@@ -13,7 +16,7 @@ $email = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
-    $email = trim($_POST['email'] ?? '');
+    $email = strtolower(trim($_POST['email'] ?? ''));
     $password = $_POST['password'] ?? '';
     $confirmPassword = $_POST['confirm_password'] ?? '';
 
@@ -51,11 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = 'Email is already registered. Please log in instead.';
         } else {
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-            
-            $stmt = $pdo->prepare('INSERT INTO users (name, email, password, is_verified, created_at) VALUES (?, ?, ?, 1, NOW())');
-            $stmt->execute([$name, $email, $passwordHash]);
+            $verificationToken = bin2hex(random_bytes(32));
 
-            $success = 'Registration successful. You can now log in.';
+            $stmt = $pdo->prepare('INSERT INTO users (name, email, password, is_verified, verification_token, created_at) VALUES (?, ?, ?, 0, ?, NOW())');
+            $stmt->execute([$name, $email, $passwordHash, $verificationToken]);
+            sendVerificationEmailLocal($email, $verificationToken);
+
+            $success = 'Registration successful. Please check your email and verify your account before logging in.';
             $name = '';
             $email = '';
         }
@@ -106,96 +111,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label>Name</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-user"></i>
-                        <input type="text" name="name" value="<?= htmlspecialchars($name) ?>" required>
+                        <input type="text" name="name" value="<?= htmlspecialchars($name) ?>" minlength="2" maxlength="120" autocomplete="name" required>
                     </div>
                 </div>
                 <div class="input-group">
                     <label>Email Id</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-envelope"></i>
-                        <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" required>
+                        <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" maxlength="190" autocomplete="email" required>
                     </div>
                 </div>
                 <div class="input-group">
                     <label>Password</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" name="password" required>
+                        <input type="password" name="password" minlength="8" autocomplete="new-password" required>
                     </div>
                 </div>
                 <div class="input-group">
                     <label>Confirm Password</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" name="confirm_password" required>
+                        <input type="password" name="confirm_password" minlength="8" autocomplete="new-password" required>
                     </div>
                 </div>
                 <button type="submit" class="auth-submit">SIGN UP</button>
             </form>
 
-            
+            <?php if ($googleLoginAvailable): ?>
+                <p class="auth-footer"><a href="../Backend/google_login.php" class="auth-toggle-link">Register with Google</a></p>
+            <?php endif; ?>
 
-            
-
-            <p class="auth-footer">Already have an account? <a href="login.php">Login Now</a></p>
         </div>
     </div>
-    <script>
-    document.querySelector('.auth-form').addEventListener('submit', function(e) {
-        const emailInput = document.querySelector('input[name="email"]');
-        const email = emailInput.value.trim();
-        let errorMsg = '';
-
-        if (email === '') {
-            errorMsg = 'Please enter a valid email address.';
-        } else if (email.indexOf(' ') !== -1) {
-            errorMsg = 'Please enter a valid email address.';
-        } else {
-            const parts = email.split('@');
-            if (parts.length !== 2) {
-                errorMsg = 'Please enter a valid email address.';
-            } else {
-                const local = parts[0];
-                const domain = parts[1];
-                if (local === '' || domain === '') {
-                    errorMsg = 'Please enter a valid email address.';
-                } else if (email.includes('..')) {
-                    errorMsg = 'Please enter a valid email address.';
-                } else if (local.startsWith('.') || local.endsWith('.')) {
-                    errorMsg = 'Please enter a valid email address.';
-                } else if (domain.startsWith('.') || domain.endsWith('.') || domain.startsWith('-') || domain.endsWith('-')) {
-                    errorMsg = 'Please enter a valid email address.';
-                } else {
-                    const domainParts = domain.split('.');
-                    if (domainParts.length < 2) {
-                        errorMsg = 'Please enter a valid email address.';
-                    } else {
-                        const tld = domainParts[domainParts.length - 1];
-                        const invalidTlds = ['coom', 'comm', 'commmmm', 'coo', 'cm', 'om'];
-                        if (invalidTlds.includes(tld.toLowerCase())) {
-                            errorMsg = 'Please enter a valid email address.';
-                        } else if (tld.length < 2 || tld.length > 6 || !/^[a-zA-Z]{2,6}$/.test(tld)) {
-                            errorMsg = 'Please enter a valid email address.';
-                        }
-                    }
-                }
-            }
-        }
-
-        if (errorMsg !== '') {
-            e.preventDefault();
-            let alertBox = document.querySelector('.alert-error');
-            if (!alertBox) {
-                alertBox = document.createElement('div');
-                alertBox.className = 'alert alert-error';
-                const card = document.querySelector('.auth-card');
-                const subtitle = document.querySelector('.auth-subtitle');
-                card.insertBefore(alertBox, subtitle.nextSibling);
-            }
-            alertBox.innerHTML = '<ul><li>' + errorMsg + '</li></ul>';
-            window.scrollTo(0, 0);
-        }
-    });
-    </script>
 </body>
 </html>

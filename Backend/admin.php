@@ -35,13 +35,15 @@ $adminPayments = [];
 $adminMessages = [];
 $adminReviews = [];
 $adminPlaces = [];
+$adminActivities = [];
 $homepageSections = [];
 $adminCategories = [];
 $adminCategoryNames = ['Student Education Tour', 'Honeymoon', 'Pilgrimage', 'Cultural', 'Adventure', 'Nature & Wildlife'];
 $adminSettings = [
-    'site_name' => 'Nepal Tour and Travel',
+    'site_name' => 'Nepal Tour and Travels',
     'logo_url' => '',
     'favicon_url' => '',
+    'hero_image_url' => '',
     'contact_email' => 'info@nepalitourtravel.com',
     'contact_phone' => '+9779763658085',
     'address' => 'Butwal, Nepal',
@@ -49,7 +51,7 @@ $adminSettings = [
     'twitter_url' => '',
     'instagram_url' => '',
     'youtube_url' => '',
-    'seo_title' => 'Nepal Tour and Travel',
+    'seo_title' => 'Nepal Tour and Travels',
     'seo_description' => 'Nepal travel packages, places, and experiences.',
     'seo_keywords' => 'Nepal, tours, travel, trekking',
     'footer_text' => 'Curated tours, mountain adventures, cultural escapes, and trusted local guidance for an unforgettable Nepal experience.',
@@ -69,9 +71,10 @@ try {
     $recentPlans = [];
 
     $recentBookings = $pdo->query("
-        SELECT p.title as service_name, 'Package' as service_category, b.full_name, b.status, b.created_at
+        SELECT COALESCE(p.title, b.service_name, 'Tour booking') as service_name, COALESCE(c.name, b.service_category, 'Package') as service_category, b.full_name, b.status, b.created_at
         FROM bookings b
         LEFT JOIN packages p ON b.package_id = p.id
+        LEFT JOIN categories c ON p.category_id = c.id
         ORDER BY b.created_at DESC
         LIMIT 5
     ")->fetchAll();
@@ -94,13 +97,14 @@ try {
 
 try {
     $adminPackages = $pdo->query("SELECT p.id, p.title, p.destination, c.name as category, p.duration, p.price, p.status, p.is_featured, p.main_image AS image_url, p.short_description, p.full_description FROM packages p LEFT JOIN categories c ON p.category_id = c.id ORDER BY p.created_at DESC")->fetchAll();
-    $adminBookings = $pdo->query("SELECT b.id, b.full_name AS customer, b.email, b.phone, p.title AS destination, b.travel_date AS date, CONCAT(UCASE(LEFT(b.status, 1)), SUBSTRING(b.status, 2)) AS status, 0 AS amount FROM bookings b LEFT JOIN packages p ON b.package_id = p.id ORDER BY b.created_at DESC")->fetchAll();
+    $adminBookings = $pdo->query("SELECT b.id, b.full_name AS customer, b.email, b.phone, COALESCE(p.title, b.service_name, 'Tour booking') AS destination, b.travel_date AS date, CONCAT(UCASE(LEFT(b.status, 1)), SUBSTRING(b.status, 2)) AS status, 0 AS amount FROM bookings b LEFT JOIN packages p ON b.package_id = p.id ORDER BY b.created_at DESC")->fetchAll();
     $adminCustomers = $pdo->query("SELECT MAX(id) as id, full_name as name, email, MAX(phone) AS phone, COUNT(id) AS totalBookings FROM bookings GROUP BY email, full_name ORDER BY MAX(created_at) DESC")->fetchAll();
     $adminGallery = $pdo->query("SELECT id, title, image_url AS url, category as alt_text FROM gallery ORDER BY created_at DESC")->fetchAll();
     $adminPayments = [];
     $adminMessages = $pdo->query("SELECT id, name AS customer, email, subject, message, status, created_at FROM contacts ORDER BY created_at DESC")->fetchAll();
     $adminReviews = $pdo->query("SELECT id, name AS customer, '' AS target, rating, review as comment, IF(is_approved, 'Approved', 'Pending') as status FROM testimonials ORDER BY created_at DESC")->fetchAll();
-    $adminPlaces = $pdo->query("SELECT id, name, province, district, description, history, best_time_to_visit, entry_fee, google_map, main_image AS image_url, is_featured, status FROM places ORDER BY created_at DESC")->fetchAll();
+    $adminPlaces = $pdo->query("SELECT id, name, province, place_category, district, description, history, best_time_to_visit, entry_fee, google_map, main_image AS image_url, is_featured, status FROM places ORDER BY created_at DESC")->fetchAll();
+    $adminActivities = $pdo->query("SELECT id, name, category, description, image_url, page_url, status FROM activities ORDER BY created_at DESC")->fetchAll();
     $homepageSections = $pdo->query("SELECT section_key, title, subtitle, is_enabled, sort_order FROM homepage_sections ORDER BY sort_order, section_key")->fetchAll();
     $adminCategories = $pdo->query("SELECT id, name, slug, image_url, description, sort_order, is_featured, status FROM categories WHERE type = 'package' ORDER BY is_featured DESC, sort_order ASC, name ASC")->fetchAll();
     $adminCategoryNames = array_values(array_filter(array_map(static fn ($row) => $row['name'] ?? '', $adminCategories)));
@@ -108,6 +112,20 @@ try {
     $adminSettings = array_merge($adminSettings, $savedSettings);
 } catch (Throwable $e) {
     // The dashboard remains available before the latest schema migration is imported.
+}
+
+// Load managed content independently. A missing optional table such as
+// testimonials must never hide saved Places or Things to Do records.
+try {
+    $adminPlaces = $pdo->query("SELECT id, name, province, place_category, district, description, history, best_time_to_visit, entry_fee, google_map, main_image AS image_url, is_featured, status FROM places ORDER BY created_at DESC")->fetchAll();
+} catch (Throwable $e) {
+    $adminPlaces = [];
+}
+
+try {
+    $adminActivities = $pdo->query("SELECT id, name, category, description, image_url, page_url, status FROM activities ORDER BY created_at DESC")->fetchAll();
+} catch (Throwable $e) {
+    $adminActivities = [];
 }
 
 try {
@@ -121,6 +139,7 @@ try {
                 'id' => 'website-' . md5($relativePath),
                 'title' => pathinfo($relativePath, PATHINFO_FILENAME),
                 'url' => '../img/' . $relativePath,
+                'website_path' => $relativePath,
                 'source' => 'Website image',
             ];
         }
@@ -142,7 +161,7 @@ function adminJson($value): string
 <head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nepal Tour and Travel Dashboard</title>
+    <title>Nepal Tour and Travels Dashboard</title>
     <!-- AlpineJS for declarative UI interactions -->
     <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -184,6 +203,91 @@ function adminJson($value): string
             
             bookings: <?= adminJson($adminBookings) ?>,
             places: <?= adminJson($adminPlaces) ?>,
+            placeCategoryOptions: [
+                { value: 'provinces', label: 'Provinces' },
+                { value: 'heritage', label: 'World Heritage (UNESCO)' },
+                { value: 'protected', label: 'Protected Area' },
+                { value: 'cities', label: 'Cities and Towns' },
+                { value: 'peaks', label: 'Eight Thousanders' },
+                { value: 'pilgrimage', label: 'Pilgrimage Sites' },
+                { value: 'hills', label: 'Mid Hills' },
+            ],
+            placeDataOptions: [
+                { value: 'category:provinces', label: 'Provinces', group: 'Place to Go' },
+                { value: 'category:heritage', label: 'World Heritage (UNESCO)', group: 'Place to Go' },
+                { value: 'category:protected', label: 'Protected Area', group: 'Place to Go' },
+                { value: 'category:cities', label: 'Cities and Towns', group: 'Place to Go' },
+                { value: 'category:peaks', label: 'Eight Thousanders', group: 'Place to Go' },
+                { value: 'category:pilgrimage', label: 'Pilgrimage Sites', group: 'Place to Go' },
+                { value: 'category:hills', label: 'Mid Hills', group: 'Place to Go' },
+                { value: 'province:Koshi', label: 'Koshi', group: 'Province' },
+                { value: 'province:Madhesh', label: 'Madhesh', group: 'Province' },
+                { value: 'province:Bagmati', label: 'Bagmati', group: 'Province' },
+                { value: 'province:Gandaki', label: 'Gandaki', group: 'Province' },
+                { value: 'province:Lumbini', label: 'Lumbini', group: 'Province' },
+                { value: 'province:Karnali', label: 'Karnali', group: 'Province' },
+                { value: 'province:Sudurpashchim', label: 'Sudurpashchim', group: 'Province' },
+            ],
+            placeCombinedOptions: [
+                { value: 'heritage|Koshi', label: 'World Heritage (UNESCO) - Koshi' },
+                { value: 'heritage|Madhesh', label: 'World Heritage (UNESCO) - Madhesh' },
+                { value: 'heritage|Bagmati', label: 'World Heritage (UNESCO) - Bagmati' },
+                { value: 'heritage|Gandaki', label: 'World Heritage (UNESCO) - Gandaki' },
+                { value: 'heritage|Lumbini', label: 'World Heritage (UNESCO) - Lumbini' },
+                { value: 'heritage|Karnali', label: 'World Heritage (UNESCO) - Karnali' },
+                { value: 'heritage|Sudurpashchim', label: 'World Heritage (UNESCO) - Sudurpashchim' },
+                { value: 'protected|Koshi', label: 'Protected Area - Koshi' },
+                { value: 'protected|Madhesh', label: 'Protected Area - Madhesh' },
+                { value: 'protected|Bagmati', label: 'Protected Area - Bagmati' },
+                { value: 'protected|Gandaki', label: 'Protected Area - Gandaki' },
+                { value: 'protected|Lumbini', label: 'Protected Area - Lumbini' },
+                { value: 'protected|Karnali', label: 'Protected Area - Karnali' },
+                { value: 'protected|Sudurpashchim', label: 'Protected Area - Sudurpashchim' },
+                { value: 'cities|Koshi', label: 'Cities and Towns - Koshi' },
+                { value: 'cities|Madhesh', label: 'Cities and Towns - Madhesh' },
+                { value: 'cities|Bagmati', label: 'Cities and Towns - Bagmati' },
+                { value: 'cities|Gandaki', label: 'Cities and Towns - Gandaki' },
+                { value: 'cities|Lumbini', label: 'Cities and Towns - Lumbini' },
+                { value: 'cities|Karnali', label: 'Cities and Towns - Karnali' },
+                { value: 'cities|Sudurpashchim', label: 'Cities and Towns - Sudurpashchim' },
+                { value: 'peaks|Koshi', label: 'Eight Thousanders - Koshi' },
+                { value: 'peaks|Madhesh', label: 'Eight Thousanders - Madhesh' },
+                { value: 'peaks|Bagmati', label: 'Eight Thousanders - Bagmati' },
+                { value: 'peaks|Gandaki', label: 'Eight Thousanders - Gandaki' },
+                { value: 'peaks|Lumbini', label: 'Eight Thousanders - Lumbini' },
+                { value: 'peaks|Karnali', label: 'Eight Thousanders - Karnali' },
+                { value: 'peaks|Sudurpashchim', label: 'Eight Thousanders - Sudurpashchim' },
+                { value: 'pilgrimage|Koshi', label: 'Pilgrimage Sites - Koshi' },
+                { value: 'pilgrimage|Madhesh', label: 'Pilgrimage Sites - Madhesh' },
+                { value: 'pilgrimage|Bagmati', label: 'Pilgrimage Sites - Bagmati' },
+                { value: 'pilgrimage|Gandaki', label: 'Pilgrimage Sites - Gandaki' },
+                { value: 'pilgrimage|Lumbini', label: 'Pilgrimage Sites - Lumbini' },
+                { value: 'pilgrimage|Karnali', label: 'Pilgrimage Sites - Karnali' },
+                { value: 'pilgrimage|Sudurpashchim', label: 'Pilgrimage Sites - Sudurpashchim' },
+                { value: 'hills|Koshi', label: 'Mid Hills - Koshi' },
+                { value: 'hills|Madhesh', label: 'Mid Hills - Madhesh' },
+                { value: 'hills|Bagmati', label: 'Mid Hills - Bagmati' },
+                { value: 'hills|Gandaki', label: 'Mid Hills - Gandaki' },
+                { value: 'hills|Lumbini', label: 'Mid Hills - Lumbini' },
+                { value: 'hills|Karnali', label: 'Mid Hills - Karnali' },
+                { value: 'hills|Sudurpashchim', label: 'Mid Hills - Sudurpashchim' },
+            ],
+            placeAssignmentOptions: [
+                { value: 'province:Koshi', label: 'Koshi Province' },
+                { value: 'province:Madhesh', label: 'Madhesh Province' },
+                { value: 'province:Bagmati', label: 'Bagmati Province' },
+                { value: 'province:Gandaki', label: 'Gandaki Province' },
+                { value: 'province:Lumbini', label: 'Lumbini Province' },
+                { value: 'province:Karnali', label: 'Karnali Province' },
+                { value: 'province:Sudurpashchim', label: 'Sudurpashchim Province' },
+                { value: 'category:heritage', label: 'World Heritage (UNESCO)' },
+                { value: 'category:protected', label: 'Protected Area' },
+                { value: 'category:cities', label: 'Cities and Towns' },
+                { value: 'category:peaks', label: 'Eight Thousanders' },
+                { value: 'category:pilgrimage', label: 'Pilgrimage Sites' },
+                { value: 'category:hills', label: 'Mid Hills' },
+            ],
+            activities: <?= adminJson($adminActivities) ?>,
             
             customers: <?= adminJson($adminCustomers) ?>,
 
@@ -210,6 +314,7 @@ function adminJson($value): string
                 site_name: <?= adminJson($adminSettings['site_name']) ?>,
                 logo_url: <?= adminJson($adminSettings['logo_url']) ?>,
                 favicon_url: <?= adminJson($adminSettings['favicon_url']) ?>,
+                hero_image_url: <?= adminJson($adminSettings['hero_image_url'] ?? ($adminSettings['homepage_hero'] ?? '')) ?>,
                 contact_email: <?= adminJson($adminSettings['contact_email']) ?>,
                 contact_phone: <?= adminJson($adminSettings['contact_phone']) ?>,
                 address: <?= adminJson($adminSettings['address']) ?>,
@@ -248,6 +353,56 @@ function adminJson($value): string
                 }
 
                 return '';
+            },
+
+            managedImageUrl(value, directory) {
+                const imageUrl = String(value || '').trim();
+                if (!imageUrl) return '';
+                if (/^(https?:)?\/\//i.test(imageUrl) || imageUrl.startsWith('/') || imageUrl.startsWith('../') || imageUrl.startsWith('./')) return imageUrl;
+                if (imageUrl.startsWith('img/')) return `../${imageUrl}`;
+                if (imageUrl.startsWith(`${directory}/`)) return `../img/${imageUrl}`;
+                return `../img/${directory}/${imageUrl}`;
+            },
+
+            async prepareActivityImage(file) {
+                if (file.type === 'image/gif') {
+                    return await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = () => reject(new Error('Unable to read the selected activity image.'));
+                        reader.readAsDataURL(file);
+                    });
+                }
+
+                const objectUrl = URL.createObjectURL(file);
+                try {
+                    const image = new Image();
+                    image.src = objectUrl;
+                    await image.decode();
+
+                    const scale = Math.min(1, 1600 / image.naturalWidth, 1200 / image.naturalHeight);
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+                    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+                    const context = canvas.getContext('2d');
+                    if (!context) throw new Error('Unable to optimize the selected activity image.');
+
+                    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                    const blob = await new Promise(resolve => {
+                        canvas.toBlob(resolve, 'image/webp', 0.84);
+                    });
+                    if (!blob) throw new Error('Unable to optimize the selected activity image.');
+
+                    return await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = () => reject(new Error('Unable to read the optimized activity image.'));
+                        reader.readAsDataURL(blob);
+                    });
+                } finally {
+                    URL.revokeObjectURL(objectUrl);
+                }
             },
 
             // Helper actions
@@ -308,7 +463,16 @@ function adminJson($value): string
                     try {
                         const imageFile = document.getElementById('placeImageFile')?.files[0];
                         const imageData = imageFile ? await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(imageFile); }) : '';
-                        await this.callAdminApi(this.activeModal === 'edit-place' ? 'update_place' : 'create_place', { id: this.modalForm.id, name: this.modalForm.name, province: this.modalForm.province, district: this.modalForm.district, description: this.modalForm.description || '', history: this.modalForm.history || '', bestTimeToVisit: this.modalForm.bestTimeToVisit || '', entryFee: this.modalForm.entryFee || 0, googleMap: this.modalForm.googleMap || '', imageUrl: this.modalForm.imageUrl || '', imageData, isFeatured: this.modalForm.isFeatured ? 1 : 0, status: this.modalForm.status || 'active' });
+                        const placeCategories = Array.isArray(this.modalForm.placeCategories) ? this.modalForm.placeCategories : [];
+                        if (!placeCategories.length || (placeCategories.includes('provinces') && !this.modalForm.province)) throw new Error('Select at least one Place to Go button. A province is required only for the Provinces button.');
+                        await this.callAdminApi(this.activeModal === 'edit-place' ? 'update_place' : 'create_place', { id: this.modalForm.id, name: this.modalForm.name, province: this.modalForm.province || 'Nepal', placeCategory: placeCategories.join(','), district: '', description: this.modalForm.description || '', history: this.modalForm.history || '', bestTimeToVisit: this.modalForm.bestTimeToVisit || '', entryFee: this.modalForm.entryFee || 0, googleMap: this.modalForm.googleMap || '', imageUrl: this.modalForm.imageUrl || '', imageData, isFeatured: this.modalForm.isFeatured ? 1 : 0, status: this.modalForm.status || 'active' });
+                        window.location.reload(); return;
+                    } catch (error) { alert(error.message); return; }
+                } else if (this.activeModal === 'add-activity' || this.activeModal === 'edit-activity') {
+                    try {
+                        const imageFile = document.getElementById('activityImageFile')?.files[0];
+                        const imageData = imageFile ? await this.prepareActivityImage(imageFile) : '';
+                        await this.callAdminApi(this.activeModal === 'edit-activity' ? 'update_activity' : 'create_activity', { id: this.modalForm.id, name: this.modalForm.name, category: this.modalForm.category, description: this.modalForm.description, imageUrl: this.modalForm.imageUrl || '', imageData, pageUrl: this.modalForm.pageUrl || '', status: this.modalForm.status || 'active' });
                         window.location.reload(); return;
                     } catch (error) { alert(error.message); return; }
                 } else if (this.activeModal === 'add-payment') {
@@ -386,8 +550,16 @@ function adminJson($value): string
             editPlace(placeId) {
                 const item = this.places.find(placeItem => placeItem.id === placeId);
                 if (item) {
-                    this.modalForm = { id: item.id, name: item.name, province: item.province, district: item.district, description: item.description || '', history: item.history || '', bestTimeToVisit: item.best_time_to_visit || '', entryFee: item.entry_fee || 0, googleMap: item.google_map || '', imageUrl: item.image_url || '', status: item.status || 'active', isFeatured: !!item.is_featured };
+                        this.modalForm = { id: item.id, name: item.name, province: item.province, placeCategories: (item.place_category || 'provinces').split(',').map(category => category.trim()).filter(Boolean), district: item.district, description: item.description || '', history: item.history || '', bestTimeToVisit: item.best_time_to_visit || '', entryFee: item.entry_fee || 0, googleMap: item.google_map || '', imageUrl: item.image_url || '', status: item.status || 'active', isFeatured: !!item.is_featured };
                     this.activeModal = 'edit-place';
+                }
+            },
+
+            editActivity(activityId) {
+                const item = this.activities.find(activity => activity.id === activityId);
+                if (item) {
+                    this.modalForm = { id: item.id, name: item.name, category: item.category, description: item.description, imageUrl: item.image_url || '', pageUrl: item.page_url || '', status: item.status || 'active' };
+                    this.activeModal = 'edit-activity';
                 }
             },
 
@@ -396,9 +568,13 @@ function adminJson($value): string
             },
 
             async removeGalleryImage(galleryId) {
-                if (String(galleryId).startsWith('website-')) { alert('Website source images are shown here automatically and cannot be removed from the dashboard.'); return; }
-                if (!confirm('Remove this image from the website gallery?')) return;
-                try { await this.callAdminApi('delete_gallery', { id: galleryId }); window.location.reload(); } catch (error) { alert(error.message); }
+                const image = this.gallery.find(item => item.id === galleryId);
+                const isWebsiteImage = String(galleryId).startsWith('website-');
+                if (!confirm(isWebsiteImage ? 'Permanently delete this website image file?' : 'Remove this image from the website gallery?')) return;
+                try {
+                    await this.callAdminApi(isWebsiteImage ? 'delete_website_image' : 'delete_gallery', isWebsiteImage ? { path: image?.website_path || '' } : { id: galleryId });
+                    window.location.reload();
+                } catch (error) { alert(error.message); }
             },
 
             contactCustomer(customerId) {
@@ -419,14 +595,25 @@ function adminJson($value): string
                 }
             },
 
-            async changeBookingStatus(id, nextStatus) {
+            async changeBookingStatus(id, nextStatus, control) {
                 let target = this.bookings.find(b => b.id === id);
                 if (!target) return;
+                if (nextStatus === target.status) return;
+                if (String(target.status).toLowerCase() === 'confirmed') {
+                    alert('This booking is already confirmed and cannot be changed.');
+                    if (control) control.value = target.status;
+                    return;
+                }
+                if (!confirm(`Change booking #${id} status from ${target.status} to ${nextStatus}? This keeps the booking record; it only updates its status.`)) {
+                    if (control) control.value = target.status;
+                    return;
+                }
                 try {
                     const result = await this.callAdminApi('update_booking_status', { id, status: nextStatus.toLowerCase() });
                     target.status = nextStatus;
                     this.logActivity(`Update Booking State to ${nextStatus}${result.emailSent ? ' and sent email notification' : ''}`, id);
                 } catch (error) {
+                    if (control) control.value = target.status;
                     alert(error.message);
                 }
             },
@@ -463,6 +650,17 @@ function adminJson($value): string
                 } catch (error) {
                     alert(error.message);
                 }
+            },
+
+            async deleteActivity(id) {
+                if (!confirm('Delete this activity from the website?')) return;
+                try {
+                    await this.callAdminApi('delete_activity', { id });
+                    this.activities = this.activities.filter(activity => activity.id !== id);
+                    this.logActivity('Delete Activity', id);
+                } catch (error) {
+                    alert(error.message);
+                }
             }
          }">
 
@@ -474,7 +672,7 @@ function adminJson($value): string
             <div class="h-16 flex items-center justify-between px-5 border-b border-slate-800 shrink-0">
                 <div class="flex items-center space-x-3 overflow-hidden" x-show="sidebarOpen">
                     <img src="../img/logo.png" alt="Nepal Tour and Travel logo" class="h-10 w-10 rounded-xl object-contain bg-blue-600 p-1 shadow-md shadow-blue-500/20">
-                    <span class="text-lg font-bold text-white tracking-wide whitespace-nowrap">Nepal Tour and Travel</span>
+                    <span class="text-lg font-bold text-white tracking-wide whitespace-nowrap">Nepal Tour and Travels</span>
                 </div>
                 <button @click="sidebarOpen = !sidebarOpen" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition-colors hidden lg:block">
                     <i class="bi" :class="sidebarOpen ? 'bi-text-indent-right' : 'bi-list'"></i>
@@ -513,6 +711,11 @@ function adminJson($value): string
                 <button @click="currentView = 'places'" :class="currentView === 'places' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-slate-800/60 hover:text-slate-200'" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl transition-all group">
                     <i class="bi bi-geo-alt text-lg"></i>
                     <span x-show="sidebarOpen" class="font-medium whitespace-nowrap">Places</span>
+                </button>
+
+                <button @click="currentView = 'activities'" :class="currentView === 'activities' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-slate-800/60 hover:text-slate-200'" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl transition-all group">
+                    <i class="bi bi-compass text-lg"></i>
+                    <span x-show="sidebarOpen" class="font-medium whitespace-nowrap">Things to Do</span>
                 </button>
 
                 <button @click="currentView = 'website'" :class="currentView === 'website' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-slate-800/60 hover:text-slate-200'" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl transition-all group">
@@ -813,7 +1016,7 @@ function adminJson($value): string
                             <h3 class="text-base font-bold text-slate-900">Places Content Manager</h3>
                             <p class="text-sm text-slate-500">Control destination pages, hero images, and featured place entries from one place.</p>
                         </div>
-                        <button @click="activeModal = 'add-place'" class="bg-blue-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow hover:bg-blue-700 flex items-center space-x-1"><i class="bi bi-plus-lg"></i><span>Add Place</span></button>
+                        <button @click="modalForm = { name: '', province: '', placeCategories: [], district: '', description: '', history: '', bestTimeToVisit: '', entryFee: 0, googleMap: '', imageUrl: '', status: 'active', isFeatured: false }; activeModal = 'add-place'" class="bg-blue-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow hover:bg-blue-700 flex items-center space-x-1"><i class="bi bi-plus-lg"></i><span>Add Place</span></button>
                     </div>
 
                     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -822,8 +1025,8 @@ function adminJson($value): string
                                 <thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase text-slate-500">
                                     <tr>
                                         <th class="px-6 py-4">Place</th>
-                                        <th class="px-6 py-4">Province</th>
-                                        <th class="px-6 py-4">District</th>
+                                        <th class="px-6 py-4">Saved image URL/path</th>
+                                        <th class="px-6 py-4">Places to Go</th>
                                         <th class="px-6 py-4">Status</th>
                                         <th class="px-6 py-4 text-right">Actions</th>
                                     </tr>
@@ -832,8 +1035,16 @@ function adminJson($value): string
                                     <template x-for="place in places" :key="place.id">
                                         <tr class="hover:bg-slate-50/60">
                                             <td class="px-6 py-4 text-slate-900 font-semibold"><div x-text="place.name"></div><div class="text-xs text-slate-500" x-text="place.best_time_to_visit || 'Best time not set'"></div></td>
-                                            <td class="px-6 py-4 text-slate-600" x-text="place.province"></td>
-                                            <td class="px-6 py-4 text-slate-600" x-text="place.district"></td>
+                                            <td class="px-6 py-4">
+                                                <template x-if="place.image_url">
+                                                    <div class="flex items-center gap-3">
+                                                        <img :src="managedImageUrl(place.image_url, 'places')" :alt="place.name" class="h-12 w-16 rounded-lg border border-slate-200 object-cover" referrerpolicy="no-referrer">
+                                                        <span class="max-w-xs truncate text-xs text-slate-600" x-text="place.image_url" :title="place.image_url"></span>
+                                                    </div>
+                                                </template>
+                                                <span x-show="!place.image_url" class="text-xs text-slate-400">No image saved</span>
+                                            </td>
+                                            <td class="px-6 py-4"><div class="flex flex-wrap gap-1"><template x-for="category in (place.place_category || 'provinces').split(',')" :key="category"><span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-semibold" x-text="placeCategoryOptions.find(option => option.value === category.trim())?.label || category.trim()"></span></template></div></td>
                                             <td class="px-6 py-4"><span class="px-2 py-0.5 rounded text-xs font-semibold" :class="place.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'" x-text="place.status"></span></td>
                                             <td class="px-6 py-4 text-right">
                                                 <button @click.stop="editPlace(place.id)" class="text-slate-700 bg-slate-100 hover:bg-slate-200 p-1.5 rounded-lg text-xs font-bold transition-colors mr-1">Edit</button>
@@ -841,10 +1052,19 @@ function adminJson($value): string
                                             </td>
                                         </tr>
                                     </template>
+                                    <tr x-show="places.length === 0"><td colspan="5" class="px-6 py-10 text-center text-slate-500">No dashboard places saved yet. Use <strong>Add Place</strong> to create one.</td></tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </div>
+
+                <div x-show="currentView === 'activities'" x-transition class="space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+                        <div><h3 class="text-base font-bold text-slate-900">Things to Do Manager</h3><p class="text-sm text-slate-500">Add, edit, publish, or remove activity cards from the landing page.</p></div>
+                        <button @click="modalForm = { name: '', category: '', description: '', imageUrl: '', pageUrl: '', status: 'active' }; activeModal = 'add-activity'" class="bg-blue-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow hover:bg-blue-700"><i class="bi bi-plus-lg"></i> Add Activity</button>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase text-slate-500"><tr><th class="px-6 py-4">Activity</th><th class="px-6 py-4">Saved image URL/path</th><th class="px-6 py-4">Category</th><th class="px-6 py-4">Status</th><th class="px-6 py-4 text-right">Actions</th></tr></thead><tbody class="divide-y divide-slate-100"><template x-for="activity in activities" :key="activity.id"><tr><td class="px-6 py-4"><div class="font-semibold text-slate-900" x-text="activity.name"></div><div class="text-xs text-slate-500 truncate max-w-md" x-text="activity.description"></div></td><td class="px-6 py-4"><template x-if="activity.image_url"><div class="flex items-center gap-3"><img :src="managedImageUrl(activity.image_url, 'activities')" :alt="activity.name" class="h-12 w-16 rounded-lg border border-slate-200 object-cover" referrerpolicy="no-referrer"><span class="max-w-xs truncate text-xs text-slate-600" x-text="activity.image_url" :title="activity.image_url"></span></div></template><span x-show="!activity.image_url" class="text-xs text-slate-400">No image saved</span></td><td class="px-6 py-4 text-slate-600" x-text="activity.category"></td><td class="px-6 py-4"><span class="px-2 py-0.5 rounded text-xs font-semibold" :class="activity.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'" x-text="activity.status"></span></td><td class="px-6 py-4 text-right"><button @click="editActivity(activity.id)" class="text-slate-700 bg-slate-100 hover:bg-slate-200 p-1.5 rounded-lg text-xs font-bold mr-1">Edit</button><button @click="deleteActivity(activity.id)" class="text-rose-600 bg-rose-50 hover:bg-rose-100 p-1.5 rounded-lg text-xs font-bold">Delete</button></td></tr></template></tbody></table></div></div>
                 </div>
 
                 <!-- PANEL B2: WEBSITE SETTINGS CONTROL CENTER -->
@@ -871,6 +1091,7 @@ function adminJson($value): string
                                 <div class="sm:col-span-2"><label class="block text-xs font-bold text-slate-500 uppercase">Address</label><input type="text" x-model="siteSettings.address" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
                                 <div><label class="block text-xs font-bold text-slate-500 uppercase">Logo URL</label><input type="text" x-model="siteSettings.logo_url" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
                                 <div><label class="block text-xs font-bold text-slate-500 uppercase">Favicon URL</label><input type="text" x-model="siteSettings.favicon_url" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
+                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Hero Image URL</label><input type="text" x-model="siteSettings.hero_image_url" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm" placeholder="Optional managed hero image"></div>
                                 <div><label class="block text-xs font-bold text-slate-500 uppercase">SEO Title</label><input type="text" x-model="siteSettings.seo_title" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
                                 <div><label class="block text-xs font-bold text-slate-500 uppercase">SEO Description</label><input type="text" x-model="siteSettings.seo_description" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
                                 <div class="sm:col-span-2"><label class="block text-xs font-bold text-slate-500 uppercase">SEO Keywords</label><input type="text" x-model="siteSettings.seo_keywords" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
@@ -927,7 +1148,6 @@ function adminJson($value): string
                                         <th class="px-6 py-4">Schedule Date</th>
                                         <th class="px-6 py-4">Value</th>
                                         <th class="px-6 py-4">Pipeline Status State</th>
-                                        <th class="px-6 py-4 text-right">System Action Controls Overrides</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-slate-100">
@@ -939,10 +1159,15 @@ function adminJson($value): string
                                             <td class="px-6 py-4 text-slate-500 font-mono" x-text="b.date"></td>
                                             <td class="px-6 py-4 font-mono font-bold text-slate-900" x-text="'$'+b.amount"></td>
                                             <td class="px-6 py-4">
-                                                <span :class="{'bg-blue-100 text-blue-700': b.status==='Pending', 'bg-amber-100 text-amber-700': b.status==='Confirmed', 'bg-violet-100 text-violet-700': b.status==='Hold', 'bg-rose-100 text-rose-700': b.status==='Cancelled'}" class="px-2 py-0.5 rounded text-xs font-semibold" x-text="b.status"></span>
-                                            </td>
-                                            <td class="px-6 py-4 text-right space-x-1">
-                                                <select :value="b.status" @change="changeBookingStatus(b.id, $event.target.value)" class="border border-slate-300 rounded px-2 py-1 text-[10px] font-bold text-slate-700 bg-white"><option>Pending</option><option>Confirmed</option><option>Hold</option><option>Cancelled</option></select>
+                                                <div class="relative inline-block">
+                                                    <select :value="b.status" @change="changeBookingStatus(b.id, $event.target.value, $event.target)" :disabled="String(b.status).toLowerCase() === 'confirmed'" :class="{'bg-blue-100 text-blue-700 border-blue-200': b.status==='Pending', 'bg-amber-100 text-amber-700 border-amber-200': b.status==='Confirmed', 'bg-violet-100 text-violet-700 border-violet-200': b.status==='Hold', 'bg-rose-100 text-rose-700 border-rose-200': b.status==='Cancelled'}" class="appearance-none pr-7 pl-2.5 py-1.5 rounded-lg text-xs font-bold border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-200 min-w-[118px] cursor-pointer disabled:cursor-not-allowed disabled:opacity-80">
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Confirmed">Confirmed</option>
+                                                        <option value="Hold">Hold</option>
+                                                        <option value="Cancelled">Cancelled</option>
+                                                    </select>
+                                                    <i class="bi bi-chevron-down absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] opacity-70 pointer-events-none"></i>
+                                                </div>
                                             </td>
                                         </tr>
                                     </template>
@@ -1133,7 +1358,7 @@ function adminJson($value): string
                                     <p class="text-[10px] text-slate-400 font-mono mt-0.5" x-text="img.source || 'Gallery upload'"></p>
                                 </div>
                                 <button x-show="!img.source" @click.stop="editGallery(img.id)" class="absolute top-4 right-12 bg-slate-700 text-white p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-xs"><i class="bi bi-pencil"></i></button>
-                                <button x-show="!img.source" @click.stop="removeGalleryImage(img.id)" class="absolute top-4 right-4 bg-rose-600 text-white p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-xs"><i class="bi bi-trash"></i></button>
+                                <button @click.stop="removeGalleryImage(img.id)" class="absolute top-4 right-4 bg-rose-600 text-white p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity text-xs"><i class="bi bi-trash"></i></button>
                             </div>
                         </template>
                     </div>
@@ -1278,20 +1503,15 @@ function adminJson($value): string
                     </template>
 
                     <template x-if="activeModal === 'add-place' || activeModal === 'edit-place'">
-                        <div class="space-y-3">
+                            <div class="space-y-3">
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">Place name</label><input type="text" x-model="modalForm.name" required maxlength="150" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Province</label><input type="text" x-model="modalForm.province" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
-                                <div><label class="block text-xs font-bold text-slate-500 uppercase">District</label><input type="text" x-model="modalForm.district" required class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
-                            </div>
+                            <div x-show="modalForm.placeCategories?.includes('provinces')" x-transition><label class="block text-xs font-bold text-slate-500 uppercase">Province</label><select x-model="modalForm.province" :required="modalForm.placeCategories?.includes('provinces')" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"><option value="" disabled>Select province</option><option value="Koshi">Koshi</option><option value="Madhesh">Madhesh</option><option value="Bagmati">Bagmati</option><option value="Gandaki">Gandaki</option><option value="Lumbini">Lumbini</option><option value="Karnali">Karnali</option><option value="Sudurpashchim">Sudurpashchim</option></select></div>
+                            <fieldset><legend class="block text-xs font-bold text-slate-500 uppercase">Show this place under</legend><div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2"><template x-for="option in placeCategoryOptions" :key="option.value"><label class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 cursor-pointer hover:bg-slate-50"><input type="checkbox" :value="option.value" x-model="modalForm.placeCategories" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500"><span x-text="option.label"></span></label></template></div><p class="mt-1 text-xs text-slate-400">Select every Place to Go button where this card should appear.</p></fieldset>
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">Description</label><textarea x-model="modalForm.description" rows="2" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></textarea></div>
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">History</label><textarea x-model="modalForm.history" rows="2" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></textarea></div>
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">Best time to visit</label><input type="text" x-model="modalForm.bestTimeToVisit" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Entry fee</label><input type="number" x-model="modalForm.entryFee" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
-                                <div><label class="block text-xs font-bold text-slate-500 uppercase">Google map URL</label><input type="url" x-model="modalForm.googleMap" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
-                            </div>
-                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Image URL</label><input type="url" x-model="modalForm.imageUrl" placeholder="https://..." class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Google map URL</label><input type="url" x-model="modalForm.googleMap" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Image URL or path</label><input type="text" x-model="modalForm.imageUrl" placeholder="https://... or img/filename.jpg" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"><p class="mt-1 text-xs text-slate-400">Paste an external URL, an internal image path, or upload a file.</p><div x-show="modalForm.imageUrl" class="mt-2"><img :src="managedImageUrl(modalForm.imageUrl, 'places')" :alt="modalForm.name || 'Place image preview'" class="h-32 w-full rounded-xl border border-slate-200 object-cover"></div></div>
                             <div><label class="block text-xs font-bold text-slate-500 uppercase">Or upload image</label><input id="placeImageFile" type="file" accept="image/*" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"></div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
@@ -1303,6 +1523,18 @@ function adminJson($value): string
                                 </div>
                                 <label class="flex items-center gap-2 mt-6 text-sm font-semibold text-slate-700"><input type="checkbox" x-model="modalForm.isFeatured" class="rounded border-slate-300"> Featured</label>
                             </div>
+                        </div>
+                    </template>
+
+                    <template x-if="activeModal === 'add-activity' || activeModal === 'edit-activity'">
+                        <div class="space-y-3">
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Activity name</label><input type="text" x-model="modalForm.name" required maxlength="150" placeholder="e.g. Rafting" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Category</label><input type="text" x-model="modalForm.category" required maxlength="100" placeholder="e.g. Adventure" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Description</label><textarea x-model="modalForm.description" required rows="3" maxlength="1000" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></textarea></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Activity page URL (optional)</label><input type="text" x-model="modalForm.pageUrl" placeholder="rafting.php or https://..." class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Image URL or path</label><input type="text" x-model="modalForm.imageUrl" placeholder="https://... or img/filename.jpg" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"><p class="mt-1 text-xs text-slate-400">Paste an external URL, an internal image path, or upload a file.</p><div x-show="modalForm.imageUrl" class="mt-2"><img :src="managedImageUrl(modalForm.imageUrl, 'activities')" :alt="modalForm.name || 'Activity image preview'" class="h-32 w-full rounded-xl border border-slate-200 object-cover"></div></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Or upload image</label><input id="activityImageFile" type="file" accept="image/png,image/jpeg,image/gif,image/webp" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm"><p class="mt-1 text-xs text-slate-400">Uploaded images are resized to fit within 1600 × 1200 pixels and optimized automatically. GIF files are kept as-is to preserve animation.</p></div>
+                            <div><label class="block text-xs font-bold text-slate-500 uppercase">Status</label><select x-model="modalForm.status" class="w-full mt-1 px-3 py-2 border border-slate-300 rounded-xl text-sm focus:outline-none"><option value="active">Active — show on website</option><option value="inactive">Inactive — hide from website</option></select></div>
                         </div>
                     </template>
 

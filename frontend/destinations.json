@@ -4,7 +4,9 @@
       "id": "koshi",
       "name": "Koshi Province",
       "shortDescription": "Home to Mount Everest, lush tea gardens, pristine rivers, and diverse wildlife reserves.",
-      "featuredImage": "https://i.pinimg.com/736x/38/7a/21/387a21d7763974798937d09cecf7418f.jpg"
+      "featuredImage": "../img/provinces/koshi-sagarmatha.jpg",
+      "featuredImageCredit": "Photo: Matheus Hobold Sovernigo / Wikimedia Commons, CC BY-SA 4.0",
+      "featuredImageCreditUrl": "https://commons.wikimedia.org/wiki/File:Mount_Everest_from_Kala_Patthar.jpg"
     },
     "madhesh": {
       "id": "madhesh",
@@ -181,9 +183,11 @@
       "province_id": "lumbini",
       "district": "Rupandehi",
       "description": "Lumbini is a UNESCO World Heritage site and the birthplace of Gautama Buddha, built in 623 BC. It features the historic Maya Devi Temple, the Ashokan Pillar, and a massive zone of global monasteries.",
-      "heroImage": "https://i.pinimg.com/1200x/b3/83/c2/b383c22c9aa6854d763a9cbbbe1daed9.jpg",
+      "heroImage": "../img/places/lumbini-maya-devi-temple.jpg",
+      "heroImageCredit": "Rangan Datta Wiki / Wikimedia Commons (CC BY-SA 4.0)",
+      "heroImageCreditUrl": "https://commons.wikimedia.org/wiki/File:Lumbini_Maya_Devi_Temple_1.jpg",
       "galleryImages": [
-        "https://i.pinimg.com/1200x/b3/83/c2/b383c22c9aa6854d763a9cbbbe1daed9.jpg",
+        "../img/places/lumbini-maya-devi-temple.jpg",
         "https://www.purevacations.com/wp-content/uploads/2023/05/World-Peace-Stupa-in-Lumbini-1024x683.jpg"
       ],
       "bestSeason": "October to April",
@@ -775,9 +779,9 @@
       "province_id": "madhesh",
       "district": "Dhanusha",
       "description": "Janakpur is the birthplace of Goddess Sita and the capital of the ancient Mithila Kingdom. It is a major pilgrimage hub, featuring the grand Janaki Temple and dozens of holy ponds.",
-      "heroImage": "https://komalhotels.com/storage/janaki-mandir-of-janakpurdham-nepal.jpg",
+      "heroImage": "https://upload.wikimedia.org/wikipedia/commons/6/63/Ramanand_Chowk.JPG",
       "galleryImages": [
-        "https://komalhotels.com/storage/janaki-mandir-of-janakpurdham-nepal.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/6/63/Ramanand_Chowk.JPG",
         "https://images.unsplash.com/photo-1627856013091-fed6e4e30025?auto=format&fit=crop&w=800&q=80"
       ],
       "bestSeason": "October to March",
@@ -860,9 +864,9 @@
       "province_id": "lumbini",
       "district": "Rupandehi",
       "description": "Butwal is a fast-growing city at the intersection of East-West and Siddharth highways. It features the historic Jitgadi Fort and serves as a gateway to Lumbini and Palpa.",
-      "heroImage": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://upload.wikimedia.org/wikipedia/commons/7/78/BUTWAL_CITY_VIEW_wiki700.jpg",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80"
+        "https://upload.wikimedia.org/wikipedia/commons/7/78/BUTWAL_CITY_VIEW_wiki700.jpg"
       ],
       "bestSeason": "October to March",
       "duration": "1 Day",
@@ -1071,7 +1075,7 @@
       "province_id": "koshi",
       "district": "Taplejung",
       "description": "Mount Kanchenjunga is the third-highest mountain in the world (8,586m). Located on the border of eastern Nepal and India, it offers a raw, remote alpine wilderness experience.",
-      "heroImage": "https://th.bing.com/th/id/R.f30e8de98f4df71194c14ff08fe03168?rik=7aXgZC4YmM%2bSlg&pid=ImgRaw&r=0",
+      "heroImage": "../img/3.jpeg",
       "galleryImages": [
         "https://th.bing.com/th/id/R.f30e8de98f4df71194c14ff08fe03168?rik=7aXgZC4YmM%2bSlg&pid=ImgRaw&r=0"
       ],
@@ -1281,9 +1285,11 @@
       "province_id": "gandaki",
       "district": "Gorkha",
       "description": "Mount Manaslu (8,163m) is the eighth-highest mountain in the world, set in a protected conservation area that displays pristine Tibetan-style villages and a challenging pass (Larkya La).",
-      "heroImage": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Gipfel_des_Manaslu_von_Samdo_aus.jpg",
+      "heroImageCredit": "Hendrikz / Wikimedia Commons (CC BY-SA 4.0)",
+      "heroImageCreditUrl": "https://commons.wikimedia.org/wiki/File:Gipfel_des_Manaslu_von_Samdo_aus.jpg",
       "galleryImages": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
+        "https://upload.wikimedia.org/wikipedia/commons/8/8c/Gipfel_des_Manaslu_von_Samdo_aus.jpg"
       ],
       "bestSeason": "March to May, September to November",
       "duration": "14 Days",
@@ -1408,9 +1414,11 @@
       "province_id": "gandaki",
       "district": "Mustang",
       "description": "Muktinath Temple, located at 3,710m in Mustang, is a highly sacred pilgrimage site for both Hindus and Buddhists, famous for its 108 water spouts and natural gas flames burning on water.",
-      "heroImage": "https://1.bp.blogspot.com/-FfOe5crZXAQ/XaFn98m-CTI/AAAAAAAAAMA/HxXdM519zxcVgF8En-st2wgpvoe1SSnQwCLcBGAsYHQ/s1600/muktinath-darshan-yatra86.jpg",
+      "heroImage": "../img/places/muktinath-temple.jpg",
+      "heroImageCredit": "Ushanpathak / Wikimedia Commons (CC BY-SA 4.0)",
+      "heroImageCreditUrl": "https://commons.wikimedia.org/wiki/File:Image_of_Muktinath_temple.jpg",
       "galleryImages": [
-        "https://1.bp.blogspot.com/-FfOe5crZXAQ/XaFn98m-CTI/AAAAAAAAAMA/HxXdM519zxcVgF8En-st2wgpvoe1SSnQwCLcBGAsYHQ/s1600/muktinath-darshan-yatra86.jpg"
+        "../img/places/muktinath-temple.jpg"
       ],
       "bestSeason": "March to May, September to November",
       "duration": "2 Days",
@@ -1745,7 +1753,9 @@
       "province_id": "koshi",
       "district": "Ilam",
       "description": "Ilam is a scenic hill station in eastern Nepal, famous for extensive rolling tea gardens, unique biodiversity in Mai Pokhari, and breathtaking sunrise views.",
-      "heroImage": "https://images.unsplash.com/photo-1597211684565-dca64d72bdfe?auto=format&fit=crop&w=800&q=80",
+      "heroImage": "../img/places/ilam-tea-garden.jpg",
+      "heroImageCredit": "Photo: Hari gurung77 / Wikimedia Commons, CC BY-SA 4.0",
+      "heroImageCreditUrl": "https://commons.wikimedia.org/wiki/File:Tea_garden_kanyam_ilam,nepal.jpg",
       "galleryImages": [
         "https://en.wikipedia.org/wiki/Ilam_Municipality"
       ],
@@ -2128,7 +2138,7 @@
     },
     {
       "id": "simraungadh-fort", "name": "Simraungadh Fort", "slug": "simraungadh-fort", "category": "heritage", "province": "Madhesh Province", "province_id": "madhesh", "district": "Bara",
-      "description": "Simraungadh preserves the remains of the medieval Karnat Kingdom capital and is one of the most important historical places in the Terai.", "heroImage": "https://khabarmukam.com/images/news/1755310125-1%201000.jpg", "galleryImages": ["https://khabarmukam.com/images/news/1755310125-1%201000.jpg"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.2, "difficulty": "Easy",
+      "description": "Simraungadh preserves the remains of the medieval Karnat Kingdom capital and is one of the most important historical places in the Terai.", "heroImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Pillar_at_Simroungarh.jpg/330px-Pillar_at_Simroungarh.jpg", "galleryImages": ["https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Pillar_at_Simroungarh.jpg/330px-Pillar_at_Simroungarh.jpg"], "bestSeason": "October to March", "duration": "1 Day", "rating": 4.2, "difficulty": "Easy",
       "highlights": {"nature":"Flat plains and rural surroundings.","history":"Archaeological remains linked with the Karnat dynasty.","culture":"Local traditions connected to the historic town.","adventure":"Heritage walk through the old settlement.","wildlife":"Common Terai birds.","photography":"Brick remains, ponds and local streets."},
       "travelInfo": {"bestTime":"October to March","transportation":"Road journey from Kalaiya or Birgunj.","budget":"NPR 2,000 - 5,000","accommodation":"Stay in nearby Bara towns.","food":"Local Nepali meals.","entryFee":"Check local access information.","openingHours":"Daylight hours","safetyTips":"Wear sun protection and carry water.","travelTips":"Pair the visit with nearby religious sites."}
     },

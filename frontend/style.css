@@ -1395,6 +1395,10 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
 .package-section-header { text-align: center; margin-bottom: 30px; }
 .package-section-header h2 { color: var(--primary-color); font-size: 42px; margin-bottom: 8px; }
 .package-section-header p { color: var(--text-light); }
+.packages-page .tour-card-image { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: center; background: #e2e8f0; }
+.packages-page .tour-filters { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.packages-page .tour-filters label,
+.packages-page .tour-filters select { min-width: 0; }
 .tour-filters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding: 20px; background: #fff; border-radius: 18px; box-shadow: var(--shadow); }
 .tour-filters label { display: grid; gap: 7px; color: var(--text-dark); font-weight: 700; }
 .tour-filters select { padding: 12px; border: 1px solid var(--border-color); border-radius: 10px; background: #fff; font: inherit; }
@@ -1404,6 +1408,8 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
 .tour-packages-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
 .tour-card { overflow: hidden; background: #fff; border: 1px solid var(--border-color); border-radius: 18px; box-shadow: var(--shadow); }
 .tour-card-image { display: block; width: 100%; height: 180px; object-fit: cover; }
+.tour-card-image-credit { display: block; padding: 5px 12px 0; color: #64748b; font-size: 11px; text-align: right; }
+.tour-card-image-credit:hover { color: var(--primary-color); text-decoration: underline; }
 .tour-card-content { padding: 18px; }.tour-card-content h3 { color: var(--primary-color); font-size: 21px; margin: 10px 0 8px; }.tour-card-content p { color: var(--text-light); font-size: 14px; line-height: 1.55; }
 .tour-card-badge { display: inline-block; padding: 5px 10px; border-radius: 99px; background: #fef3c7; color: #92400e; font-size: 12px; font-weight: 800; }.tour-card-destination { color: #2563eb !important; font-weight: 700; }
 .tour-card-meta { display: flex; justify-content: space-between; gap: 8px; align-items: center; margin: 14px 0 6px; font-size: 13px; color: var(--text-dark); }.tour-card-meta strong { color: #b45309; text-align: right; }.tour-card-duration { margin: 0 0 14px; color: #0f766e; font-size: 13px; font-weight: 700; }
@@ -1512,8 +1518,19 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
 
 /* ==================== Places to Go Section ==================== */
 .places {
-    padding: 100px 20px;
+    /* Central controls for the Places to Go card layout. */
+    --place-card-width: minmax(280px, 360px);
+    --place-card-gap: 28px;
+    --place-card-padding: 26px 30px 28px;
+    padding: 72px 20px 64px;
     background: white;
+}
+
+/* Give the desktop filter bar enough room to keep every main button in one row. */
+@media (min-width: 1500px) {
+    .places .container {
+        max-width: 1600px;
+    }
 }
 
 /* Category Filter Buttons */
@@ -1521,18 +1538,18 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 50px;
+    gap: 12px;
+    margin-bottom: 32px;
 }
 
 .category-btn {
-    padding: 10px 20px;
+    padding: 9px 17px;
     border: 2px solid var(--primary-color);
     background: transparent;
     color: var(--primary-color);
     border-radius: 25px;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
     cursor: pointer;
     transition: var(--transition);
     text-transform: capitalize;
@@ -1552,19 +1569,26 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
 
 .places-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-bottom: 50px;
+    grid-template-columns: repeat(auto-fit, var(--place-card-width));
+    justify-content: center;
+    gap: var(--place-card-gap);
+    margin-bottom: 0;
 }
 
 .place-card {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
     border-radius: 20px;
     overflow: hidden;
-    height: 350px;
+    height: auto;
     box-shadow: var(--shadow-md);
     transition: var(--transition);
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid rgba(15, 23, 42, 0.06);
 }
 
 .place-card:hover {
@@ -1574,8 +1598,19 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
 
 .place-image {
     width: 100%;
-    height: 100%;
+    height: 220px;
+    flex: 0 0 220px;
     position: relative;
+}
+
+.place-image-credit {
+    display: block;
+    margin: -12px 0 18px;
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.45;
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 .place-image img {
@@ -1591,24 +1626,46 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
     filter: brightness(1.22) contrast(1.08) saturate(1.22);
 }
 
-.place-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 30px;
-    background: linear-gradient(to top, rgba(15, 23, 42, 0.18), rgba(15, 23, 42, 0.02));
-    color: white;
+.place-content {
     display: flex;
-    align-items: flex-end;
-    height: 100%;
-    transition: var(--transition);
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--place-card-padding);
 }
 
-.place-overlay h3 {
-    font-size: 24px;
+.place-meta {
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.place-content h3 {
+    color: var(--primary-color);
+    font-size: 25px;
     font-weight: 700;
-    margin: 0;
+    line-height: 1.2;
+    margin: 0 0 18px;
+}
+
+.place-content p {
+    color: #64748b;
+    font-size: 16px;
+    line-height: 1.65;
+    margin: 0 0 24px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.place-read-more {
+    color: #e11d2e;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    margin-top: auto;
+    text-transform: uppercase;
 }
 
 .place-info {
@@ -1673,9 +1730,18 @@ drop-shadow(0 15px 30px rgba(0,0,0,.18));
 }
 
 .activity-image {
-    height: 220px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #f1f5f9;
     background-size: cover;
     background-position: center;
+}
+
+.activity-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .activity-body {

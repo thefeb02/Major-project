@@ -1,4 +1,4 @@
-
+g
 <?php
 require_once __DIR__ . '/../Backend/database.php';
 $user = getCurrentUser();

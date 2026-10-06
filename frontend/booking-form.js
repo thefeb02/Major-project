@@ -18,7 +18,8 @@
                 <strong id="bookingPackageTitle"></strong>
             </div>
             <form class="booking-form" action="../Backend/book_service.php" method="post">
-                <input type="hidden" name="service_category" value="${escapeHtml(category)}">
+                <input id="bookingServiceCategory" type="hidden" name="service_category" value="${escapeHtml(category)}">
+                <input id="bookingPackageId" type="hidden" name="package_id" value="">
                 <label>Package or experience
                     <input id="bookingServiceName" name="service_name" required maxlength="190" placeholder="Choose a package">
                 </label>
@@ -78,6 +79,8 @@
     document.body.appendChild(modal);
 
     const serviceInput = modal.querySelector('#bookingServiceName');
+    const serviceCategoryInput = modal.querySelector('#bookingServiceCategory');
+    const packageIdInput = modal.querySelector('#bookingPackageId');
     const fullNameInput = modal.querySelector('input[name="full_name"]');
     const emailInput = modal.querySelector('input[name="email"]');
     const phoneInput = modal.querySelector('#bookingPhone');
@@ -109,9 +112,11 @@
             // Ignore storage failures so the flow still continues.
         }
     };
-    const openModal = (serviceName = '', imageUrl = '', packagePrice = '', destination = '', category = '', duration = '') => {
+    const openModal = (serviceName = '', imageUrl = '', packagePrice = '', destination = '', packageCategory = '', duration = '', packageId = '') => {
         const currentTitle = document.querySelector('.details-title')?.textContent?.trim();
         serviceInput.value = serviceName || currentTitle || '';
+        serviceCategoryInput.value = packageCategory || category;
+        packageIdInput.value = /^\d+$/.test(String(packageId)) ? String(packageId) : '';
         const selectedImage = imageUrl || document.querySelector('.details-hero')?.src || '';
         const userName = document.body.dataset.userName || '';
         const userEmail = document.body.dataset.userEmail || '';
@@ -123,7 +128,7 @@
         }
         const priceValue = packagePrice && Number(packagePrice) > 0 ? String(packagePrice) : '100';
         if (amountInput) amountInput.value = priceValue;
-        const bookingSummary = [destination, category, duration].filter(Boolean).join(' • ');
+        const bookingSummary = [destination, packageCategory || category, duration].filter(Boolean).join(' • ');
         if (bookingSummary) {
             const noteField = modal.querySelector('textarea[name="message"]');
             if (noteField && !noteField.value) {
@@ -157,7 +162,8 @@
                 packagePrice: button.dataset.bookingPrice || '',
                 destination: button.dataset.bookingDestination || '',
                 category: button.dataset.bookingCategory || '',
-                duration: button.dataset.bookingDuration || ''
+                duration: button.dataset.bookingDuration || '',
+                packageId: button.dataset.bookingPackageId || ''
             });
             const currentPage = `${window.location.pathname.split('/').pop() || 'index.php'}${window.location.search}${window.location.hash}`;
             const loginUrl = new URL('login.php', window.location.href);
@@ -172,7 +178,8 @@
             button.dataset.bookingPrice || '',
             button.dataset.bookingDestination || '',
             button.dataset.bookingCategory || '',
-            button.dataset.bookingDuration || ''
+            button.dataset.bookingDuration || '',
+            button.dataset.bookingPackageId || ''
         );
     });
 
@@ -192,7 +199,8 @@
             pendingBooking.packagePrice || '',
             pendingBooking.destination || '',
             pendingBooking.category || '',
-            pendingBooking.duration || ''
+            pendingBooking.duration || '',
+            pendingBooking.packageId || ''
         );
     };
     const normalizePhone = (value) => {

@@ -378,6 +378,15 @@
     font-weight: 600;
 }
 
+.details-image-credit {
+    align-self: flex-end;
+    margin-top: 0.75rem;
+    color: #fff;
+    font-size: 0.75rem;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
 .details-hero-info span {
     display: flex;
     align-items: center;

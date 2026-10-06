@@ -82,13 +82,14 @@ function validateEmailProfessional($email, &$errorMsg)
         return false;
     }
 
-    // Require standard length for TLDs
-    if (strlen($tld) < 2 || strlen($tld) > 6) {
+    // Modern valid TLDs can be longer than six characters. Keep the check
+    // structural and let DNS plus the verification link prove the address.
+    if (strlen($tld) < 2 || strlen($tld) > 63) {
         $errorMsg = 'Please enter a valid email address.';
         return false;
     }
 
-    if (!preg_match('/^[a-zA-Z]{2,6}$/', $tld)) {
+    if (!preg_match('/^[a-zA-Z]{2,63}$/', $tld)) {
         $errorMsg = 'Please enter a valid email address.';
         return false;
     }
@@ -121,7 +122,8 @@ function sendVerificationEmailLocal($email, $token)
 {
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-    $verifyUrl = $protocol . '://' . $host . '/Major-project/frontend/verify.php?token=' . urlencode($token);
+    $scriptPath = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '/Major-project/frontend/signup.php');
+    $verifyUrl = $protocol . '://' . $host . rtrim(dirname($scriptPath), '/') . '/verify.php?token=' . urlencode($token);
 
     $subject = "Verify Your Account - Nepal Tour and Travel";
     $message = "Hello,\n\nThank you for signing up at Nepal Tour and Travel.\n\n";
@@ -159,7 +161,8 @@ function sendPasswordResetEmailLocal($email, $token)
 {
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-    $resetUrl = $protocol . '://' . $host . '/Major-project/frontend/reset_password.php?token=' . urlencode($token);
+    $scriptPath = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '/Major-project/frontend/forgot_password.php');
+    $resetUrl = $protocol . '://' . $host . rtrim(dirname($scriptPath), '/') . '/reset_password.php?token=' . urlencode($token);
 
     $subject = 'Reset Your Password - Nepal Tour and Travel';
     $message = "Hello,\n\nWe received a request to reset the password for your Nepal Tour and Travel account.\n\n";

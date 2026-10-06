@@ -10,7 +10,7 @@ $user = getCurrentUser();
     <title>Tour Packages | Nepal Tour & Travel</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=7">
     <link rel="stylesheet" href="booking-form.css">
     <link rel="stylesheet" href="profile.css">
 </head>
@@ -55,10 +55,10 @@ $user = getCurrentUser();
             <div class="container">
                 <div class="section-header package-section-header">
                     <h1>Tour Packages</h1>
-                    <p>Choose from more than 100 destinations and find a package that fits your travel time.</p>
+                    <p>Choose from more than 100 real Nepal travel packages and find one that fits your travel time.</p>
                 </div>
                 <div class="tour-filters" aria-label="Tour package filters">
-                    <label>Destination<select id="packageDestination"><option value="">All 100+ destinations</option></select></label>
+                    <label>Destination<select id="packageDestination"><option value="">All destinations</option></select></label>
                     <label>Tour package<select id="packageCategory"><option value="">Choose a tour package</option><option value="Adventure">Adventure</option><option value="Cultural">Cultural</option><option value="Family">Family</option><option value="Honeymoon">Honeymoon</option><option value="Pilgrimage">Pilgrimage</option><option value="Nature">Nature &amp; Wildlife</option></select></label>
                     <label>Duration<select id="packageDuration"><option value="">Any duration</option><option value="2">1–3 days</option><option value="5">4–7 days</option><option value="9">8–12 days</option><option value="14">13+ days</option></select></label>
                 </div>
@@ -70,7 +70,7 @@ $user = getCurrentUser();
     </main>
 
     <script src="booking-form.js"></script>
-    <script src="tour-packages.js"></script>
+    <script src="tour-packages.js?v=2"></script>
     <script>document.querySelector('.hamburger')?.addEventListener('click', () => document.querySelector('.nav-menu')?.classList.toggle('active'));</script>
 </body>
 </html>

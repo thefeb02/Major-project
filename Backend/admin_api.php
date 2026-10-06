@@ -240,6 +240,24 @@ try {
         adminApiResponse(['id' => $galleryId]);
     }
 
+    if ($action === 'delete_website_image') {
+        $relativePath = str_replace('\\', '/', adminApiValue($input, 'path', 500));
+        if (!$relativePath || str_contains($relativePath, '..') || !preg_match('/\.(jpe?g|png|gif|webp)$/i', $relativePath)) {
+            throw new InvalidArgumentException('Invalid website image path.');
+        }
+
+        $imageRoot = realpath(__DIR__ . '/../img');
+        $imagePath = $imageRoot ? realpath($imageRoot . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativePath)) : false;
+        $rootPrefix = $imageRoot ? rtrim(str_replace('\\', '/', $imageRoot), '/') . '/' : '';
+        $normalizedImagePath = $imagePath ? str_replace('\\', '/', $imagePath) : '';
+
+        if (!$imageRoot || !$imagePath || !str_starts_with($normalizedImagePath, $rootPrefix) || !is_file($imagePath)) {
+            throw new InvalidArgumentException('Website image was not found.');
+        }
+        if (!unlink($imagePath)) throw new RuntimeException('Unable to delete the website image.');
+        adminApiResponse();
+    }
+
     if ($action === 'delete_gallery') {
         $stmt = $pdo->prepare('DELETE FROM gallery WHERE id = ?');
         $stmt->execute([(int) ($input['id'] ?? 0)]);
@@ -256,13 +274,21 @@ try {
     }
 
     if ($action === 'update_booking_status') {
-        $status = $input['status'] ?? '';
-        if (!in_array($status, ['pending', 'confirmed', 'completed', 'cancelled'], true)) throw new InvalidArgumentException('Invalid booking status.');
+        $status = strtolower((string) ($input['status'] ?? ''));
+        $allowedStatuses = ['pending', 'confirmed', 'hold', 'cancelled', 'completed'];
+        if (!in_array($status, $allowedStatuses, true)) throw new InvalidArgumentException('Invalid booking status.');
+
         $bookingId = (int) ($input['id'] ?? 0);
-        $bookingStmt = $pdo->prepare('SELECT b.full_name, b.email, b.phone, p.title as service_name, b.travel_date FROM bookings b LEFT JOIN packages p ON b.package_id = p.id WHERE b.id = ?');
+        $bookingStmt = $pdo->prepare('SELECT b.full_name, b.email, b.phone, p.title as service_name, b.travel_date, b.status AS current_status FROM bookings b LEFT JOIN packages p ON b.package_id = p.id WHERE b.id = ?');
         $bookingStmt->execute([$bookingId]);
         $booking = $bookingStmt->fetch();
         if (!$booking) throw new InvalidArgumentException('Booking not found.');
+
+        $currentStatus = strtolower((string) ($booking['current_status'] ?? 'pending'));
+        if ($currentStatus === 'confirmed' && $status !== 'confirmed') {
+            throw new InvalidArgumentException('This booking is already confirmed and cannot be changed.');
+        }
+
         $stmt = $pdo->prepare('UPDATE bookings SET status = ? WHERE id = ?');
         $stmt->execute([$status, $bookingId]);
 
@@ -285,7 +311,7 @@ try {
     if ($action === 'save_settings') {
         $settings = $input['settings'] ?? [];
         if (!is_array($settings)) throw new InvalidArgumentException('Invalid settings.');
-        $allowed = ['site_name', 'logo_url', 'favicon_url', 'contact_email', 'contact_phone', 'address', 'facebook_url', 'twitter_url', 'instagram_url', 'youtube_url', 'seo_title', 'seo_description', 'seo_keywords', 'footer_text', 'homepage_hero'];
+        $allowed = ['site_name', 'logo_url', 'favicon_url', 'hero_image_url', 'contact_email', 'contact_phone', 'address', 'facebook_url', 'twitter_url', 'instagram_url', 'youtube_url', 'seo_title', 'seo_description', 'seo_keywords', 'footer_text', 'homepage_hero'];
         $stmt = $pdo->prepare('INSERT INTO website_settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)');
         foreach ($allowed as $key) {
             if (array_key_exists($key, $settings)) $stmt->execute([$key, mb_substr(trim((string) $settings[$key]), 0, 2000)]);
@@ -313,6 +339,8 @@ try {
     if ($action === 'create_place') {
         $name = adminApiValue($input, 'name', 150);
         $province = adminApiValue($input, 'province', 100);
+        $placeCategories = array_values(array_unique(array_filter(array_map('trim', explode(',', adminApiValue($input, 'placeCategory', 50) ?: 'provinces')))));
+        $placeCategory = implode(',', $placeCategories);
         $district = adminApiValue($input, 'district', 100);
         $description = adminApiValue($input, 'description');
         $history = adminApiValue($input, 'history');
@@ -323,10 +351,15 @@ try {
         $isFeatured = !empty($input['isFeatured']) ? 1 : 0;
         $status = in_array(($input['status'] ?? 'active'), ['active', 'inactive'], true) ? (string) $input['status'] : 'active';
 
-        if (!$name || !$province || !$district) throw new InvalidArgumentException('Complete all place fields.');
+        if (!$name) throw new InvalidArgumentException('Enter a place name.');
+        $validProvinces = ['Koshi', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim'];
+        $validPlaceCategories = ['provinces', 'heritage', 'protected', 'cities', 'peaks', 'pilgrimage', 'hills'];
+        if (!$placeCategories || array_diff($placeCategories, $validPlaceCategories)) throw new InvalidArgumentException('Select a valid Places to Go button.');
+        if (in_array('provinces', $placeCategories, true) && !in_array($province, $validProvinces, true)) throw new InvalidArgumentException('Select one of Nepal\'s seven provinces.');
+        if (!$province) $province = 'Nepal';
 
-        $stmt = $pdo->prepare('INSERT INTO places (name, province, district, description, history, best_time_to_visit, entry_fee, google_map, main_image, is_featured, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $stmt->execute([$name, $province, $district, $description ?: null, $history ?: null, $bestTime ?: null, $entryFee, $googleMap ?: null, $imageUrl ?: null, $isFeatured, $status]);
+        $stmt = $pdo->prepare('INSERT INTO places (name, province, place_category, district, description, history, best_time_to_visit, entry_fee, google_map, main_image, is_featured, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $stmt->execute([$name, $province, $placeCategory, $district, $description ?: null, $history ?: null, $bestTime ?: null, $entryFee, $googleMap ?: null, $imageUrl ?: null, $isFeatured, $status]);
         adminApiResponse(['id' => (int) $pdo->lastInsertId()]);
     }
 
@@ -336,6 +369,8 @@ try {
 
         $name = adminApiValue($input, 'name', 150);
         $province = adminApiValue($input, 'province', 100);
+        $placeCategories = array_values(array_unique(array_filter(array_map('trim', explode(',', adminApiValue($input, 'placeCategory', 50) ?: 'provinces')))));
+        $placeCategory = implode(',', $placeCategories);
         $district = adminApiValue($input, 'district', 100);
         $description = adminApiValue($input, 'description');
         $history = adminApiValue($input, 'history');
@@ -349,15 +384,54 @@ try {
         $isFeatured = !empty($input['isFeatured']) ? 1 : 0;
         $status = in_array(($input['status'] ?? 'active'), ['active', 'inactive'], true) ? (string) $input['status'] : 'active';
 
-        if (!$name || !$province || !$district) throw new InvalidArgumentException('Complete all place fields.');
+        if (!$name) throw new InvalidArgumentException('Enter a place name.');
+        $validProvinces = ['Koshi', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim'];
+        $validPlaceCategories = ['provinces', 'heritage', 'protected', 'cities', 'peaks', 'pilgrimage', 'hills'];
+        if (!$placeCategories || array_diff($placeCategories, $validPlaceCategories)) throw new InvalidArgumentException('Select a valid Places to Go button.');
+        if (in_array('provinces', $placeCategories, true) && !in_array($province, $validProvinces, true)) throw new InvalidArgumentException('Select one of Nepal\'s seven provinces.');
+        if (!$province) $province = 'Nepal';
 
-        $stmt = $pdo->prepare('UPDATE places SET name = ?, province = ?, district = ?, description = ?, history = ?, best_time_to_visit = ?, entry_fee = ?, google_map = ?, main_image = COALESCE(NULLIF(?, \'\'), main_image), is_featured = ?, status = ? WHERE id = ?');
-        $stmt->execute([$name, $province, $district, $description ?: null, $history ?: null, $bestTime ?: null, $entryFee, $googleMap ?: null, $imageUrl, $isFeatured, $status, $placeId]);
+        $stmt = $pdo->prepare('UPDATE places SET name = ?, province = ?, place_category = ?, district = ?, description = ?, history = ?, best_time_to_visit = ?, entry_fee = ?, google_map = ?, main_image = COALESCE(NULLIF(?, \'\'), main_image), is_featured = ?, status = ? WHERE id = ?');
+        $stmt->execute([$name, $province, $placeCategory, $district, $description ?: null, $history ?: null, $bestTime ?: null, $entryFee, $googleMap ?: null, $imageUrl, $isFeatured, $status, $placeId]);
         adminApiResponse(['id' => $placeId]);
     }
 
     if ($action === 'delete_place') {
         $stmt = $pdo->prepare('DELETE FROM places WHERE id = ?');
+        $stmt->execute([(int) ($input['id'] ?? 0)]);
+        adminApiResponse();
+    }
+
+    if ($action === 'create_activity' || $action === 'update_activity') {
+        $activityId = (int) ($input['id'] ?? 0);
+        $name = adminApiValue($input, 'name', 150);
+        $category = adminApiValue($input, 'category', 100);
+        $description = adminApiValue($input, 'description', 1000);
+        $pageUrl = adminApiValue($input, 'pageUrl', 500);
+        $status = in_array(($input['status'] ?? 'active'), ['active', 'inactive'], true) ? (string) $input['status'] : 'active';
+        $imageUrl = $action === 'create_activity'
+            ? adminApiUploadImage($input, 'imageData', 'imageUrl', 'activities')
+            : adminApiValue($input, 'imageUrl', 500);
+        if (!empty($input['imageData'] ?? '') && $action === 'update_activity') {
+            $imageUrl = adminApiUploadImage($input, 'imageData', 'imageUrl', 'activities');
+        }
+
+        if (!$name || !$category || !$description) throw new InvalidArgumentException('Name, category, and description are required.');
+
+        if ($action === 'create_activity') {
+            $stmt = $pdo->prepare('INSERT INTO activities (name, category, description, image_url, page_url, status) VALUES (?, ?, ?, ?, ?, ?)');
+            $stmt->execute([$name, $category, $description, $imageUrl ?: null, $pageUrl ?: null, $status]);
+            adminApiResponse(['id' => (int) $pdo->lastInsertId()]);
+        }
+
+        if ($activityId <= 0) throw new InvalidArgumentException('Activity not found.');
+        $stmt = $pdo->prepare('UPDATE activities SET name = ?, category = ?, description = ?, image_url = COALESCE(NULLIF(?, \'\'), image_url), page_url = ?, status = ? WHERE id = ?');
+        $stmt->execute([$name, $category, $description, $imageUrl, $pageUrl ?: null, $status, $activityId]);
+        adminApiResponse(['id' => $activityId]);
+    }
+
+    if ($action === 'delete_activity') {
+        $stmt = $pdo->prepare('DELETE FROM activities WHERE id = ?');
         $stmt->execute([(int) ($input['id'] ?? 0)]);
         adminApiResponse();
     }

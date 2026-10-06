@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $category = trim($_POST['service_category'] ?? 'Tour');
 $serviceName = trim($_POST['service_name'] ?? '');
+$requestedPackageId = trim($_POST['package_id'] ?? '');
 $fullName = trim($_POST['full_name'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $phone = trim($_POST['phone'] ?? '');
@@ -59,25 +60,50 @@ if ($category === '' || $serviceName === '' || $fullName === '' || !filter_var($
     exit('Please return to the booking form and complete all required fields with a future travel date.');
 }
 
+$serviceName = mb_substr($serviceName, 0, 190);
+$category = mb_substr($category, 0, 100);
+$paymentReference = mb_substr($paymentReference, 0, 100);
 $message = trim('Travelers: ' . $travelers . ($message !== '' ? "\n" . $message : ''));
-if ($needsOnlinePayment) {
-    $message .= ($message !== '' ? "\n" : '') . 'Payment method: ' . $paymentLabel;
-    if ($paymentReference !== '') {
-        $message .= ' | Reference: ' . $paymentReference;
-    }
+$message .= ($message !== '' ? "\n" : '') . 'Payment method: ' . $paymentLabel;
+if ($paymentReference !== '') {
+    $message .= ' | Reference: ' . $paymentReference;
 }
 $user = getCurrentUser();
 
 try {
     $packageId = null;
-    if ($serviceName) {
-        $pStmt = $pdo->prepare('SELECT id FROM packages WHERE title = ?');
+    if ($requestedPackageId !== '') {
+        if (!ctype_digit($requestedPackageId) || (int) $requestedPackageId < 1) {
+            http_response_code(422);
+            exit('The selected package is invalid. Please choose a package and try again.');
+        }
+        $pStmt = $pdo->prepare("SELECT p.id, p.title, c.name AS category FROM packages p LEFT JOIN categories c ON p.category_id = c.id WHERE p.id = ? AND p.status = 'active'");
+        $pStmt->execute([(int) $requestedPackageId]);
+        $selectedPackage = $pStmt->fetch(PDO::FETCH_ASSOC);
+        if (!$selectedPackage) {
+            http_response_code(422);
+            exit('This package is no longer available. Please choose another package.');
+        }
+        $packageId = (int) $selectedPackage['id'];
+        $serviceName = $selectedPackage['title'];
+        if (!empty($selectedPackage['category'])) {
+            $category = $selectedPackage['category'];
+        }
+    } else {
+        $pStmt = $pdo->prepare("SELECT p.id, p.title, c.name AS category FROM packages p LEFT JOIN categories c ON p.category_id = c.id WHERE p.title = ? AND p.status = 'active' LIMIT 1");
         $pStmt->execute([$serviceName]);
-        $packageId = $pStmt->fetchColumn() ?: null;
+        $selectedPackage = $pStmt->fetch(PDO::FETCH_ASSOC);
+        if ($selectedPackage) {
+            $packageId = (int) $selectedPackage['id'];
+            $serviceName = $selectedPackage['title'];
+            if (!empty($selectedPackage['category'])) {
+                $category = $selectedPackage['category'];
+            }
+        }
     }
 
-    $stmt = $pdo->prepare('INSERT INTO bookings (full_name, email, phone, package_id, travelers, travel_date, message) VALUES (?, ?, ?, ?, ?, ?, ?)');
-    $stmt->execute([$fullName, $email, $phone, $packageId, $travelers, $travelDate, $message]);
+    $stmt = $pdo->prepare('INSERT INTO bookings (full_name, email, phone, package_id, service_name, service_category, travelers, travel_date, message) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $stmt->execute([$fullName, $email, $phone, $packageId, $serviceName, $category, $travelers, $travelDate, $message]);
     $bookingId = (int) $pdo->lastInsertId();
 
     try {
@@ -85,7 +111,7 @@ try {
         $paymentStmt = $pdo->prepare('INSERT INTO payments (booking_id, amount, status, payment_method) VALUES (?, ?, ?, ?)');
         $paymentStmt->execute([$bookingId, $amount, $paymentStatus, $paymentMethod]);
     } catch (PDOException $paymentError) {
-        // Booking is already saved; payment tracking should not block the user.
+        error_log('Payment tracking insert failed for booking ' . $bookingId . ': ' . $paymentError->getMessage());
     }
 } catch (PDOException $e) {
     if ($e->getCode() == 23000) {
@@ -94,7 +120,8 @@ try {
         exit;
     }
     http_response_code(500);
-    exit('We could not save your booking request. Please try again later. Error: ' . $e->getMessage());
+    error_log('Booking save failed: ' . $e->getMessage());
+    exit('We could not save your booking request. Please try again later.');
 }
 
 if ($paymentMethod === 'esewa') {
@@ -134,6 +161,11 @@ if ($paymentMethod === 'esewa') {
     </form>
 </body>
 </html>';
+    exit;
+}
+
+if ($paymentMethod === 'bank_transfer') {
+    header('Location: ../frontend/bank_payment.php?booking_id=' . rawurlencode((string) $bookingId) . '&amount=' . rawurlencode((string) $amount));
     exit;
 }
 

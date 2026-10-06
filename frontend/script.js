@@ -111,7 +111,7 @@ if (scrollToTopBtn) {
 
 // ==================== Places Category Filter (Dynamic JSON) ==================== //
 document.addEventListener('DOMContentLoaded', function() {
-    const categoryBtns = document.querySelectorAll('.category-btn');
+    const categoryBtns = document.querySelectorAll('.category-btn[data-category]');
     const placesGrid = document.getElementById('places-grid');
     const viewAllBtn = document.getElementById('places-view-all-btn');
     const placesModal = document.getElementById('placesPopupModal');
@@ -124,64 +124,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const scriptDir = scriptTag ? scriptTag.src.substring(0, scriptTag.src.lastIndexOf('/') + 1) : '';
 
     let destinationsCached = null;
-
-    // Cache the visible static province cards from DOM
-    const staticProvinceCards = Array.from(placesGrid.querySelectorAll('.place-card[data-category="provinces"]:not(.place-card--hidden)'));
-    const popupProvinceCards = [
-        { name: 'Koshi', href: 'places/koshi', image: 'https://i.pinimg.com/736x/38/7a/21/387a21d7763974798937d09cecf7418f.jpg' },
-        { name: 'Madhesh', href: 'places/madhesh', image: 'https://chinarinepal.com/wp-content/uploads/2022/03/JANAKI-MANDIR-1024x386.png' },
-        { name: 'Bagmati', href: 'places/bagmati', image: 'https://i.pinimg.com/1200x/be/a3/e5/bea3e57e5abd2abb4d3ada67e7c200dc.jpg' },
-        { name: 'Gandaki', href: 'places/gandaki', image: 'https://i.pinimg.com/736x/56/3e/91/563e9142137cad48487a45b9bba77d62.jpg' },
-        { name: 'Lumbini', href: 'places/lumbini', image: 'https://i.pinimg.com/1200x/b3/83/c2/b383c22c9aa6854d763a9cbbbe1daed9.jpg' },
-        { name: 'Karnali', href: 'places/karnali', image: 'https://i.pinimg.com/736x/4e/ba/4a/4eba4a5546a3525b36808a0f35aecf15.jpg' },
-        { name: 'Sudurpashchim', href: 'places/sudurpashchim', image: 'https://i.pinimg.com/736x/f2/8f/12/f28f121913883f59a3fa9e466f56ee7e.jpg' }
-    ];
-
-    function openPlacesPopup() {
-        if (!placesModal || !placesModalGrid) return;
-
-        placesModalGrid.innerHTML = '';
-        popupProvinceCards.forEach((place) => {
-            const item = document.createElement('a');
-            item.className = 'places-popup-item';
-            item.href = place.href;
-            item.innerHTML = `
-                <img src="${place.image}" alt="${place.name}">
-                <h4>${place.name}</h4>
-            `;
-            placesModalGrid.appendChild(item);
-        });
-
-        placesModal.hidden = false;
-        document.body.classList.add('booking-modal-open');
-    }
-
-    function closePlacesPopup() {
-        if (!placesModal) return;
-
-        placesModal.hidden = true;
-        document.body.classList.remove('booking-modal-open');
-    }
-
-    if (viewAllBtn) {
-        viewAllBtn.addEventListener('click', function() {
-            openPlacesPopup();
-        });
-    }
-
-    if (placesModal) {
-        placesModal.addEventListener('click', function(event) {
-            if (event.target.hasAttribute('data-places-close')) {
-                closePlacesPopup();
-            }
-        });
-    }
-
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && placesModal && !placesModal.hidden) {
-            closePlacesPopup();
-        }
-    });
+    let provinceImages = {};
+    let latestFilterRequest = 0;
+    const provinceFilters = new Set([
+        'koshi', 'madhesh', 'bagmati', 'gandaki',
+        'lumbini', 'karnali', 'sudurpashchim'
+    ]);
+    const provinceNames = {
+        koshi: 'Koshi Province',
+        madhesh: 'Madhesh Province',
+        bagmati: 'Bagmati Province',
+        gandaki: 'Gandaki Province',
+        lumbini: 'Lumbini Province',
+        karnali: 'Karnali Province',
+        sudurpashchim: 'Sudurpashchim Province'
+    };
 
     // Fetch destinations data once
     async function loadDestinations() {
@@ -189,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const response = await fetch(scriptDir + 'api/places.php');
             const data = await response.json();
+            provinceImages = data.provinces || {};
             destinationsCached = data.destinations;
             return destinationsCached;
         } catch (error) {
@@ -200,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
     categoryBtns.forEach(btn => {
         btn.addEventListener('click', async function() {
             const selectedCategory = this.getAttribute('data-category');
+            const filterRequest = ++latestFilterRequest;
             
             // Update active button
             categoryBtns.forEach(b => b.classList.remove('active'));
@@ -214,38 +173,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Wait for fade-out animation (300ms)
             setTimeout(async () => {
-                // Remove previous dynamic cards
-                placesGrid.querySelectorAll('.place-card.dynamic-card').forEach(c => c.remove());
+                // A later click (for example, Koshi after All) takes priority.
+                if (filterRequest !== latestFilterRequest) return;
 
-                if (selectedCategory === 'provinces') {
-                    // Restore static province cards
-                    staticProvinceCards.forEach(card => {
-                        card.style.display = 'block';
-                        // Trigger reflow
-                        card.offsetHeight;
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    });
-                    if (viewAllBtn) viewAllBtn.style.display = 'block';
+                // Every filter, including All, renders destination data.
+                placesGrid.replaceChildren();
+                if (viewAllBtn) viewAllBtn.style.display = 'none';
+
+                const list = await loadDestinations();
+                if (filterRequest !== latestFilterRequest) return;
+
+                const provinceIdFor = (dest) => String(dest.province_id || dest.province || '')
+                    .toLowerCase().replace(/ province$/i, '').replace(/\s+/g, '-');
+
+                let filtered;
+                if (selectedCategory === 'all') {
+                    filtered = list;
+                } else if (selectedCategory === 'provinces') {
+                    // Show one province card; opening it loads only that province's records.
+                    filtered = [...provinceFilters].map(provinceId => {
+                        const place = list.find(dest => dest.isManaged && provinceIdFor(dest) === provinceId)
+                            || list.find(dest => provinceIdFor(dest) === provinceId);
+                        return place ? {
+                            ...place,
+                            name: provinceNames[provinceId],
+                            province_id: provinceId,
+                            heroImage: provinceImages[provinceId]?.featuredImage || place.heroImage,
+                            heroImageCredit: provinceImages[provinceId]?.featuredImageCredit || '',
+                            heroImageCreditUrl: provinceImages[provinceId]?.featuredImageCreditUrl || '',
+                            description: provinceImages[provinceId]?.shortDescription || place.description,
+                            isProvinceOverview: true
+                        } : null;
+                    }).filter(Boolean);
                 } else {
-                    // Hide static province cards
-                    staticProvinceCards.forEach(card => {
-                        card.style.display = 'none';
-                    });
-                    if (viewAllBtn) viewAllBtn.style.display = 'none';
+                    filtered = list.filter(dest => {
+                        const provinceId = provinceIdFor(dest);
+                        if (provinceFilters.has(selectedCategory)) return provinceId === selectedCategory;
 
-                    // Load & filter destinations data
-                    const list = await loadDestinations();
-                    const filtered = list.filter(dest => {
-                        const categories = dest.category.toLowerCase().split(',').map(s => s.trim());
+                        const categories = String(dest.category || '').toLowerCase().split(',').map(s => s.trim());
                         return categories.includes(selectedCategory.toLowerCase());
                     });
+                }
 
-                    // Build and append cards matching province section layout
-                    filtered.forEach(dest => {
+                // Build and append cards matching the section layout.
+                filtered.forEach(dest => {
                         const card = document.createElement('a');
                         card.className = 'place-card dynamic-card';
-                        card.href = `${scriptDir}places/${dest.province_id}/${dest.slug}`;
+                        card.href = dest.isProvinceOverview
+                            ? `${scriptDir}places/${dest.province_id}`
+                            : `${scriptDir}places/${dest.province_id}/${dest.slug}`;
                         card.setAttribute('data-category', selectedCategory);
                         card.style.opacity = '0';
                         card.style.transform = 'translateY(15px)';
@@ -254,14 +230,45 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Resolve relative hero image dynamically using the script location base
                         const resolvedHeroImage = new URL(dest.heroImage, scriptDir).href;
 
-                        card.innerHTML = `
-                            <div class="place-image">
-                                <img src="${resolvedHeroImage}" alt="${dest.name}" loading="lazy">
-                                <div class="place-overlay">
-                                    <h3>${dest.name}</h3>
-                                </div>
-                            </div>
-                        `;
+                        const imageWrap = document.createElement('div');
+                        imageWrap.className = 'place-image';
+                        const image = document.createElement('img');
+                        image.src = resolvedHeroImage;
+                        image.alt = dest.name;
+                        image.loading = 'lazy';
+                        image.referrerPolicy = 'no-referrer';
+                        image.addEventListener('error', () => {
+                            // External image hosts can block hotlinking; keep the card visible with a local image.
+                            if (image.dataset.fallbackApplied) return;
+                            image.dataset.fallbackApplied = 'true';
+                            image.src = new URL('../img/3.jpeg', scriptDir).href;
+                        });
+                        const content = document.createElement('div');
+                        content.className = 'place-content';
+                        const meta = document.createElement('span');
+                        meta.className = 'place-meta';
+                        meta.textContent = dest.isProvinceOverview
+                            ? `${dest.name.replace(/ Province$/, '')} Province`
+                            : (dest.district || dest.province || 'Nepal');
+                        const name = document.createElement('h3');
+                        name.textContent = dest.name;
+                        const description = document.createElement('p');
+                        description.textContent = dest.description
+                            || (dest.isProvinceOverview ? `Explore remarkable places across ${dest.name}.` : 'Discover this remarkable destination in Nepal.');
+                        content.append(meta, name, description);
+                        if (dest.heroImageCredit && dest.heroImageCreditUrl) {
+                            const imageCredit = document.createElement('span');
+                            imageCredit.className = 'place-image-credit';
+                            imageCredit.textContent = dest.heroImageCredit;
+                            imageCredit.title = dest.heroImageCreditUrl;
+                            content.appendChild(imageCredit);
+                        }
+                        const readMore = document.createElement('span');
+                        readMore.className = 'place-read-more';
+                        readMore.textContent = 'Explore →';
+                        content.appendChild(readMore);
+                        imageWrap.appendChild(image);
+                        card.append(imageWrap, content);
 
                         placesGrid.appendChild(card);
 
@@ -270,8 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             card.style.opacity = '1';
                             card.style.transform = 'translateY(0)';
                         }, 50);
-                    });
-                }
+                });
             }, 300);
         });
     });

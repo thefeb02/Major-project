@@ -23,7 +23,7 @@ if (!is_array($userProfile)) {
 }
 
 // Fetch Bookings
-$bookingsStmt = $pdo->prepare('SELECT b.*, p.title as service_name, c.name as service_category FROM bookings b LEFT JOIN packages p ON b.package_id = p.id LEFT JOIN categories c ON p.category_id = c.id WHERE b.email = ? ORDER BY b.created_at DESC');
+$bookingsStmt = $pdo->prepare("SELECT b.*, COALESCE(p.title, b.service_name, 'Tour booking') AS service_name, COALESCE(c.name, b.service_category, 'Package') AS service_category FROM bookings b LEFT JOIN packages p ON b.package_id = p.id LEFT JOIN categories c ON p.category_id = c.id WHERE b.email = ? ORDER BY b.created_at DESC");
 $bookingsStmt->execute([$userProfile['email']]);
 $bookings = $bookingsStmt->fetchAll();
 
@@ -34,10 +34,10 @@ $travelPlans = $plansStmt->fetchAll();
 
 // Fetch Payments related to user's bookings
 $paymentsStmt = $pdo->prepare('
-    SELECT py.*, p.title as service_name 
+    SELECT py.*, COALESCE(p.title, b.service_name, 'Tour booking') AS service_name
     FROM payments py 
     JOIN bookings b ON py.booking_id = b.id 
-    JOIN packages p ON b.package_id = p.id
+    LEFT JOIN packages p ON b.package_id = p.id
     WHERE b.email = ? 
     ORDER BY py.created_at DESC
 ');

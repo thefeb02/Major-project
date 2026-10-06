@@ -11,25 +11,25 @@ if ($redirectTarget !== '' && !in_array($redirectTarget, $allowedRedirects, true
     $redirectTarget = '';
 }
 
-if (GOOGLE_CLIENT_ID === 'your-google-client-id.apps.googleusercontent.com' || GOOGLE_CLIENT_SECRET === 'your-google-client-secret') {
-    $_SESSION['flash_message'] = 'Google OAuth is not configured yet. Please set real GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET values in your environment.';
+if (!googleOAuthIsConfigured()) {
     header('Location: ../frontend/login.php');
     exit;
 }
 
-// Initialize Google Client
-$client = new Google\Client();
-$client->setClientId(GOOGLE_CLIENT_ID);
-$client->setClientSecret(GOOGLE_CLIENT_SECRET);
-$client->setRedirectUri(GOOGLE_REDIRECT_URI);
-$client->addScope("email");
-$client->addScope("profile");
+// Bind the callback to this browser session. The requested page is stored
+// server-side so it cannot be replaced by a crafted OAuth state value.
+$state = bin2hex(random_bytes(32));
+$_SESSION['google_oauth_state'] = $state;
+$_SESSION['google_oauth_redirect'] = $redirectTarget;
 
-// Generate auth URL
-$authUrl = $client->createAuthUrl();
-if ($redirectTarget !== '') {
-    $authUrl .= '&state=' . urlencode($redirectTarget);
-}
+$authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query([
+    'client_id' => GOOGLE_CLIENT_ID,
+    'redirect_uri' => GOOGLE_REDIRECT_URI,
+    'response_type' => 'code',
+    'scope' => 'openid email profile',
+    'state' => $state,
+    'prompt' => 'select_account',
+], '', '&', PHP_QUERY_RFC3986);
 
 // Redirect to Google's OAuth Server
 header('Location: ' . $authUrl);
